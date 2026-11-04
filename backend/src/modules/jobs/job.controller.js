@@ -6,7 +6,9 @@ import { SavedJob } from '../savedJobs/savedJob.model.js';
 import { Resume } from '../resumes/resume.model.js';
 import { calculateJobMatch } from '../../services/gemini.service.js';
 import { getIsConnected } from '../../config/db.js';
-import { mockJobs, mockCompanies } from '../../utils/mockStore.js';
+import { mockJobs, mockCompanies, mockCandidates, mockApplications, mockResumes, mockUsers } from '../../utils/mockStore.js';
+
+const mockSavedJobIds = new Set(['job_01', 'job_03']);
 
 export const getJobs = async (req, res) => {
   try {
@@ -150,6 +152,57 @@ export const getJobBySlug = async (req, res) => {
 
 export const createJob = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const {
+        title,
+        description,
+        responsibilities,
+        requirements,
+        requiredSkills,
+        preferredSkills,
+        experience,
+        salary,
+        jobType,
+        workMode,
+        location,
+        education,
+        openings,
+        status = 'published',
+      } = req.body;
+
+      if (!title || !description) {
+        return res.status(400).json({ success: false, message: 'Job title and description are required.' });
+      }
+
+      const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const slug = `${baseSlug}-nexus-${Date.now().toString().slice(-4)}`;
+
+      const newJob = {
+        _id: 'job_' + Date.now(),
+        companyId: mockCompanies[0],
+        title,
+        slug,
+        description,
+        responsibilities: Array.isArray(responsibilities) ? responsibilities : (responsibilities || '').split('\n').filter(Boolean),
+        requirements: Array.isArray(requirements) ? requirements : (requirements || '').split('\n').filter(Boolean),
+        requiredSkills: Array.isArray(requiredSkills) ? requiredSkills : (requiredSkills || '').split(',').map((s) => s.trim()).filter(Boolean),
+        preferredSkills: Array.isArray(preferredSkills) ? preferredSkills : (preferredSkills || '').split(',').map((s) => s.trim()).filter(Boolean),
+        experience: experience || '0-2 years',
+        salary: salary || { min: 600000, max: 1200000, currency: 'INR', period: 'per annum' },
+        jobType: jobType || 'full-time',
+        workMode: workMode || 'hybrid',
+        location: location || 'Bengaluru, India',
+        education: education || "Bachelor's Degree",
+        openings: openings || 1,
+        status,
+        viewsCount: 0,
+        applicantsCount: 0,
+        publishedAt: new Date().toISOString(),
+      };
+      mockJobs.unshift(newJob);
+      return res.status(201).json({ success: true, message: 'Job published successfully.', job: newJob });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     if (!company) {
       return res.status(403).json({ success: false, message: 'Only registered companies can create jobs.' });
@@ -209,6 +262,15 @@ export const createJob = async (req, res) => {
 
 export const updateJob = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const job = mockJobs.find((j) => j._id === req.params.id);
+      if (!job) {
+        return res.status(404).json({ success: false, message: 'Job not found.' });
+      }
+      Object.assign(job, req.body);
+      return res.json({ success: true, message: 'Job updated successfully.', job });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     const job = await Job.findOne({ _id: req.params.id, companyId: company._id });
 
@@ -250,6 +312,12 @@ export const updateJob = async (req, res) => {
 
 export const deleteJob = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const idx = mockJobs.findIndex((j) => j._id === req.params.id);
+      if (idx !== -1) mockJobs.splice(idx, 1);
+      return res.json({ success: true, message: 'Job deleted successfully.' });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     const job = await Job.findOne({ _id: req.params.id, companyId: company._id });
 
@@ -268,6 +336,55 @@ export const deleteJob = async (req, res) => {
 
 export const applyToJob = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const candidate = mockCandidates[0];
+      const job = mockJobs.find((j) => j._id === req.params.id) || mockJobs[0];
+      const existing = mockApplications.find(
+        (a) =>
+          (a.jobId?._id === job._id || a.jobId === job._id) &&
+          (a.candidateId?._id === candidate._id || a.candidateId === candidate._id)
+      );
+      if (existing) {
+        return res.status(400).json({
+          success: false,
+          message: 'You have already submitted an application for this position.',
+        });
+      }
+
+      const aiMatchResult = await calculateJobMatch(candidate, job);
+
+      const application = {
+        _id: 'app_' + Date.now(),
+        jobId: job,
+        candidateId: {
+          _id: candidate._id,
+          userId: mockUsers[0],
+          headline: candidate.headline,
+          location: candidate.location,
+        },
+        companyId: job.companyId,
+        resumeId: mockResumes[0],
+        coverLetter: req.body.coverLetter || '',
+        status: 'applied',
+        aiMatch: {
+          overallScore: aiMatchResult.overallMatchScore,
+          matchedSkills: aiMatchResult.matchedSkills,
+          missingSkills: aiMatchResult.missingSkills,
+          explanation: aiMatchResult.explanation,
+        },
+        appliedAt: new Date().toISOString(),
+      };
+
+      mockApplications.unshift(application);
+      job.applicantsCount = (job.applicantsCount || 0) + 1;
+
+      return res.status(201).json({
+        success: true,
+        message: 'Application submitted successfully! Track your status on your dashboard.',
+        application,
+      });
+    }
+
     const candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
       return res.status(403).json({ success: false, message: 'Only candidates can apply to jobs.' });
@@ -331,12 +448,23 @@ export const applyToJob = async (req, res) => {
 
 export const toggleSaveJob = async (req, res) => {
   try {
+    const jobId = req.params.id;
+
+    if (!getIsConnected()) {
+      if (mockSavedJobIds.has(jobId)) {
+        mockSavedJobIds.delete(jobId);
+        return res.json({ success: true, saved: false, message: 'Job removed from saved list.' });
+      } else {
+        mockSavedJobIds.add(jobId);
+        return res.json({ success: true, saved: true, message: 'Job saved to your list.' });
+      }
+    }
+
     const candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
       return res.status(403).json({ success: false, message: 'Only candidates can save jobs.' });
     }
 
-    const jobId = req.params.id;
     const existing = await SavedJob.findOne({ candidateId: candidate._id, jobId });
 
     if (existing) {
@@ -353,6 +481,11 @@ export const toggleSaveJob = async (req, res) => {
 
 export const getSavedJobs = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const jobs = mockJobs.filter((j) => mockSavedJobIds.has(j._id));
+      return res.json({ success: true, jobs });
+    }
+
     const candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
       return res.status(403).json({ success: false, message: 'Candidate not found.' });

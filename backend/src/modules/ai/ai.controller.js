@@ -8,6 +8,8 @@ import {
   calculateJobMatch,
   parseResumeWithAI,
 } from '../../services/gemini.service.js';
+import { getIsConnected } from '../../config/db.js';
+import { mockJobs, mockCandidates, mockApplications } from '../../utils/mockStore.js';
 
 export const analyzeResume = async (req, res) => {
   try {
@@ -68,6 +70,14 @@ export const analyzeResume = async (req, res) => {
 export const matchJobForCandidate = async (req, res) => {
   try {
     const { jobId } = req.body;
+
+    if (!getIsConnected()) {
+      const candidate = mockCandidates[0];
+      const job = mockJobs.find((j) => j._id === jobId) || mockJobs[0];
+      const matchResult = await calculateJobMatch(candidate, job);
+      return res.json({ success: true, match: matchResult });
+    }
+
     const candidate = await Candidate.findOne({ userId: req.user._id });
     const job = await Job.findById(jobId);
 
@@ -85,6 +95,25 @@ export const matchJobForCandidate = async (req, res) => {
 export const matchCandidatesForJob = async (req, res) => {
   try {
     const { jobId } = req.body;
+
+    if (!getIsConnected()) {
+      const job = mockJobs.find((j) => j._id === jobId) || mockJobs[0];
+      const matchedApplicants = await Promise.all(
+        mockApplications.map(async (app) => {
+          const match = await calculateJobMatch(app.candidateId, job);
+          return {
+            application: app,
+            matchScore: match.overallMatchScore,
+            matchedSkills: match.matchedSkills,
+            missingSkills: match.missingSkills,
+            explanation: match.explanation,
+          };
+        })
+      );
+      matchedApplicants.sort((a, b) => b.matchScore - a.matchScore);
+      return res.json({ success: true, candidates: matchedApplicants });
+    }
+
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({ success: false, message: 'Job not found.' });

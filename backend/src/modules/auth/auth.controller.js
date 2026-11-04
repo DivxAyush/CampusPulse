@@ -68,66 +68,6 @@ export const registerCandidate = async (req, res) => {
       });
     }
 
-    if (!getIsConnected()) {
-      const existing = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
-      if (existing) {
-        return res.status(400).json({ success: false, message: 'Email already registered. Please login.' });
-      }
-      const newUser = {
-        _id: 'usr_' + Date.now(),
-        fullName,
-        email: email.toLowerCase(),
-        phone: phone || '',
-        role: 'company',
-        isEmailVerified: true,
-        accountStatus: 'active',
-        profileImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=250&q=80',
-      };
-      mockUsers.unshift(newUser);
-
-      const slug = companyName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now().toString().slice(-4);
-      const newCompany = {
-        _id: 'comp_' + Date.now(),
-        userId: newUser._id,
-        companyName,
-        slug,
-        website: website || '',
-        industry: industry || 'Technology',
-        companySize: companySize || '50-200 employees',
-        headquarters: headquarters || 'India',
-        contactEmail: email.toLowerCase(),
-        contactPhone: phone || '',
-        logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80',
-        coverImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-        description: companyName + ' is hiring on Campus Plus.',
-        isVerified: true,
-        isActive: true,
-      };
-      mockCompanies.unshift(newCompany);
-
-      const { accessToken, refreshToken } = generateTokens(newUser._id, newUser.role);
-      res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-
-      return res.status(201).json({
-        success: true,
-        message: 'Company account created successfully.',
-        accessToken,
-        refreshToken,
-        user: {
-          id: newUser._id,
-          fullName: newUser.fullName,
-          email: newUser.email,
-          phone: newUser.phone,
-          role: newUser.role,
-          profileImage: newUser.profileImage,
-          companyProfile: newCompany,
-        },
-      });
-    }
-
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email already registered. Please login.' });
@@ -205,6 +145,69 @@ export const registerCompany = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please provide all required fields including company name.' });
     }
 
+    if (!getIsConnected()) {
+      const existing = mockUsers.find((u) => u.email.toLowerCase() === email.toLowerCase());
+      if (existing) {
+        return res.status(400).json({ success: false, message: 'Email already registered. Please login.' });
+      }
+      const newUser = {
+        _id: 'usr_' + Date.now(),
+        fullName,
+        email: email.toLowerCase(),
+        phone: phone || '',
+        role: 'company',
+        isEmailVerified: true,
+        accountStatus: 'active',
+        profileImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=250&q=80',
+      };
+      mockUsers.unshift(newUser);
+
+      const slug =
+        companyName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') +
+        '-' +
+        Date.now().toString().slice(-4);
+      const newCompany = {
+        _id: 'comp_' + Date.now(),
+        userId: newUser._id,
+        companyName,
+        slug,
+        website: website || '',
+        industry: industry || 'Technology',
+        companySize: companySize || '50-200 employees',
+        headquarters: headquarters || 'India',
+        contactEmail: email.toLowerCase(),
+        contactPhone: phone || '',
+        logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80',
+        coverImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+        description: companyName + ' is hiring on Campus Plus.',
+        isVerified: true,
+        isActive: true,
+      };
+      mockCompanies.unshift(newCompany);
+
+      const { accessToken, refreshToken } = generateTokens(newUser._id, newUser.role);
+      res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: 'Company account created successfully.',
+        accessToken,
+        refreshToken,
+        user: {
+          id: newUser._id,
+          fullName: newUser.fullName,
+          email: newUser.email,
+          phone: newUser.phone,
+          role: newUser.role,
+          profileImage: newUser.profileImage,
+          companyProfile: newCompany,
+        },
+      });
+    }
+
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email already registered. Please login.' });
@@ -274,9 +277,8 @@ export const registerCompany = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  const { email = '', password = '', role } = req.body || {};
   try {
-    const { email, password, role } = req.body;
-
     if (!email || !password) {
       return res.status(400).json({ success: false, message: 'Please provide email and password.' });
     }
@@ -396,6 +398,27 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const mockUser =
+        mockUsers.find((u) => u._id === req.user._id || u.email.toLowerCase() === (req.user.email || '').toLowerCase()) ||
+        req.user;
+      const candidateProfile = mockUser.role === 'candidate' ? mockCandidates[0] : null;
+      const companyProfile = mockUser.role === 'company' ? mockCompanies[0] : null;
+      return res.json({
+        success: true,
+        user: {
+          id: mockUser._id,
+          fullName: mockUser.fullName,
+          email: mockUser.email,
+          phone: mockUser.phone || '',
+          role: mockUser.role,
+          profileImage: mockUser.profileImage,
+          candidateProfile,
+          companyProfile,
+        },
+      });
+    }
+
     const user = await User.findById(req.user._id).select('-passwordHash');
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found.' });

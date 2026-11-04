@@ -3,9 +3,16 @@ import { Company } from '../companies/company.model.js';
 import { Candidate } from '../candidates/candidate.model.js';
 import { Interview } from '../interviews/interview.model.js';
 import { Notification } from '../notifications/notification.model.js';
+import { getIsConnected } from '../../config/db.js';
+import { mockApplications, mockInterviews, mockUsers } from '../../utils/mockStore.js';
 
 export const getApplicationById = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const app = mockApplications.find((a) => a._id === req.params.id) || mockApplications[0];
+      return res.json({ success: true, application: app });
+    }
+
     const application = await Application.findById(req.params.id)
       .populate('jobId')
       .populate('companyId')
@@ -28,6 +35,14 @@ export const getApplicationById = async (req, res) => {
 export const updateApplicationStatus = async (req, res) => {
   try {
     const { status, recruiterNotes } = req.body;
+
+    if (!getIsConnected()) {
+      const app = mockApplications.find((a) => a._id === req.params.id) || mockApplications[0];
+      if (status) app.status = status;
+      if (recruiterNotes !== undefined) app.recruiterNotes = recruiterNotes;
+      return res.json({ success: true, message: `Application status updated to ${status}.`, application: app });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
 
     const application = await Application.findOne({
@@ -52,6 +67,13 @@ export const updateApplicationStatus = async (req, res) => {
 
 export const shortlistCandidate = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const app = mockApplications.find((a) => a._id === req.params.id) || mockApplications[0];
+      app.status = 'shortlisted';
+      if (req.body.recruiterNotes) app.recruiterNotes = req.body.recruiterNotes;
+      return res.json({ success: true, message: 'Candidate shortlisted successfully.', application: app });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     const application = await Application.findOne({ _id: req.params.id, companyId: company._id });
 
@@ -71,6 +93,13 @@ export const shortlistCandidate = async (req, res) => {
 
 export const rejectCandidate = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      const app = mockApplications.find((a) => a._id === req.params.id) || mockApplications[0];
+      app.status = 'rejected';
+      if (req.body.recruiterNotes) app.recruiterNotes = req.body.recruiterNotes;
+      return res.json({ success: true, message: 'Candidate application rejected.', application: app });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     const application = await Application.findOne({ _id: req.params.id, companyId: company._id });
 
@@ -90,6 +119,37 @@ export const rejectCandidate = async (req, res) => {
 
 export const scheduleInterview = async (req, res) => {
   try {
+    const { roundName, scheduledAt, mode, meetingLink, location, notes, interviewerName } = req.body;
+
+    if (!getIsConnected()) {
+      const app = mockApplications.find((a) => a._id === req.params.id) || mockApplications[0];
+      app.status = 'interview_scheduled';
+
+      const interview = {
+        _id: 'intv_' + Date.now(),
+        applicationId: app._id,
+        candidateId: app.candidateId,
+        companyId: app.companyId,
+        jobId: app.jobId,
+        roundName: roundName || 'Technical Interview Round 1',
+        scheduledAt: scheduledAt || new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+        mode: mode || 'video',
+        meetingLink: meetingLink || 'https://meet.google.com/cmp-plus-intv',
+        location: location || '',
+        interviewerName: interviewerName || 'Priya Verma',
+        notes: notes || '',
+        status: 'scheduled',
+      };
+      mockInterviews.unshift(interview);
+
+      return res.status(201).json({
+        success: true,
+        message: 'Interview scheduled successfully and applicant notified.',
+        interview,
+        application: app,
+      });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     const application = await Application.findOne({ _id: req.params.id, companyId: company._id })
       .populate('candidateId')
@@ -98,8 +158,6 @@ export const scheduleInterview = async (req, res) => {
     if (!application) {
       return res.status(404).json({ success: false, message: 'Application not found.' });
     }
-
-    const { roundName, scheduledAt, mode, meetingLink, location, notes, interviewerName } = req.body;
 
     const interview = await Interview.create({
       applicationId: application._id,
@@ -132,6 +190,10 @@ export const scheduleInterview = async (req, res) => {
 
 export const getCompanyInterviews = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      return res.json({ success: true, interviews: mockInterviews });
+    }
+
     const company = await Company.findOne({ userId: req.user._id });
     if (!company) {
       return res.status(404).json({ success: false, message: 'Company not found.' });

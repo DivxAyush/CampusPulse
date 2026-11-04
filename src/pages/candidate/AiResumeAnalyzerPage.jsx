@@ -13,6 +13,7 @@ import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
 import { EmptyState } from '../../components/common/EmptyState';
 import { ScoreGauge } from '../../components/resume/ScoreGauge';
+import { DiffViewer } from '../../components/resume/DiffViewer';
 import { useToast } from '../../context/ToastContext';
 import { aiAPI } from '../../services/api';
 
@@ -211,6 +212,27 @@ export const AiResumeAnalyzerPage = () => {
           </ul>
         </div>
       </div>
+
+      {/* 5. PulseAI Phrasing Suggestions & Revisions */}
+      {data.suggestions && data.suggestions.length > 0 && (
+        <div className="space-y-4 pt-2">
+          <div className="border-b border-brand-border pb-3 flex items-center justify-between">
+            <div>
+              <h3 className="text-base sm:text-lg font-bold text-brand-navy flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-brand-primary" /> PulseAI Phrasing & Content Revisions
+              </h3>
+              <p className="text-xs text-brand-muted mt-0.5">
+                Side-by-side phrasing optimizations to quantify accomplishments and elevate ATS keyword rank.
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            {data.suggestions.map((suggestion, idx) => (
+              <DiffViewer key={idx} suggestion={suggestion} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

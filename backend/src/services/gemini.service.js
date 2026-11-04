@@ -5,8 +5,14 @@ const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 // Helper to safely parse JSON from Gemini response
 const parseJSONFromAI = (text) => {
+  if (!text) return null;
   try {
-    const cleaned = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+    let cleaned = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const firstBrace = cleaned.search(/[\{\[]/);
+    const lastBrace = Math.max(cleaned.lastIndexOf('}'), cleaned.lastIndexOf(']'));
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      cleaned = cleaned.substring(firstBrace, lastBrace + 1);
+    }
     return JSON.parse(cleaned);
   } catch (e) {
     console.error('Failed to parse AI JSON response:', e.message);

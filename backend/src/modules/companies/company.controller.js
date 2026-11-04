@@ -38,6 +38,23 @@ export const updateCompanyProfile = async (req, res) => {
       coverImage,
     } = req.body;
 
+    if (!getIsConnected()) {
+      const company = mockCompanies[0];
+      if (companyName) company.companyName = companyName;
+      if (website !== undefined) company.website = website;
+      if (industry !== undefined) company.industry = industry;
+      if (companySize !== undefined) company.companySize = companySize;
+      if (companyType !== undefined) company.companyType = companyType;
+      if (foundedYear !== undefined) company.foundedYear = foundedYear;
+      if (description !== undefined) company.description = description;
+      if (headquarters !== undefined) company.headquarters = headquarters;
+      if (contactEmail !== undefined) company.contactEmail = contactEmail;
+      if (contactPhone !== undefined) company.contactPhone = contactPhone;
+      if (logo !== undefined) company.logo = logo;
+      if (coverImage !== undefined) company.coverImage = coverImage;
+      return res.json({ success: true, message: 'Company profile updated successfully.', profile: company });
+    }
+
     let company = await Company.findOne({ userId: req.user._id });
     if (!company) {
       return res.status(404).json({ success: false, message: 'Company profile not found.' });
