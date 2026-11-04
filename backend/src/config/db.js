@@ -1,4 +1,12 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Fix for Windows / local ISPs where default DNS resolver fails on SRV records (_mongodb._tcp)
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+  // Ignore in sandboxed cloud containers
+}
 
 let isConnected = false;
 
@@ -18,7 +26,7 @@ export const connectDB = async () => {
 
   try {
     const conn = await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 15000,
     });
     isConnected = true;
     console.log(`[MongoDB Connected]: ${conn.connection.host}/${conn.connection.name}`);
