@@ -8,12 +8,11 @@ import { uploadToCloudinary, deleteFromCloudinary } from '../../config/cloudinar
 import { extractTextFromBuffer } from '../../services/textExtractor.service.js';
 import { parseResumeWithAI, analyzeResumeWithAI, calculateJobMatch } from '../../services/gemini.service.js';
 import { getIsConnected } from '../../config/db.js';
-import { mockCandidates, mockApplications, mockResumes, mockJobs } from '../../utils/mockStore.js';
 
 export const getProfile = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, profile: mockCandidates[0] });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     let candidate = await Candidate.findOne({ userId: req.user._id }).populate('userId', 'fullName email phone profileImage');
     if (!candidate) {
@@ -37,33 +36,10 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { headline, bio, location, experienceLevel, totalExperience, expectedSalary, skills, education, experience, projects, certifications, preferredLocations } = req.body;
-
     if (!getIsConnected()) {
-      let candidate = mockCandidates.find((c) => c.userId === req.user._id) || mockCandidates[0];
-      if (headline !== undefined) candidate.headline = headline;
-      if (bio !== undefined) candidate.bio = bio;
-      if (location !== undefined) candidate.location = location;
-      if (experienceLevel !== undefined) candidate.experienceLevel = experienceLevel;
-      if (totalExperience !== undefined) candidate.totalExperience = totalExperience;
-      if (expectedSalary !== undefined) candidate.expectedSalary = expectedSalary;
-      if (skills !== undefined) candidate.skills = skills;
-      if (education !== undefined) candidate.education = education;
-      if (experience !== undefined) candidate.experience = experience;
-      if (projects !== undefined) candidate.projects = projects;
-      if (certifications !== undefined) candidate.certifications = certifications;
-      if (preferredLocations !== undefined) candidate.preferredLocations = preferredLocations;
-
-      let score = 30;
-      if (candidate.headline) score += 10;
-      if (candidate.skills && candidate.skills.length > 2) score += 20;
-      if (candidate.education && candidate.education.length > 0) score += 15;
-      if (candidate.experience && candidate.experience.length > 0) score += 15;
-      if (candidate.projects && candidate.projects.length > 0) score += 10;
-      candidate.profileCompletion = Math.min(score, 100);
-
-      return res.json({ success: true, message: 'Profile updated successfully.', profile: candidate });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
+    const { headline, bio, location, experienceLevel, totalExperience, expectedSalary, skills, education, experience, projects, certifications, preferredLocations } = req.body;
 
     let candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
@@ -84,9 +60,9 @@ export const updateProfile = async (req, res) => {
     if (preferredLocations !== undefined) candidate.preferredLocations = preferredLocations;
 
     // Calculate profile completion score
-    let score = 30;
-    if (candidate.headline) score += 10;
-    if (candidate.skills && candidate.skills.length > 2) score += 20;
+    let score = 25;
+    if (candidate.headline) score += 15;
+    if (candidate.skills && candidate.skills.length > 0) score += 20;
     if (candidate.education && candidate.education.length > 0) score += 15;
     if (candidate.experience && candidate.experience.length > 0) score += 15;
     if (candidate.projects && candidate.projects.length > 0) score += 10;
@@ -103,22 +79,7 @@ export const updateProfile = async (req, res) => {
 export const getCandidateDashboard = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({
-        success: true,
-        dashboard: {
-          profileCompletion: 92,
-          resumesCount: mockResumes.length,
-          primaryResume: mockResumes[0],
-          latestAnalysis: {
-            overallScore: 89,
-            strengths: ['Modern tech stack', 'Quantifiable metrics', 'Premier education'],
-            weaknesses: ['Add unit testing details', 'Refine summary'],
-          },
-          applicationsCount: mockApplications.length,
-          recentApplications: mockApplications,
-          recommendedJobs: mockJobs.slice(0, 4),
-        },
-      });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
     const candidate = await Candidate.findOne({ userId: req.user._id });
@@ -164,18 +125,16 @@ export const getCandidateDashboard = async (req, res) => {
 
 export const uploadResume = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
+    }
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'Please select a resume file (PDF or DOCX).' });
     }
 
-    let candidate = null;
-    if (getIsConnected()) {
-      candidate = await Candidate.findOne({ userId: req.user._id });
-      if (!candidate) {
-        return res.status(404).json({ success: false, message: 'Candidate profile not found.' });
-      }
-    } else {
-      candidate = mockCandidates[0];
+    const candidate = await Candidate.findOne({ userId: req.user._id });
+    if (!candidate) {
+      return res.status(404).json({ success: false, message: 'Candidate profile not found.' });
     }
 
     // 1. Upload to Cloudinary / storage
@@ -191,74 +150,38 @@ export const uploadResume = async (req, res) => {
     const parsedData = await parseResumeWithAI(extractedText);
     const analysisData = await analyzeResumeWithAI(extractedText, candidate.headline || 'Software Engineer');
 
-    let resume = null;
-    let resumeAnalysis = null;
+    const existingCount = await Resume.countDocuments({ candidateId: candidate._id });
+    const resume = await Resume.create({
+      candidateId: candidate._id,
+      fileName: req.file.originalname,
+      fileUrl: uploadResult.url,
+      publicId: uploadResult.publicId,
+      fileType: req.file.mimetype,
+      fileSize: uploadResult.bytes || req.file.size,
+      version: existingCount + 1,
+      isPrimary: existingCount === 0,
+      parsingStatus: 'completed',
+    });
 
-    if (getIsConnected()) {
-      const existingCount = await Resume.countDocuments({ candidateId: candidate._id });
-      resume = await Resume.create({
-        candidateId: candidate._id,
-        fileName: req.file.originalname,
-        fileUrl: uploadResult.url,
-        publicId: uploadResult.publicId,
-        fileType: req.file.mimetype,
-        fileSize: uploadResult.bytes || req.file.size,
-        version: existingCount + 1,
-        isPrimary: existingCount === 0,
-        parsingStatus: 'completed',
-      });
+    const resumeAnalysis = await ResumeAnalysis.create({
+      resumeId: resume._id,
+      candidateId: candidate._id,
+      overallScore: analysisData.overallScore || 75,
+      extractedData: parsedData,
+      analysis: analysisData.analysis,
+      strengths: analysisData.strengths,
+      weaknesses: analysisData.weaknesses,
+      suggestions: analysisData.suggestions,
+      missingSections: analysisData.missingSections,
+      careerRecommendations: analysisData.careerRecommendations,
+      model: 'gemini-1.5-flash',
+    });
 
-      resumeAnalysis = await ResumeAnalysis.create({
-        resumeId: resume._id,
-        candidateId: candidate._id,
-        overallScore: analysisData.overallScore || 85,
-        extractedData: parsedData,
-        analysis: analysisData.analysis,
-        strengths: analysisData.strengths,
-        weaknesses: analysisData.weaknesses,
-        suggestions: analysisData.suggestions,
-        missingSections: analysisData.missingSections,
-        careerRecommendations: analysisData.careerRecommendations,
-        model: 'gemini-1.5-flash',
-      });
-
-      if (parsedData?.skills?.length) {
-        const existingSkills = new Set(candidate.skills || []);
-        parsedData.skills.forEach((s) => existingSkills.add(s));
-        candidate.skills = Array.from(existingSkills);
-        await candidate.save();
-      }
-    } else {
-      resume = {
-        _id: 'res_' + Date.now(),
-        candidateId: candidate._id,
-        fileName: req.file.originalname,
-        fileUrl: uploadResult.url,
-        publicId: uploadResult.publicId,
-        fileType: req.file.mimetype,
-        fileSize: uploadResult.bytes || req.file.size,
-        version: mockResumes.length + 1,
-        isPrimary: mockResumes.length === 0,
-        parsingStatus: 'completed',
-        createdAt: new Date().toISOString(),
-      };
-      mockResumes.unshift(resume);
-
-      resumeAnalysis = {
-        _id: 'ana_' + Date.now(),
-        resumeId: resume._id,
-        candidateId: candidate._id,
-        overallScore: analysisData.overallScore || 85,
-        extractedData: parsedData,
-        analysis: analysisData.analysis,
-        strengths: analysisData.strengths,
-        weaknesses: analysisData.weaknesses,
-        suggestions: analysisData.suggestions,
-        missingSections: analysisData.missingSections,
-        careerRecommendations: analysisData.careerRecommendations,
-        model: 'gemini-1.5-flash',
-        createdAt: new Date().toISOString(),
-      };
+    if (parsedData?.skills?.length) {
+      const existingSkills = new Set(candidate.skills || []);
+      parsedData.skills.forEach((s) => existingSkills.add(s));
+      candidate.skills = Array.from(existingSkills);
+      await candidate.save();
     }
 
     res.status(201).json({
@@ -276,7 +199,7 @@ export const uploadResume = async (req, res) => {
 export const getResumes = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, resumes: mockResumes });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
@@ -292,22 +215,10 @@ export const getResumes = async (req, res) => {
 
 export const deleteResume = async (req, res) => {
   try {
-    const { id } = req.params;
-
     if (!getIsConnected()) {
-      const idx = mockResumes.findIndex((r) => r._id === id);
-      if (idx !== -1) {
-        const removed = mockResumes.splice(idx, 1)[0];
-        if (removed.publicId) {
-          try {
-            await deleteFromCloudinary(removed.publicId);
-          } catch (e) {
-            console.warn('Cloudinary delete warning:', e.message);
-          }
-        }
-      }
-      return res.json({ success: true, message: 'Resume deleted successfully.' });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
+    const { id } = req.params;
 
     const candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
@@ -347,7 +258,7 @@ export const deleteResume = async (req, res) => {
 export const getCandidateApplications = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, applications: mockApplications });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const candidate = await Candidate.findOne({ userId: req.user._id });
     if (!candidate) {
@@ -370,16 +281,12 @@ export const getCandidateApplications = async (req, res) => {
 export const getCandidateRecommendations = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      const recs = mockJobs.map((j, i) => ({
-        ...j,
-        matchPercentage: 95 - i * 4,
-        matchedSkills: j.requiredSkills.slice(0, 3),
-        missingSkills: j.preferredSkills.slice(0, 1),
-        matchExplanation: 'Strong skill alignment based on candidate profile and portfolio projects.',
-      }));
-      return res.json({ success: true, recommendations: recs });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const candidate = await Candidate.findOne({ userId: req.user._id });
+    if (!candidate) {
+      return res.status(404).json({ success: false, message: 'Candidate profile not found.' });
+    }
     const jobs = await Job.find({ status: 'published' })
       .populate('companyId', 'companyName logo industry headquarters')
       .limit(10);

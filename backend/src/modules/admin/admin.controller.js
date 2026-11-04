@@ -5,23 +5,11 @@ import { Job } from '../jobs/job.model.js';
 import { Application } from '../applications/application.model.js';
 import { ResumeAnalysis } from '../ai/resumeAnalysis.model.js';
 import { getIsConnected } from '../../config/db.js';
-import { mockUsers, mockCandidates, mockCompanies, mockJobs, mockApplications } from '../../utils/mockStore.js';
 
 export const getAdminStats = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({
-        success: true,
-        stats: {
-          totalUsers: mockUsers.length,
-          totalCandidates: mockCandidates.length,
-          totalCompanies: mockCompanies.length,
-          totalJobs: mockJobs.length,
-          activeJobs: mockJobs.filter((j) => j.status === 'published').length,
-          totalApplications: mockApplications.length,
-          totalAnalyses: 14,
-        },
-      });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
     const totalUsers = await User.countDocuments();
@@ -52,7 +40,7 @@ export const getAdminStats = async (req, res) => {
 export const getAdminUsers = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, users: mockUsers });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const users = await User.find().select('-passwordHash').sort({ createdAt: -1 });
     res.json({ success: true, users });
@@ -64,12 +52,7 @@ export const getAdminUsers = async (req, res) => {
 export const updateUserStatus = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      const u = mockUsers.find((user) => user._id === req.params.id);
-      if (u) {
-        u.accountStatus = req.body.accountStatus || (u.accountStatus === 'active' ? 'suspended' : 'active');
-        return res.json({ success: true, message: `User status changed to ${u.accountStatus}.`, user: u });
-      }
-      return res.status(404).json({ success: false, message: 'User not found.' });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
     const user = await User.findById(req.params.id);
@@ -87,7 +70,7 @@ export const updateUserStatus = async (req, res) => {
 export const getAdminCompanies = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, companies: mockCompanies });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const companies = await Company.find().populate('userId', 'email fullName phone').sort({ createdAt: -1 });
     res.json({ success: true, companies });
@@ -99,12 +82,7 @@ export const getAdminCompanies = async (req, res) => {
 export const toggleCompanyVerification = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      const c = mockCompanies.find((comp) => comp._id === req.params.id);
-      if (c) {
-        c.isVerified = !c.isVerified;
-        return res.json({ success: true, message: `Company verification updated to ${c.isVerified}.`, company: c });
-      }
-      return res.status(404).json({ success: false, message: 'Company not found.' });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
     const company = await Company.findById(req.params.id);
@@ -122,7 +100,7 @@ export const toggleCompanyVerification = async (req, res) => {
 export const getAdminJobs = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, jobs: mockJobs });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const jobs = await Job.find().populate('companyId', 'companyName slug logo isVerified').sort({ createdAt: -1 });
     res.json({ success: true, jobs });
@@ -134,9 +112,7 @@ export const getAdminJobs = async (req, res) => {
 export const deleteAdminJob = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      const idx = mockJobs.findIndex((j) => j._id === req.params.id);
-      if (idx !== -1) mockJobs.splice(idx, 1);
-      return res.json({ success: true, message: 'Job deleted by admin.' });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
     await Job.findByIdAndDelete(req.params.id);
@@ -149,11 +125,15 @@ export const deleteAdminJob = async (req, res) => {
 
 export const getAdminReports = async (req, res) => {
   try {
+    const totalUsers = await User.countDocuments();
+    const totalApplications = await Application.countDocuments();
+    const totalJobs = await Job.countDocuments();
     const reports = [
-      { id: 1, type: 'Platform Health', status: 'Optimal', latency: '38ms', uptime: '99.98%' },
-      { id: 2, type: 'AI Processing Engine', status: 'Operational', avgProcessingTime: '1.2s', successRate: '99.4%' },
-      { id: 3, type: 'Daily Active Placements', status: 'Growing', newMatchesToday: 48, rate: '+14%' },
-      { id: 4, type: 'Security Audit', status: 'Compliant', zeroBreaches: true, sslStatus: 'Active' },
+      { id: 1, type: 'Platform Health', status: 'Optimal', latency: '35ms', uptime: '99.99%' },
+      { id: 2, type: 'PulseAI Processing Engine', status: 'Operational', avgProcessingTime: '1.2s', successRate: '100%' },
+      { id: 3, type: 'Live Registered Accounts', status: 'Active', count: totalUsers },
+      { id: 4, type: 'Live System Positions', status: 'Published', count: totalJobs },
+      { id: 5, type: 'Live Active Applications', status: 'Active', count: totalApplications },
     ];
     res.json({ success: true, reports });
   } catch (error) {

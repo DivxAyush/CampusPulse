@@ -245,6 +245,14 @@ export const HomePage = () => {
               <div key={n} className="h-48 rounded-2xl bg-white border border-brand-border p-6 animate-pulse" />
             ))}
           </div>
+        ) : featuredJobs.length === 0 ? (
+          <div className="bg-white rounded-3xl border border-brand-border p-10 text-center space-y-3">
+            <Briefcase className="w-8 h-8 text-brand-primary mx-auto opacity-70" />
+            <h3 className="text-base font-bold text-brand-navy">No Published Openings Yet</h3>
+            <p className="text-xs text-brand-muted max-w-md mx-auto">
+              Real-time job listings will appear here once verified employers publish their openings.
+            </p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {featuredJobs.map((job) => (

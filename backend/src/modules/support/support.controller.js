@@ -1,5 +1,6 @@
-import { mockTickets } from '../../utils/mockStore.js';
 import { getIsConnected } from '../../config/db.js';
+
+const ticketsStore = [];
 
 // If connected to MongoDB, we could also use a Mongoose model, but fallback ensures 100% uptime
 export const createTicket = async (req, res, next) => {
@@ -33,7 +34,7 @@ export const createTicket = async (req, res, next) => {
       resolutionNotes: 'Ticket acknowledged and assigned to support specialist queue. Expected turnaround: under 2 hours.',
     };
 
-    mockTickets.unshift(newTicket);
+    ticketsStore.unshift(newTicket);
 
     res.status(201).json({
       success: true,
@@ -48,7 +49,7 @@ export const createTicket = async (req, res, next) => {
 export const getTicketStatus = async (req, res, next) => {
   try {
     const { ticketId } = req.params;
-    const ticket = mockTickets.find(
+    const ticket = ticketsStore.find(
       (t) => t.ticketId.toUpperCase() === ticketId.trim().toUpperCase()
     );
 

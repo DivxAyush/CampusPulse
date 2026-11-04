@@ -9,10 +9,13 @@ import {
   parseResumeWithAI,
 } from '../../services/gemini.service.js';
 import { getIsConnected } from '../../config/db.js';
-import { mockJobs, mockCandidates, mockApplications } from '../../utils/mockStore.js';
 
 export const analyzeResume = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
+    }
+
     const { resumeId, resumeText, targetRole } = req.body;
 
     let textToAnalyze = resumeText;
@@ -29,12 +32,12 @@ export const analyzeResume = async (req, res) => {
       }
     }
 
-    if (!textToAnalyze && candidate) {
+    if (!textToAnalyze && candidate && (candidate.headline || (candidate.skills && candidate.skills.length > 0))) {
       textToAnalyze = `Candidate: ${req.user.fullName}. Headline: ${candidate.headline}. Bio: ${candidate.bio}. Skills: ${(candidate.skills || []).join(', ')}. Experience: ${JSON.stringify(candidate.experience || [])}. Projects: ${JSON.stringify(candidate.projects || [])}`;
     }
 
     if (!textToAnalyze) {
-      textToAnalyze = 'Software Developer with 2 years of experience in JavaScript, React, Node.js, and MongoDB. Built full stack applications and REST APIs.';
+      return res.status(400).json({ success: false, message: 'Please upload a resume file to run PulseAI diagnostics.' });
     }
 
     const analysis = await analyzeResumeWithAI(textToAnalyze, targetRole || 'Software Engineer');
@@ -66,18 +69,13 @@ export const analyzeResume = async (req, res) => {
   }
 };
 
-
 export const matchJobForCandidate = async (req, res) => {
   try {
-    const { jobId } = req.body;
-
     if (!getIsConnected()) {
-      const candidate = mockCandidates[0];
-      const job = mockJobs.find((j) => j._id === jobId) || mockJobs[0];
-      const matchResult = await calculateJobMatch(candidate, job);
-      return res.json({ success: true, match: matchResult });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
+    const { jobId } = req.body;
     const candidate = await Candidate.findOne({ userId: req.user._id });
     const job = await Job.findById(jobId);
 
@@ -94,26 +92,11 @@ export const matchJobForCandidate = async (req, res) => {
 
 export const matchCandidatesForJob = async (req, res) => {
   try {
-    const { jobId } = req.body;
-
     if (!getIsConnected()) {
-      const job = mockJobs.find((j) => j._id === jobId) || mockJobs[0];
-      const matchedApplicants = await Promise.all(
-        mockApplications.map(async (app) => {
-          const match = await calculateJobMatch(app.candidateId, job);
-          return {
-            application: app,
-            matchScore: match.overallMatchScore,
-            matchedSkills: match.matchedSkills,
-            missingSkills: match.missingSkills,
-            explanation: match.explanation,
-          };
-        })
-      );
-      matchedApplicants.sort((a, b) => b.matchScore - a.matchScore);
-      return res.json({ success: true, candidates: matchedApplicants });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
+    const { jobId } = req.body;
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({ success: false, message: 'Job not found.' });

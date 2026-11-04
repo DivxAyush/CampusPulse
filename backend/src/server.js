@@ -12,7 +12,6 @@ dotenv.config();
 
 import app from './app.js';
 import { connectDB, getIsConnected } from './config/db.js';
-import { seedDatabase } from './utils/seedData.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -50,11 +49,6 @@ const startKeepAliveCron = (port) => {
 const startServer = async () => {
   // Connect to Database
   await connectDB();
-
-  // If connected, automatically ensure demo data is populated
-  if (getIsConnected()) {
-    await seedDatabase();
-  }
 
   const server = app.listen(PORT, () => {
     console.log(`====================================================`);

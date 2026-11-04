@@ -4,12 +4,11 @@ import { Application } from '../applications/application.model.js';
 import { Candidate } from '../candidates/candidate.model.js';
 import { uploadToCloudinary } from '../../config/cloudinary.js';
 import { getIsConnected } from '../../config/db.js';
-import { mockCompanies, mockJobs, mockApplications } from '../../utils/mockStore.js';
 
 export const getCompanyProfile = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, profile: mockCompanies[0] });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const company = await Company.findOne({ userId: req.user._id }).populate('userId', 'fullName email phone profileImage');
     if (!company) {
@@ -23,6 +22,9 @@ export const getCompanyProfile = async (req, res) => {
 
 export const updateCompanyProfile = async (req, res) => {
   try {
+    if (!getIsConnected()) {
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
+    }
     const {
       companyName,
       website,
@@ -37,23 +39,6 @@ export const updateCompanyProfile = async (req, res) => {
       logo,
       coverImage,
     } = req.body;
-
-    if (!getIsConnected()) {
-      const company = mockCompanies[0];
-      if (companyName) company.companyName = companyName;
-      if (website !== undefined) company.website = website;
-      if (industry !== undefined) company.industry = industry;
-      if (companySize !== undefined) company.companySize = companySize;
-      if (companyType !== undefined) company.companyType = companyType;
-      if (foundedYear !== undefined) company.foundedYear = foundedYear;
-      if (description !== undefined) company.description = description;
-      if (headquarters !== undefined) company.headquarters = headquarters;
-      if (contactEmail !== undefined) company.contactEmail = contactEmail;
-      if (contactPhone !== undefined) company.contactPhone = contactPhone;
-      if (logo !== undefined) company.logo = logo;
-      if (coverImage !== undefined) company.coverImage = coverImage;
-      return res.json({ success: true, message: 'Company profile updated successfully.', profile: company });
-    }
 
     let company = await Company.findOne({ userId: req.user._id });
     if (!company) {
@@ -84,17 +69,7 @@ export const updateCompanyProfile = async (req, res) => {
 export const getCompanyDashboard = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({
-        success: true,
-        stats: {
-          totalJobs: 2,
-          activeJobs: 2,
-          totalApplicants: mockApplications.length,
-          shortlistedCandidates: 1,
-        },
-        recentApplicants: mockApplications,
-        recentJobs: mockJobs.slice(0, 2),
-      });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
     const company = await Company.findOne({ userId: req.user._id });
@@ -141,7 +116,7 @@ export const getCompanyDashboard = async (req, res) => {
 export const getCompanyJobs = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, jobs: mockJobs.slice(0, 2) });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const company = await Company.findOne({ userId: req.user._id });
     if (!company) {
@@ -158,7 +133,7 @@ export const getCompanyJobs = async (req, res) => {
 export const getCompanyApplicants = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      return res.json({ success: true, applicants: mockApplications });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const company = await Company.findOne({ userId: req.user._id });
     if (!company) {
@@ -185,18 +160,10 @@ export const getCompanyApplicants = async (req, res) => {
   }
 };
 
-
 export const getAllCompanies = async (req, res) => {
   try {
     if (!getIsConnected()) {
-      let filtered = [...mockCompanies];
-      if (req.query.industry && req.query.industry !== 'All') {
-        filtered = filtered.filter(c => c.industry?.toLowerCase().includes(req.query.industry.toLowerCase()));
-      }
-      if (req.query.search) {
-        filtered = filtered.filter(c => c.companyName?.toLowerCase().includes(req.query.search.toLowerCase()));
-      }
-      return res.json({ success: true, companies: filtered });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const query = {};
     if (req.query.industry && req.query.industry !== 'All') {
@@ -216,8 +183,7 @@ export const getCompanyBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
     if (!getIsConnected()) {
-      const c = mockCompanies.find(comp => comp.slug === slug || comp._id === slug) || mockCompanies[0];
-      return res.json({ success: true, company: c });
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
     const isObjectId = slug.match(/^[0-9a-fA-F]{24}$/);
     const filter = isObjectId ? { $or: [{ slug }, { _id: slug }] } : { slug };

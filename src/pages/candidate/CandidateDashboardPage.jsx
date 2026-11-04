@@ -229,11 +229,17 @@ export const CandidateDashboardPage = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {(dashboardData?.recommendedJobs || []).slice(0, 2).map((job) => (
-            <JobCard key={job._id} job={job} />
-          ))}
-        </div>
+        {dashboardData?.recommendedJobs && dashboardData.recommendedJobs.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {dashboardData.recommendedJobs.slice(0, 2).map((job) => (
+              <JobCard key={job._id} job={job} />
+            ))}
+          </div>
+        ) : (
+          <div className="p-8 text-center text-xs text-brand-muted border border-dashed border-brand-border rounded-2xl bg-white">
+            No matching job recommendations yet. Add your technical skills to your profile to receive personalized openings!
+          </div>
+        )}
       </div>
     </div>
   );
