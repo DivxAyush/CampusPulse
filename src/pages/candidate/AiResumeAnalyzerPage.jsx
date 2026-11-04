@@ -15,7 +15,7 @@ import { EmptyState } from '../../components/common/EmptyState';
 import { ScoreGauge } from '../../components/resume/ScoreGauge';
 import { DiffViewer } from '../../components/resume/DiffViewer';
 import { useToast } from '../../context/ToastContext';
-import { aiAPI } from '../../services/api';
+import { aiAPI, candidateAPI } from '../../services/api';
 
 export const AiResumeAnalyzerPage = () => {
   const { addToast } = useToast();
@@ -30,11 +30,9 @@ export const AiResumeAnalyzerPage = () => {
   const loadAnalysis = async () => {
     setIsLoading(true);
     try {
-      const res = await aiAPI.analyzeResume({
-        targetRole: 'Software Engineer',
-      });
-      if (res.success && res.analysis) {
-        setAnalysis(res.analysis);
+      const res = await candidateAPI.getDashboard();
+      if (res.success && res.dashboard?.latestAnalysis) {
+        setAnalysis(res.dashboard.latestAnalysis);
       }
     } catch (err) {
       console.warn('AI analysis load error:', err.message);
@@ -46,8 +44,14 @@ export const AiResumeAnalyzerPage = () => {
   const handleReanalyze = async () => {
     setIsReanalyzing(true);
     try {
+      const dash = await candidateAPI.getDashboard();
+      if (!dash.dashboard?.primaryResume) {
+        addToast('Please upload a resume first before analyzing.', 'warning');
+        return;
+      }
       const res = await aiAPI.analyzeResume({
-        targetRole: 'Senior Full Stack Engineer',
+        resumeId: dash.dashboard.primaryResume._id,
+        targetRole: 'Software Engineer',
       });
       if (res.success && res.analysis) {
         setAnalysis(res.analysis);

@@ -58,7 +58,7 @@ export const CandidateDashboardPage = () => {
     }
   };
 
-  const completion = dashboardData?.profileCompletion || 85;
+  const completion = dashboardData?.profileCompletion ?? 25;
 
   return (
     <div className="space-y-8">
@@ -116,30 +116,30 @@ export const CandidateDashboardPage = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <StatCard
           title="Active Applications"
-          value={dashboardData?.applicationsCount || 2}
-          subtitle="Submitted across partner firms"
+          value={dashboardData?.applicationsCount ?? 0}
+          subtitle={dashboardData?.applicationsCount > 0 ? "Submitted across partner firms" : "No active applications"}
           icon={Send}
-          trend="+1 this week"
+          trend={dashboardData?.applicationsCount > 0 ? `${dashboardData.applicationsCount} active` : undefined}
         />
         <StatCard
           title="PulseAI Resume Score"
-          value={dashboardData?.latestAnalysis?.overallScore ? `${dashboardData.latestAnalysis.overallScore}/100` : '89/100'}
-          subtitle="Benchmark: 80+ is interview-ready"
+          value={dashboardData?.latestAnalysis?.overallScore ? `${dashboardData.latestAnalysis.overallScore}/100` : 'Not Scanned'}
+          subtitle={dashboardData?.latestAnalysis ? "Benchmark: 80+ is interview-ready" : "Upload resume to scan"}
           icon={Sparkles}
-          trend="Top 10%"
+          trend={dashboardData?.latestAnalysis?.overallScore ? (dashboardData.latestAnalysis.overallScore >= 80 ? "Top Tier" : "Evaluated") : undefined}
         />
         <StatCard
           title="Resumes Uploaded"
-          value={dashboardData?.resumesCount || 1}
-          subtitle="Primary: PDF format"
+          value={dashboardData?.resumesCount ?? 0}
+          subtitle={dashboardData?.resumesCount > 0 ? (dashboardData?.primaryResume?.fileName || "Primary resume uploaded") : "No resume uploaded"}
           icon={FileText}
         />
         <StatCard
           title="Matching Positions"
-          value={dashboardData?.recommendedJobs?.length || 4}
-          subtitle="Based on your React skills"
+          value={dashboardData?.recommendedJobs?.length ?? 0}
+          subtitle={dashboardData?.recommendedJobs?.length > 0 ? "Recommended for your profile" : "Explore open positions"}
           icon={Building2}
-          trend="New"
+          trend={dashboardData?.recommendedJobs?.length > 0 ? "Live" : undefined}
         />
       </div>
 
@@ -218,7 +218,11 @@ export const CandidateDashboardPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold text-brand-navy">Recommended Jobs For You</h2>
-            <p className="text-xs text-brand-muted">Tailored based on your React, Node.js, and MongoDB skill set</p>
+            <p className="text-xs text-brand-muted">
+              {dashboardData?.skills && dashboardData.skills.length > 0
+                ? `Tailored based on your ${dashboardData.skills.slice(0, 3).join(', ')} skills`
+                : 'Curated technical roles across top verified hiring partners'}
+            </p>
           </div>
           <Link to="/candidate/recommended" className="text-xs font-bold text-brand-primary hover:underline flex items-center gap-1">
             See All Matches <ChevronRight className="w-4 h-4" />

@@ -82,7 +82,7 @@ const candidateSchema = new mongoose.Schema(
     preferredLocations: [String],
     profileCompletion: {
       type: Number,
-      default: 70,
+      default: 25,
       min: 0,
       max: 100,
     },

@@ -89,22 +89,16 @@ export const registerCandidate = async (req, res) => {
 
     const candidate = await Candidate.create({
       userId: user._id,
-      headline: headline || 'Aspiring Software Engineer',
-      location: location || 'Bengaluru, India',
+      headline: headline || '',
+      location: location || '',
       experienceLevel: 'fresher',
       totalExperience: '0 years',
-      skills: ['JavaScript', 'React.js', 'Node.js', 'HTML5', 'CSS3', 'Git'],
-      education: [
-        {
-          institution: 'National Institute of Technology',
-          degree: 'B.Tech',
-          fieldOfStudy: 'Computer Science',
-          startYear: '2020',
-          endYear: '2024',
-          grade: '8.8 CGPA',
-        },
-      ],
-      profileCompletion: 75,
+      skills: [],
+      education: [],
+      experience: [],
+      projects: [],
+      certifications: [],
+      profileCompletion: 25,
     });
 
     const { accessToken, refreshToken } = generateTokens(user._id, user.role);

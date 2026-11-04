@@ -89,14 +89,14 @@ export const CompanyDashboardPage = () => {
           value={stats.activeJobs}
           subtitle="Published and accepting"
           icon={CheckCircle2}
-          trend="Live"
+          trend={stats.activeJobs > 0 ? "Live" : undefined}
         />
         <StatCard
           title="Total Applicants"
           value={stats.totalApplicants}
           subtitle="Across all job roles"
           icon={Users}
-          trend="+3 new"
+          trend={stats.totalApplicants > 0 ? `${stats.totalApplicants} total` : undefined}
         />
         <StatCard
           title="Shortlisted"

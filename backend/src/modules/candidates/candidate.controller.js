@@ -19,9 +19,14 @@ export const getProfile = async (req, res) => {
     if (!candidate) {
       candidate = await Candidate.create({
         userId: req.user._id,
-        headline: 'Software Engineer',
-        location: 'Bengaluru, India',
-        profileCompletion: 80,
+        headline: '',
+        location: '',
+        skills: [],
+        education: [],
+        experience: [],
+        projects: [],
+        certifications: [],
+        profileCompletion: 25,
       });
     }
     res.json({ success: true, profile: candidate });
@@ -142,13 +147,14 @@ export const getCandidateDashboard = async (req, res) => {
     res.json({
       success: true,
       dashboard: {
-        profileCompletion: candidate.profileCompletion || 75,
+        profileCompletion: candidate.profileCompletion ?? 25,
         resumesCount: resumes.length,
         primaryResume,
         latestAnalysis,
         applicationsCount: applications.length,
         recentApplications: applications,
         recommendedJobs,
+        skills: candidate.skills || [],
       },
     });
   } catch (error) {

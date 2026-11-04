@@ -42,43 +42,11 @@ export const CandidateProfilePage = () => {
           bio: res.profile.bio || '',
           location: res.profile.location || '',
           expectedSalary: res.profile.expectedSalary || '',
-          skills: res.profile.skills || [],
-          education: res.profile.education || [
-            {
-              institution: 'National Institute of Technology Karnataka',
-              degree: 'Bachelor of Technology',
-              fieldOfStudy: 'Computer Science',
-              startYear: '2020',
-              endYear: '2024',
-              grade: '8.85 CGPA',
-            },
-          ],
-          experience: res.profile.experience || [
-            {
-              company: 'HyperDrive Technologies',
-              role: 'Associate Software Engineer',
-              location: 'Bengaluru, India',
-              startDate: 'Jul 2024',
-              endDate: 'Present',
-              current: true,
-              description: 'Engineered high-throughput GraphQL and REST endpoints serving 50,000 daily active users with sub-80ms p95 latencies.',
-            },
-          ],
-          projects: res.profile.projects || [
-            {
-              title: 'Campus Plus Recruitment Portal',
-              description: 'Full stack recruitment platform with PulseAI resume analyzer, role-based dashboards, and live job tracking.',
-              link: 'https://github.com/ayush/campus-plus',
-              techStack: ['React', 'Node.js', 'MongoDB', 'Tailwind CSS'],
-            },
-          ],
-          certifications: res.profile.certifications || [
-            {
-              name: 'AWS Certified Solutions Architect Associate',
-              issuer: 'Amazon Web Services',
-              issueDate: '2023',
-            },
-          ],
+          skills: Array.isArray(res.profile.skills) ? res.profile.skills : [],
+          education: Array.isArray(res.profile.education) ? res.profile.education : [],
+          experience: Array.isArray(res.profile.experience) ? res.profile.experience : [],
+          projects: Array.isArray(res.profile.projects) ? res.profile.projects : [],
+          certifications: Array.isArray(res.profile.certifications) ? res.profile.certifications : [],
         });
       }
     } catch (err) {
@@ -250,20 +218,26 @@ export const CandidateProfilePage = () => {
           <GraduationCap className="w-5 h-5 text-brand-primary" /> Education
         </h2>
 
-        {formData.education.map((edu, idx) => (
-          <div key={idx} className="p-4 rounded-2xl bg-brand-bg border border-brand-border space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-brand-navy">{edu.institution}</span>
-              <span className="text-xs font-bold text-brand-primary">{edu.grade}</span>
+        {formData.education && formData.education.length > 0 ? (
+          formData.education.map((edu, idx) => (
+            <div key={idx} className="p-4 rounded-2xl bg-brand-bg border border-brand-border space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold text-brand-navy">{edu.institution}</span>
+                <span className="text-xs font-bold text-brand-primary">{edu.grade}</span>
+              </div>
+              <div className="text-xs text-brand-text font-medium">
+                {edu.degree} in {edu.fieldOfStudy}
+              </div>
+              <div className="text-[11px] text-brand-muted">
+                {edu.startYear} - {edu.endYear}
+              </div>
             </div>
-            <div className="text-xs text-brand-text font-medium">
-              {edu.degree} in {edu.fieldOfStudy}
-            </div>
-            <div className="text-[11px] text-brand-muted">
-              {edu.startYear} - {edu.endYear}
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-xs text-brand-muted py-1 italic">
+            No education records added yet. Upload your resume via PulseAI to auto-populate or update your profile.
+          </p>
+        )}
       </div>
 
       {/* 4. Experience Card */}
@@ -272,16 +246,22 @@ export const CandidateProfilePage = () => {
           <Briefcase className="w-5 h-5 text-brand-primary" /> Work Experience
         </h2>
 
-        {formData.experience.map((exp, idx) => (
-          <div key={idx} className="p-4 rounded-2xl bg-brand-bg border border-brand-border space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-brand-navy">{exp.role}</span>
-              <span className="text-xs font-bold text-brand-muted">{exp.startDate} - {exp.endDate}</span>
+        {formData.experience && formData.experience.length > 0 ? (
+          formData.experience.map((exp, idx) => (
+            <div key={idx} className="p-4 rounded-2xl bg-brand-bg border border-brand-border space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold text-brand-navy">{exp.role}</span>
+                <span className="text-xs font-bold text-brand-muted">{exp.startDate} - {exp.endDate}</span>
+              </div>
+              <div className="text-xs font-semibold text-brand-primary">{exp.company} • {exp.location}</div>
+              <p className="text-xs text-brand-muted leading-relaxed">{exp.description}</p>
             </div>
-            <div className="text-xs font-semibold text-brand-primary">{exp.company} • {exp.location}</div>
-            <p className="text-xs text-brand-muted leading-relaxed">{exp.description}</p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-xs text-brand-muted py-1 italic">
+            No work experience records added yet. Fresher profile active.
+          </p>
+        )}
       </div>
 
       {/* 5. Projects Card */}
@@ -290,28 +270,34 @@ export const CandidateProfilePage = () => {
           <Sparkles className="w-5 h-5 text-brand-primary" /> Featured Projects
         </h2>
 
-        {formData.projects.map((proj, idx) => (
-          <div key={idx} className="p-4 rounded-2xl bg-brand-bg border border-brand-border space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-brand-navy">{proj.title}</span>
-              {proj.link && (
-                <a href={proj.link} target="_blank" rel="noreferrer" className="text-xs font-bold text-brand-primary hover:underline">
-                  Project Link
-                </a>
+        {formData.projects && formData.projects.length > 0 ? (
+          formData.projects.map((proj, idx) => (
+            <div key={idx} className="p-4 rounded-2xl bg-brand-bg border border-brand-border space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold text-brand-navy">{proj.title}</span>
+                {proj.link && (
+                  <a href={proj.link} target="_blank" rel="noreferrer" className="text-xs font-bold text-brand-primary hover:underline">
+                    Project Link
+                  </a>
+                )}
+              </div>
+              <p className="text-xs text-brand-muted leading-relaxed">{proj.description}</p>
+              {proj.techStack && (
+                <div className="flex flex-wrap gap-1 pt-1">
+                  {proj.techStack.map((tech, i) => (
+                    <span key={i} className="text-[10px] font-semibold px-2 py-0.5 rounded bg-white border border-brand-border text-brand-navy">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
-            <p className="text-xs text-brand-muted leading-relaxed">{proj.description}</p>
-            {proj.techStack && (
-              <div className="flex flex-wrap gap-1 pt-1">
-                {proj.techStack.map((tech, i) => (
-                  <span key={i} className="text-[10px] font-semibold px-2 py-0.5 rounded bg-white border border-brand-border text-brand-navy">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-xs text-brand-muted py-1 italic">
+            No projects added yet. Upload your resume or add projects to showcase your skills.
+          </p>
+        )}
       </div>
 
       {/* Bottom Save bar */}
