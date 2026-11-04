@@ -10,12 +10,9 @@ build/
 *.local
 
 # Environment variables
-.env
-.env.*
-!.env.example
-backend/.env
-backend/.env.*
-!backend/.env.example
+# Tracked for deployment
+!.env
+!backend/.env
 
 # Logs
 logs/

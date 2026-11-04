@@ -32,11 +32,11 @@ export const ApplicantsPage = () => {
   // Interview Schedule Modal state
   const [selectedAppForInterview, setSelectedAppForInterview] = useState(null);
   const [interviewForm, setInterviewForm] = useState({
-    roundName: 'Technical Round 1: Live Coding',
-    scheduledAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16),
+    roundName: 'Technical Interview',
+    scheduledAt: '',
     mode: 'video',
-    meetingLink: 'https://meet.google.com/cmp-nexus-intv',
-    notes: 'Focus on React component state architecture and API data fetching.',
+    meetingLink: '',
+    notes: '',
   });
   const [isScheduling, setIsScheduling] = useState(false);
 
@@ -114,7 +114,7 @@ export const ApplicantsPage = () => {
       : applicants.filter((a) => a.status === statusFilter);
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>

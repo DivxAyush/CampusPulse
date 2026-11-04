@@ -15,18 +15,18 @@ export const CompanyProfilePage = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState({
-    companyName: 'Nexus Cloud Systems',
-    website: 'https://nexuscloud.io',
-    industry: 'Enterprise Cloud & DevOps',
-    companySize: '250-500 employees',
-    companyType: 'Product',
-    foundedYear: '2019',
-    description: 'Nexus Cloud Systems builds next-generation Kubernetes orchestration platforms and developer productivity infrastructure for enterprise teams.',
-    headquarters: 'Bengaluru, India',
-    contactEmail: 'careers@nexuscloud.io',
-    contactPhone: '+91 80 4123 4567',
-    logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+    companyName: '',
+    website: '',
+    industry: '',
+    companySize: '',
+    companyType: '',
+    foundedYear: '',
+    description: '',
+    headquarters: '',
+    contactEmail: '',
+    contactPhone: '',
+    logo: '',
+    coverImage: '',
   });
 
   useEffect(() => {
@@ -39,18 +39,18 @@ export const CompanyProfilePage = () => {
       const res = await companyAPI.getProfile();
       if (res.success && res.profile) {
         setFormData({
-          companyName: res.profile.companyName || formData.companyName,
-          website: res.profile.website || formData.website,
-          industry: res.profile.industry || formData.industry,
-          companySize: res.profile.companySize || formData.companySize,
-          companyType: res.profile.companyType || formData.companyType,
-          foundedYear: res.profile.foundedYear || formData.foundedYear,
-          description: res.profile.description || formData.description,
-          headquarters: res.profile.headquarters || formData.headquarters,
-          contactEmail: res.profile.contactEmail || formData.contactEmail,
-          contactPhone: res.profile.contactPhone || formData.contactPhone,
-          logo: res.profile.logo || formData.logo,
-          coverImage: res.profile.coverImage || formData.coverImage,
+          companyName: res.profile.companyName || '',
+          website: res.profile.website || '',
+          industry: res.profile.industry || '',
+          companySize: res.profile.companySize || '',
+          companyType: res.profile.companyType || 'Product',
+          foundedYear: res.profile.foundedYear || '',
+          description: res.profile.description || '',
+          headquarters: res.profile.headquarters || '',
+          contactEmail: res.profile.contactEmail || '',
+          contactPhone: res.profile.contactPhone || '',
+          logo: res.profile.logo || '',
+          coverImage: res.profile.coverImage || '',
         });
       }
     } catch (err) {
@@ -76,7 +76,7 @@ export const CompanyProfilePage = () => {
   };
 
   return (
-    <form onSubmit={handleSave} className="space-y-8 max-w-4xl">
+    <form onSubmit={handleSave} className="space-y-8 w-full max-w-5xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>
           <Badge variant="primary" size="sm" className="mb-2">

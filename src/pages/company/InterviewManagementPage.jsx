@@ -27,31 +27,8 @@ export const InterviewManagementPage = () => {
     }
   };
 
-  const mockDefaultInterviews = [
-    {
-      _id: 'intv_01',
-      roundName: 'Technical Round 1: React Architecture & Live Coding',
-      candidateId: {
-        userId: {
-          fullName: 'Ayush Sharma',
-          email: 'candidate@campusplus.com',
-          profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-        },
-      },
-      jobId: {
-        title: 'Senior Frontend Engineer (React & TypeScript)',
-      },
-      scheduledAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
-      meetingLink: 'https://meet.google.com/cmp-nexus-intv',
-      notes: 'Prepare to evaluate custom hooks, Redux Toolkit, and accessibility standards.',
-      status: 'scheduled',
-    },
-  ];
-
-  const list = interviews.length > 0 ? interviews : mockDefaultInterviews;
-
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       <div className="border-b border-brand-border pb-6">
         <Badge variant="primary" size="sm" className="mb-2">
           Interview Coordination
@@ -62,65 +39,74 @@ export const InterviewManagementPage = () => {
         </p>
       </div>
 
-      {list.length === 0 ? (
+      {isLoading ? (
+        <div className="space-y-4">
+          {[1, 2].map((i) => (
+            <div key={i} className="h-32 bg-white rounded-3xl border border-brand-border animate-pulse" />
+          ))}
+        </div>
+      ) : interviews.length === 0 ? (
         <EmptyState
           icon={Calendar}
           title="No interviews scheduled yet"
-          description="Go to the Applicants page and click 'Schedule Interview' on any shortlisted candidate."
+          description="Go to the Applicants page and click 'Schedule Interview' on any candidate."
         />
       ) : (
         <div className="space-y-4">
-          {list.map((intv) => {
+          {interviews.map((intv) => {
             const userObj = intv.candidateId?.userId || {};
             const job = intv.jobId || {};
+            const candidateName = userObj.fullName || 'Candidate';
+            const candidateImage = userObj.profileImage;
 
             return (
               <div
                 key={intv._id}
-                className="bg-white rounded-3xl border border-brand-border p-6 sm:p-7 shadow-subtle hover:shadow-card transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
+                className="bg-white p-6 rounded-3xl border border-brand-border shadow-subtle hover:shadow-card transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
               >
-                <div className="space-y-3 flex-1">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl overflow-hidden bg-brand-primary-light flex items-center justify-center font-bold text-sm text-brand-navy flex-shrink-0">
-                      {userObj.profileImage ? (
-                        <img src={userObj.profileImage} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        userObj.fullName?.charAt(0) || 'C'
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-brand-navy">{intv.roundName}</h3>
-                      <div className="text-xs text-brand-muted mt-0.5">
-                        Candidate: <span className="font-bold text-brand-navy">{userObj.fullName || 'Ayush Sharma'}</span> • {job.title || 'Frontend Engineer'}
-                      </div>
-                    </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-primary-light flex items-center justify-center font-bold text-brand-primary overflow-hidden flex-shrink-0">
+                    {candidateImage ? (
+                      <img src={candidateImage} alt={candidateName} className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-6 h-6" />
+                    )}
                   </div>
-
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-brand-muted">
-                    <span className="flex items-center gap-1 font-semibold text-brand-navy">
-                      <Clock className="w-3.5 h-3.5 text-brand-primary" />{' '}
-                      {new Date(intv.scheduledAt).toLocaleString()}
-                    </span>
-                    <span>•</span>
-                    <Badge variant="primary" size="sm">
-                      Google Meet Video
-                    </Badge>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-base font-bold text-brand-navy">{candidateName}</h3>
+                      <Badge variant="primary" size="sm">
+                        {intv.status || 'scheduled'}
+                      </Badge>
+                    </div>
+                    <div className="text-xs font-semibold text-brand-primary">{job.title || 'Job Opening'}</div>
+                    <div className="text-xs text-brand-muted font-medium">{intv.roundName}</div>
+                    {intv.notes && <p className="text-xs text-brand-muted/80 pt-1 italic">"{intv.notes}"</p>}
                   </div>
-
-                  {intv.notes && (
-                    <p className="text-xs text-brand-muted bg-brand-bg/60 p-2.5 rounded-xl border border-brand-border/60">
-                      <span className="font-bold text-brand-navy">Interviewer Notes: </span>
-                      {intv.notes}
-                    </p>
-                  )}
                 </div>
 
-                <div className="flex items-center gap-3 self-start md:self-auto">
-                  <a href={intv.meetingLink} target="_blank" rel="noreferrer">
-                    <Button variant="primary" size="md" icon={Video}>
-                      Join Video Call
-                    </Button>
-                  </a>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto justify-between border-t md:border-t-0 pt-4 md:pt-0 border-brand-border/60">
+                  <div className="text-left sm:text-right space-y-0.5">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-brand-navy">
+                      <Clock className="w-3.5 h-3.5 text-brand-primary" />
+                      {new Date(intv.scheduledAt).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </div>
+                    <div className="text-[11px] text-brand-muted">Virtual Meeting</div>
+                  </div>
+
+                  {intv.meetingLink && (
+                    <a href={intv.meetingLink} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                      <Button variant="primary" size="sm" icon={Video} className="w-full sm:w-auto">
+                        Join Meeting
+                      </Button>
+                    </a>
+                  )}
                 </div>
               </div>
             );

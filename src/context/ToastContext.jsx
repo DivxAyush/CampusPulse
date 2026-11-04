@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
 
@@ -6,21 +6,49 @@ const ToastContext = createContext(null);
 
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
-
-  const addToast = useCallback((message, type = 'success', duration = 4000) => {
-    const id = Date.now().toString() + Math.random().toString().slice(2, 6);
-    setToasts((prev) => [...prev, { id, message, type }]);
-
-    if (duration > 0) {
-      setTimeout(() => {
-        removeToast(id);
-      }, duration);
-    }
-  }, []);
+  const activeTimersRef = useRef({});
 
   const removeToast = useCallback((id) => {
+    if (activeTimersRef.current[id]) {
+      clearTimeout(activeTimersRef.current[id]);
+      delete activeTimersRef.current[id];
+    }
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
+
+  const addToast = useCallback((message, type = 'success', duration = 4000) => {
+    if (!message || typeof message !== 'string') return;
+    const cleanMessage = message.trim();
+    if (!cleanMessage) return;
+
+    setToasts((prev) => {
+      // Rule 1: No message should appear multiple times. If it already exists, do not duplicate!
+      const existingToast = prev.find((t) => t.message === cleanMessage);
+      if (existingToast) {
+        if (duration > 0) {
+          if (activeTimersRef.current[existingToast.id]) {
+            clearTimeout(activeTimersRef.current[existingToast.id]);
+          }
+          activeTimersRef.current[existingToast.id] = setTimeout(() => {
+            removeToast(existingToast.id);
+          }, duration);
+        }
+        return prev;
+      }
+
+      // Rule 2: If it's a different message, show it (limit max 3 simultaneous toasts)
+      const id = Date.now().toString() + Math.random().toString().slice(2, 6);
+
+      if (duration > 0) {
+        activeTimersRef.current[id] = setTimeout(() => {
+          removeToast(id);
+        }, duration);
+      }
+
+      const truncatedList = prev.length >= 3 ? prev.slice(prev.length - 2) : prev;
+      return [...truncatedList, { id, message: cleanMessage, type }];
+    });
+  }, [removeToast]);
 
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>
@@ -55,6 +83,7 @@ export const ToastProvider = ({ children }) => {
               <button
                 onClick={() => removeToast(toast.id)}
                 className="flex-shrink-0 p-1 text-gray-400 hover:text-gray-600 rounded transition-colors"
+                aria-label="Close notification"
               >
                 <X className="w-4 h-4" />
               </button>

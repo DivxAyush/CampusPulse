@@ -5,18 +5,22 @@ import {
   getCompanyDashboard,
   getCompanyJobs,
   getCompanyApplicants,
+  getAllCompanies,
+  getCompanyBySlug,
 } from './company.controller.js';
 import { protect, authorize } from '../../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-router.use(protect);
-router.use(authorize('company', 'admin'));
+// Protected company management routes
+router.get('/profile', protect, authorize('company', 'admin'), getCompanyProfile);
+router.put('/profile', protect, authorize('company', 'admin'), updateCompanyProfile);
+router.get('/dashboard', protect, authorize('company', 'admin'), getCompanyDashboard);
+router.get('/jobs', protect, authorize('company', 'admin'), getCompanyJobs);
+router.get('/applicants', protect, authorize('company', 'admin'), getCompanyApplicants);
 
-router.get('/profile', getCompanyProfile);
-router.put('/profile', updateCompanyProfile);
-router.get('/dashboard', getCompanyDashboard);
-router.get('/jobs', getCompanyJobs);
-router.get('/applicants', getCompanyApplicants);
+// Public company directory routes
+router.get('/', getAllCompanies);
+router.get('/:slug', getCompanyBySlug);
 
 export default router;

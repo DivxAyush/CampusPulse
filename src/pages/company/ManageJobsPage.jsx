@@ -61,7 +61,7 @@ export const ManageJobsPage = () => {
     filterStatus === 'all' ? jobs : jobs.filter((j) => j.status === filterStatus);
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>

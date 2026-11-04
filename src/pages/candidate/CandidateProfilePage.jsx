@@ -38,11 +38,11 @@ export const CandidateProfilePage = () => {
       const res = await candidateAPI.getProfile();
       if (res.success && res.profile) {
         setFormData({
-          headline: res.profile.headline || 'Full Stack Software Engineer',
-          bio: res.profile.bio || 'Passionate software developer experienced in building scalable web architectures.',
-          location: res.profile.location || 'Bengaluru, India',
-          expectedSalary: res.profile.expectedSalary || '14,00,000 INR',
-          skills: res.profile.skills || ['React.js', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'REST APIs', 'Git'],
+          headline: res.profile.headline || '',
+          bio: res.profile.bio || '',
+          location: res.profile.location || '',
+          expectedSalary: res.profile.expectedSalary || '',
+          skills: res.profile.skills || [],
           education: res.profile.education || [
             {
               institution: 'National Institute of Technology Karnataka',
@@ -126,7 +126,7 @@ export const CandidateProfilePage = () => {
   }
 
   return (
-    <form onSubmit={handleSave} className="space-y-8 max-w-4xl">
+    <form onSubmit={handleSave} className="space-y-8 w-full max-w-5xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>

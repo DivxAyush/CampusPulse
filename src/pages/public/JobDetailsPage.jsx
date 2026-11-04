@@ -98,7 +98,7 @@ export const JobDetailsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 space-y-6">
+      <div className="w-full max-w-[1680px] mx-auto px-4 py-16 space-y-6">
         <div className="h-10 w-40 bg-gray-200 rounded animate-pulse" />
         <div className="h-64 bg-white rounded-3xl border border-brand-border p-8 animate-pulse" />
       </div>
@@ -122,7 +122,7 @@ export const JobDetailsPage = () => {
   const company = job.companyId || {};
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+    <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
       {/* Back button */}
       <Link to="/jobs" className="inline-flex items-center gap-2 text-xs font-bold text-brand-muted hover:text-brand-primary transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to all jobs

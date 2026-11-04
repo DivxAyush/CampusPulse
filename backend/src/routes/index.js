@@ -7,16 +7,13 @@ import applicationRoutes from '../modules/applications/application.routes.js';
 import aiRoutes from '../modules/ai/ai.routes.js';
 import adminRoutes from '../modules/admin/admin.routes.js';
 import supportRoutes from '../modules/support/support.routes.js';
+import { getHealthPayload } from '../utils/healthCheck.js';
 
 const router = express.Router();
 
-router.get('/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    service: 'Campus Plus API v1',
-  });
-});
+// Keep-alive health check endpoints
+router.get('/health', (req, res) => res.json(getHealthPayload()));
+router.get('/ping', (req, res) => res.json(getHealthPayload()));
 
 router.use('/auth', authRoutes);
 router.use('/candidates', candidateRoutes);

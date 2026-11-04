@@ -72,7 +72,7 @@ export const CandidateDashboardPage = () => {
             Welcome back, {user?.fullName?.split(' ')[0] || 'Candidate'}!
           </h1>
           <p className="text-xs sm:text-sm text-brand-muted">
-            Track your job applications, view PulseAI-suggested improvements, and discover matching opportunities.
+            Track your job applications, check your PulseAI ATS score, and discover matching opportunities.
           </p>
         </div>
 
@@ -149,14 +149,14 @@ export const CandidateDashboardPage = () => {
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-brand-primary/20 text-brand-primary border border-brand-primary/30">
             <Sparkles className="w-3.5 h-3.5" /> PulseAI Diagnostic Recommendation
           </div>
-          <h3 className="text-xl font-bold text-white">Enhance your Work Experience bullet points</h3>
+          <h3 className="text-xl font-bold text-white">Elevate your Resume with PulseAI ATS Scorer</h3>
           <p className="text-xs sm:text-sm text-gray-300 max-w-xl leading-relaxed">
-            Your resume was analyzed with PulseAI. Adding quantifiable latency benchmarks to your project descriptions could increase your recruiter callback rate by 24%.
+            Scan your resume against technical job requirements to detect bottlenecks, score quantifiable accomplishments, and get instant recruiter match feedback.
           </p>
         </div>
-        <Link to="/candidate/ai-suggestions" className="flex-shrink-0">
+        <Link to="/candidate/ai-analyzer" className="flex-shrink-0">
           <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right">
-            Review Suggestions
+            Run ATS Scan
           </Button>
         </Link>
       </div>

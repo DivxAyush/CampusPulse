@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ShieldCheck, Cpu, Sparkles, Building2 } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { Logo } from './Logo';
 
 export const Footer = () => {
   return (
     <footer className="bg-brand-navy text-white pt-16 pb-12 border-t border-brand-navy-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-brand-navy-light/60">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <Logo variant="full" size="lg" isDark={true} />
             <p className="text-sm text-gray-300 max-w-sm leading-relaxed">
-              Smart Job Search. Smarter Resumes. Better Opportunities.
+              Smart Job Search. Better Opportunities.
             </p>
             <p className="text-xs text-gray-400 max-w-sm leading-relaxed">
-              Empowering ambitious graduates and software engineers with intelligent PulseAI-powered resume insights and high-growth opportunities.
+              Empowering ambitious graduates and software engineers with intelligent PulseAI-powered ATS diagnostics and high-growth opportunities.
             </p>
             <div className="flex items-center gap-2 pt-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-brand-primary border border-brand-primary/40">
@@ -39,13 +39,8 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/candidate/ai-suggestions" className="hover:text-brand-primary transition-colors">
-                  PulseAI Bullet Optimizer
-                </Link>
-              </li>
-              <li>
-                <Link to="/candidate/resume-builder" className="hover:text-brand-primary transition-colors">
-                  Interactive Resume Builder
+                <Link to="/candidate/resumes" className="hover:text-brand-primary transition-colors">
+                  Uploaded Resumes
                 </Link>
               </li>
               <li>

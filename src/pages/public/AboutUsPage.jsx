@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { Target, Eye, ShieldCheck, Sparkles, Users, Award, Briefcase, ArrowRight } from 'lucide-react';
 import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
+import { useAuth } from '../../context/AuthContext';
 
 export const AboutUsPage = () => {
+  const { isAuthenticated } = useAuth();
+
   const values = [
     {
       title: 'AI Transparency & Precision',
@@ -18,7 +21,7 @@ export const AboutUsPage = () => {
     },
     {
       title: 'Continuous Career Elevation',
-      description: 'Providing candidates with actionable diagnostics, quantifiable resume bullet suggestions, and skill gap roadmaps.',
+      description: 'Providing candidates with actionable ATS diagnostics and role-matching skill roadmaps.',
       icon: Award,
     },
     {
@@ -44,7 +47,7 @@ export const AboutUsPage = () => {
       </section>
 
       {/* Metrics Banner */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6">
         <div className="bg-brand-navy rounded-3xl p-8 sm:p-12 text-white grid grid-cols-2 md:grid-cols-4 gap-8 text-center shadow-card">
           <div>
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-primary">12,500+</div>
@@ -66,7 +69,7 @@ export const AboutUsPage = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white p-8 rounded-3xl border border-brand-border shadow-subtle space-y-4">
           <div className="w-12 h-12 rounded-2xl bg-brand-primary-light flex items-center justify-center text-brand-primary">
             <Target className="w-6 h-6" />
@@ -89,7 +92,7 @@ export const AboutUsPage = () => {
       </section>
 
       {/* Platform Values */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
+      <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 space-y-8">
         <div className="text-center max-w-xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Our Core Principles</h2>
           <p className="text-sm text-brand-muted mt-2">The standards that guide every algorithm and user interface we build</p>
@@ -113,27 +116,29 @@ export const AboutUsPage = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <div className="bg-brand-primary-light/60 border border-brand-primary/20 rounded-3xl p-8 sm:p-12 space-y-4">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy">Join Campus Plus Today</h2>
-          <p className="text-sm text-brand-muted max-w-md mx-auto">
-            Whether you are looking for your next engineering role or hiring world-class technical talent, we are here to support your journey.
-          </p>
-          <div className="flex justify-center gap-3 pt-2">
-            <Link to="/register">
-              <Button variant="primary" size="md">
-                Create Free Account
-              </Button>
-            </Link>
-            <Link to="/jobs">
-              <Button variant="outline" size="md">
-                Browse Open Roles
-              </Button>
-            </Link>
+      {/* CTA - Only shown when user is not logged in */}
+      {!isAuthenticated && (
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <div className="bg-brand-primary-light/60 border border-brand-primary/20 rounded-3xl p-8 sm:p-12 space-y-4">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy">Join Campus Plus Today</h2>
+            <p className="text-sm text-brand-muted max-w-md mx-auto">
+              Whether you are looking for your next engineering role or hiring world-class technical talent, we are here to support your journey.
+            </p>
+            <div className="flex justify-center gap-3 pt-2">
+              <Link to="/register">
+                <Button variant="primary" size="md">
+                  Create Free Account
+                </Button>
+              </Link>
+              <Link to="/jobs">
+                <Button variant="outline" size="md">
+                  Browse Open Roles
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };

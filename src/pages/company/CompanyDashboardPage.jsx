@@ -44,10 +44,10 @@ export const CompanyDashboardPage = () => {
   };
 
   const stats = dashboardData?.stats || {
-    totalJobs: 2,
-    activeJobs: 2,
-    totalApplicants: 3,
-    shortlistedCandidates: 1,
+    totalJobs: 0,
+    activeJobs: 0,
+    totalApplicants: 0,
+    shortlistedCandidates: 0,
   };
 
   const recentApplicants = dashboardData?.recentApplicants || [];

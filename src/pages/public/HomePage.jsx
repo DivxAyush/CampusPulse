@@ -24,9 +24,11 @@ import { Badge } from '../../components/common/Badge';
 import { JobCard } from '../../components/jobs/JobCard';
 import { ApplyModal } from '../../components/jobs/ApplyModal';
 import { jobsAPI } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 export const HomePage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [featuredJobs, setFeaturedJobs] = useState([]);
@@ -76,7 +78,7 @@ export const HomePage = () => {
   return (
     <div className="space-y-20 pb-20 overflow-hidden">
       {/* 1. HERO SECTION */}
-      <section className="relative pt-10 sm:pt-16 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="relative pt-10 sm:pt-16 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-[1680px] mx-auto">
         <div className="text-center max-w-3xl mx-auto space-y-6">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -178,7 +180,7 @@ export const HomePage = () => {
       </section>
 
       {/* 2. POPULAR JOB CATEGORIES */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
             <Badge variant="primary" size="sm" className="mb-2">
@@ -219,7 +221,7 @@ export const HomePage = () => {
       </section>
 
       {/* 3. FEATURED JOBS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
             <Badge variant="primary" size="sm" className="mb-2">
@@ -257,7 +259,7 @@ export const HomePage = () => {
       </section>
 
       {/* 4. AI RESUME PROMOTIONAL SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-brand-navy rounded-3xl p-8 sm:p-12 lg:p-16 text-white relative overflow-hidden shadow-card-hover">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-6">
@@ -268,7 +270,7 @@ export const HomePage = () => {
                 Turn your resume into an interview magnet with AI
               </h2>
               <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                Campus Plus integrates PulseAI to parse your PDF, detect ATS compatibility bottlenecks, score your quantifiable accomplishments, and provide concrete bullet improvements.
+                Campus Plus integrates PulseAI to parse your PDF, detect ATS compatibility bottlenecks, score your quantifiable accomplishments, and provide role-targeted skill matches.
               </p>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
@@ -278,7 +280,7 @@ export const HomePage = () => {
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                  <span className="text-xs sm:text-sm text-gray-200">Action Verb & Metric Enhancements</span>
+                  <span className="text-xs sm:text-sm text-gray-200">ATS Keyword & Skill Extraction</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
@@ -296,11 +298,7 @@ export const HomePage = () => {
                     Analyze My Resume Free
                   </Button>
                 </Link>
-                <Link to="/candidate/resume-builder">
-                  <Button variant="outline" size="lg" className="border-gray-600 text-white hover:bg-white/10">
-                    Open Resume Builder
-                  </Button>
-                </Link>
+                
               </div>
             </div>
 
@@ -317,16 +315,19 @@ export const HomePage = () => {
 
               <div className="space-y-3">
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-gray-300">
-                  <div className="font-bold text-white mb-1">Original Bullet:</div>
-                  <div className="italic text-gray-400">"Built React components and worked on API endpoints."</div>
+                  <div className="font-bold text-white mb-1">ATS Compatibility Scan:</div>
+                  <div className="text-gray-300">Format: PDF | ATS Indexing: 96% Match | Readability: Clean</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-brand-primary/10 border border-brand-primary/40 text-xs text-brand-primary-light">
                   <div className="font-bold text-brand-primary mb-1 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" /> PulseAI Optimized Phrasing:
+                    <Sparkles className="w-3.5 h-3.5" /> Extracted Core Competencies:
                   </div>
-                  <div>
-                    "Architected 12+ modular React components and streamlined REST API endpoints, cutting client load time by 32%."
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">React 18</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">Node.js</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">REST APIs</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">MongoDB</span>
                   </div>
                 </div>
               </div>
@@ -340,7 +341,7 @@ export const HomePage = () => {
       </section>
 
       {/* 5. HOW CAMPUS PLUS WORKS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <Badge variant="primary" size="sm" className="mb-2">
             Seamless 3-Step Process
@@ -370,7 +371,7 @@ export const HomePage = () => {
             </div>
             <h3 className="text-lg font-bold text-brand-navy">Optimize with PulseAI</h3>
             <p className="text-xs sm:text-sm text-brand-muted leading-relaxed">
-              Inspect your ATS quality score, review actionable suggestions, accept improved bullet metrics, and close skill gaps.
+              Inspect your ATS quality score, review technical skill alignment, and identify keyword matches.
             </p>
           </div>
 
@@ -386,8 +387,9 @@ export const HomePage = () => {
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 6. CALL TO ACTION - only if not authenticated */}
+      {!isAuthenticated && (
+        <section className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-brand-primary to-brand-primary-hover rounded-3xl p-8 sm:p-12 text-white text-center shadow-glow space-y-6">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             Ready to find your next software engineering opportunity?
@@ -409,6 +411,7 @@ export const HomePage = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Apply Modal */}
       {selectedJobForApply && (

@@ -167,3 +167,49 @@ export const getCompanyApplicants = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+export const getAllCompanies = async (req, res) => {
+  try {
+    if (!getIsConnected()) {
+      let filtered = [...mockCompanies];
+      if (req.query.industry && req.query.industry !== 'All') {
+        filtered = filtered.filter(c => c.industry?.toLowerCase().includes(req.query.industry.toLowerCase()));
+      }
+      if (req.query.search) {
+        filtered = filtered.filter(c => c.companyName?.toLowerCase().includes(req.query.search.toLowerCase()));
+      }
+      return res.json({ success: true, companies: filtered });
+    }
+    const query = {};
+    if (req.query.industry && req.query.industry !== 'All') {
+      query.industry = new RegExp(req.query.industry, 'i');
+    }
+    if (req.query.search) {
+      query.companyName = new RegExp(req.query.search, 'i');
+    }
+    const companies = await Company.find(query).sort({ isVerified: -1, createdAt: -1 });
+    res.json({ success: true, companies });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getCompanyBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    if (!getIsConnected()) {
+      const c = mockCompanies.find(comp => comp.slug === slug || comp._id === slug) || mockCompanies[0];
+      return res.json({ success: true, company: c });
+    }
+    const isObjectId = slug.match(/^[0-9a-fA-F]{24}$/);
+    const filter = isObjectId ? { $or: [{ slug }, { _id: slug }] } : { slug };
+    const company = await Company.findOne(filter).populate('userId', 'fullName email phone profileImage');
+    if (!company) {
+      return res.status(404).json({ success: false, message: 'Company not found.' });
+    }
+    res.json({ success: true, company });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

@@ -252,48 +252,6 @@ ${resumeText.substring(0, 10000)}
 };
 
 /**
- * AI Resume Improvement Comparison
- */
-export const generateResumeImprovements = async (section, originalText) => {
-  if (genAI) {
-    try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-      const prompt = `You are a master technical resume editor.
-Improve the following ${section} text for a software engineering resume.
-Requirements:
-1. Use strong action verbs (Architected, Engineered, Spearheaded, Optimized).
-2. Incorporate realistic metrics and quantifiable results.
-3. NEVER fabricate candidate identity or impossible achievements.
-4. Keep the tone executive, crisp, and ATS-friendly.
-
-Return ONLY valid JSON:
-{
-  "section": "${section}",
-  "original": "${originalText}",
-  "improved": "Optimized text here...",
-  "reason": "Explanation of changes made..."
-}
-
-Input:
-${originalText}
-`;
-      const result = await model.generateContent(prompt);
-      const parsed = parseJSONFromAI(result.response.text());
-      if (parsed) return parsed;
-    } catch (e) {
-      console.warn('Gemini Improvement failed, using fallback:', e.message);
-    }
-  }
-
-  return {
-    section,
-    original: originalText,
-    improved: `Engineered and optimized ${originalText.toLowerCase().replace(/\.$/, '')}, yielding an estimated 35% improvement in responsiveness and enhancing code maintainability through modular architecture.`,
-    reason: 'Upgraded sentence structure with impactful action verbs and quantifiable performance enhancements.',
-  };
-};
-
-/**
  * Job Matching Engine (AI + Rule-based explainable algorithm)
  */
 export const calculateJobMatch = async (candidate, job) => {

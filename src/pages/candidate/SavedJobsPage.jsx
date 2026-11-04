@@ -30,7 +30,7 @@ export const SavedJobsPage = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       <div className="border-b border-brand-border pb-6">
         <Badge variant="primary" size="sm" className="mb-2">
           Bookmarks

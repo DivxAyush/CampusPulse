@@ -136,9 +136,14 @@ export const uploadResume = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please select a resume file (PDF or DOCX).' });
     }
 
-    const candidate = await Candidate.findOne({ userId: req.user._id });
-    if (!candidate) {
-      return res.status(404).json({ success: false, message: 'Candidate profile not found.' });
+    let candidate = null;
+    if (getIsConnected()) {
+      candidate = await Candidate.findOne({ userId: req.user._id });
+      if (!candidate) {
+        return res.status(404).json({ success: false, message: 'Candidate profile not found.' });
+      }
+    } else {
+      candidate = mockCandidates[0];
     }
 
     // 1. Upload to Cloudinary / storage
@@ -149,46 +154,79 @@ export const uploadResume = async (req, res) => {
       'campusplus/resumes'
     );
 
-    // Check existing resumes to set version and primary
-    const existingCount = await Resume.countDocuments({ candidateId: candidate._id });
-
-    const resume = await Resume.create({
-      candidateId: candidate._id,
-      fileName: req.file.originalname,
-      fileUrl: uploadResult.url,
-      publicId: uploadResult.publicId,
-      fileType: req.file.mimetype,
-      fileSize: uploadResult.bytes || req.file.size,
-      version: existingCount + 1,
-      isPrimary: existingCount === 0,
-      parsingStatus: 'completed',
-    });
-
-    // 2. Extract text & send to Gemini for instant parsing & analysis
+    // 2. Extract text & parse with PulseAI
     const extractedText = await extractTextFromBuffer(req.file.buffer, req.file.mimetype);
     const parsedData = await parseResumeWithAI(extractedText);
     const analysisData = await analyzeResumeWithAI(extractedText, candidate.headline || 'Software Engineer');
 
-    // 3. Save Resume Analysis record
-    const resumeAnalysis = await ResumeAnalysis.create({
-      resumeId: resume._id,
-      candidateId: candidate._id,
-      overallScore: analysisData.overallScore || 85,
-      extractedData: parsedData,
-      analysis: analysisData.analysis,
-      strengths: analysisData.strengths,
-      weaknesses: analysisData.weaknesses,
-      suggestions: analysisData.suggestions,
-      missingSections: analysisData.missingSections,
-      careerRecommendations: analysisData.careerRecommendations,
-      model: 'gemini-1.5-flash',
-    });
+    let resume = null;
+    let resumeAnalysis = null;
 
-    // 4. Update candidate skills and profile completion if needed
-    if (parsedData.skills && parsedData.skills.length > 0) {
-      const uniqueSkills = Array.from(new Set([...candidate.skills, ...parsedData.skills]));
-      candidate.skills = uniqueSkills;
-      await candidate.save();
+    if (getIsConnected()) {
+      const existingCount = await Resume.countDocuments({ candidateId: candidate._id });
+      resume = await Resume.create({
+        candidateId: candidate._id,
+        fileName: req.file.originalname,
+        fileUrl: uploadResult.url,
+        publicId: uploadResult.publicId,
+        fileType: req.file.mimetype,
+        fileSize: uploadResult.bytes || req.file.size,
+        version: existingCount + 1,
+        isPrimary: existingCount === 0,
+        parsingStatus: 'completed',
+      });
+
+      resumeAnalysis = await ResumeAnalysis.create({
+        resumeId: resume._id,
+        candidateId: candidate._id,
+        overallScore: analysisData.overallScore || 85,
+        extractedData: parsedData,
+        analysis: analysisData.analysis,
+        strengths: analysisData.strengths,
+        weaknesses: analysisData.weaknesses,
+        suggestions: analysisData.suggestions,
+        missingSections: analysisData.missingSections,
+        careerRecommendations: analysisData.careerRecommendations,
+        model: 'gemini-1.5-flash',
+      });
+
+      if (parsedData?.skills?.length) {
+        const existingSkills = new Set(candidate.skills || []);
+        parsedData.skills.forEach((s) => existingSkills.add(s));
+        candidate.skills = Array.from(existingSkills);
+        await candidate.save();
+      }
+    } else {
+      resume = {
+        _id: 'res_' + Date.now(),
+        candidateId: candidate._id,
+        fileName: req.file.originalname,
+        fileUrl: uploadResult.url,
+        publicId: uploadResult.publicId,
+        fileType: req.file.mimetype,
+        fileSize: uploadResult.bytes || req.file.size,
+        version: mockResumes.length + 1,
+        isPrimary: mockResumes.length === 0,
+        parsingStatus: 'completed',
+        createdAt: new Date().toISOString(),
+      };
+      mockResumes.unshift(resume);
+
+      resumeAnalysis = {
+        _id: 'ana_' + Date.now(),
+        resumeId: resume._id,
+        candidateId: candidate._id,
+        overallScore: analysisData.overallScore || 85,
+        extractedData: parsedData,
+        analysis: analysisData.analysis,
+        strengths: analysisData.strengths,
+        weaknesses: analysisData.weaknesses,
+        suggestions: analysisData.suggestions,
+        missingSections: analysisData.missingSections,
+        careerRecommendations: analysisData.careerRecommendations,
+        model: 'gemini-1.5-flash',
+        createdAt: new Date().toISOString(),
+      };
     }
 
     res.status(201).json({

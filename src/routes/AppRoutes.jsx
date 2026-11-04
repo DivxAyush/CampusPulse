@@ -18,6 +18,7 @@ import { ContactUsPage } from '../pages/public/ContactUsPage';
 
 // Auth Pages
 import { LoginPage } from '../pages/auth/LoginPage';
+import { AdminLoginPage } from '../pages/auth/AdminLoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
 import { ForgotPasswordPage } from '../pages/auth/ForgotPasswordPage';
 
@@ -26,8 +27,6 @@ import { CandidateDashboardPage } from '../pages/candidate/CandidateDashboardPag
 import { CandidateProfilePage } from '../pages/candidate/CandidateProfilePage';
 import { CandidateResumePage } from '../pages/candidate/CandidateResumePage';
 import { AiResumeAnalyzerPage } from '../pages/candidate/AiResumeAnalyzerPage';
-import { AiResumeSuggestionsPage } from '../pages/candidate/AiResumeSuggestionsPage';
-import { ResumeBuilderPage } from '../pages/candidate/ResumeBuilderPage';
 import { RecommendedJobsPage } from '../pages/candidate/RecommendedJobsPage';
 import { SavedJobsPage } from '../pages/candidate/SavedJobsPage';
 import { MyApplicationsPage } from '../pages/candidate/MyApplicationsPage';
@@ -61,6 +60,8 @@ export const AppRoutes = () => {
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/help" element={<ContactUsPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Route>
@@ -72,8 +73,6 @@ export const AppRoutes = () => {
         <Route path="profile" element={<CandidateProfilePage />} />
         <Route path="resumes" element={<CandidateResumePage />} />
         <Route path="ai-analyzer" element={<AiResumeAnalyzerPage />} />
-        <Route path="ai-suggestions" element={<AiResumeSuggestionsPage />} />
-        <Route path="resume-builder" element={<ResumeBuilderPage />} />
         <Route path="recommended" element={<RecommendedJobsPage />} />
         <Route path="saved" element={<SavedJobsPage />} />
         <Route path="applications" element={<MyApplicationsPage />} />

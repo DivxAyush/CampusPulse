@@ -90,7 +90,7 @@ export const CandidateResumePage = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-4xl">
+    <div className="space-y-8 w-full max-w-5xl">
       {/* Header */}
       <div className="border-b border-brand-border pb-6">
         <Badge variant="primary" size="sm" className="mb-2">
@@ -98,7 +98,7 @@ export const CandidateResumePage = () => {
         </Badge>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Resume Management</h1>
         <p className="text-xs sm:text-sm text-brand-muted mt-1">
-          Upload PDF/DOCX resumes to receive automated PulseAI ATS analysis, keyword extraction, and bullet point enhancements.
+          Upload PDF/DOCX resumes to receive automated PulseAI ATS analysis and keyword extraction.
         </p>
       </div>
 

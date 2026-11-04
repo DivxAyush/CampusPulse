@@ -5,7 +5,6 @@ import { Application } from '../applications/application.model.js';
 import { ResumeAnalysis } from './resumeAnalysis.model.js';
 import {
   analyzeResumeWithAI,
-  generateResumeImprovements,
   calculateJobMatch,
   parseResumeWithAI,
 } from '../../services/gemini.service.js';
@@ -65,19 +64,6 @@ export const analyzeResume = async (req, res) => {
   }
 };
 
-export const improveResumeSection = async (req, res) => {
-  try {
-    const { section, originalText } = req.body;
-    if (!originalText) {
-      return res.status(400).json({ success: false, message: 'Please provide original text to improve.' });
-    }
-
-    const improvement = await generateResumeImprovements(section || 'Work Experience', originalText);
-    res.json({ success: true, improvement });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
 
 export const matchJobForCandidate = async (req, res) => {
   try {

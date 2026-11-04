@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: import.meta.env.VITE_BACKEND_URL ? `${import.meta.env.VITE_BACKEND_URL}/api/v1` : (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api/v1'),
   headers: {
     'Content-Type': 'application/json',
   },
@@ -74,6 +74,8 @@ export const companyAPI = {
   getDashboard: () => api.get('/companies/dashboard'),
   getJobs: () => api.get('/companies/jobs'),
   getApplicants: (params) => api.get('/companies/applicants', { params }),
+  getCompanies: (params) => api.get('/companies', { params }),
+  getCompanyBySlug: (slug) => api.get(`/companies/${slug}`),
 };
 
 // Application Services
@@ -89,7 +91,6 @@ export const applicationAPI = {
 // AI Services
 export const aiAPI = {
   analyzeResume: (data) => api.post('/ai/resume/analyze', data),
-  improveResume: (data) => api.post('/ai/resume/improve', data),
   matchJob: (data) => api.post('/ai/matching/jobs', data),
   matchCandidates: (data) => api.post('/ai/matching/candidates', data),
 };
@@ -108,6 +109,7 @@ export const adminAPI = {
 
 // Support Services
 export const supportAPI = {
+  sendMessage: (data) => api.post('/support/tickets', data),
   createTicket: (data) => api.post('/support/tickets', data),
   getTicketStatus: (ticketId) => api.get(`/support/tickets/${ticketId}`),
   getFaqs: (params) => api.get('/support/faqs', { params }),

@@ -35,8 +35,8 @@ export const protect = async (req, res, next) => {
     if (!user) {
       user = {
         _id: decoded.id,
-        fullName: decoded.role === 'company' ? 'Priya Verma' : 'Ayush Sharma',
-        email: decoded.role === 'company' ? 'recruiter@nexus.com' : 'candidate@campusplus.com',
+        fullName: decoded.role === 'company' ? 'Priya Verma' : decoded.role === 'admin' ? 'System Administrator' : 'Ayush Sharma',
+        email: decoded.role === 'company' ? 'recruiter@nexus.com' : decoded.role === 'admin' ? 'admin@campusplus.com' : 'candidate@campusplus.com',
         role: decoded.role || 'candidate',
       };
     }

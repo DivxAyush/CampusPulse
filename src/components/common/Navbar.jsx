@@ -43,15 +43,15 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full glass-nav transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand Logo */}
-        <Logo variant="image" size="lg" className="h-10 sm:h-12" />
+        <Logo variant="image" size="sm" className="h-8" />
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">
           <Link
             to="/jobs"
-            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               isActive('/jobs')
                 ? 'bg-brand-primary-light text-brand-primary'
                 : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
@@ -61,7 +61,7 @@ export const Navbar = () => {
           </Link>
           <Link
             to="/companies"
-            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               isActive('/companies')
                 ? 'bg-brand-primary-light text-brand-primary'
                 : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
@@ -71,14 +71,14 @@ export const Navbar = () => {
           </Link>
           <Link
             to={isAuthenticated && role === 'candidate' ? '/candidate/ai-analyzer' : '/jobs'}
-            className="px-3.5 py-2 rounded-xl text-sm font-semibold text-brand-text hover:text-brand-primary hover:bg-white/80 flex items-center gap-1.5 transition-all"
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-text hover:text-brand-primary hover:bg-white/80 flex items-center gap-1.5 transition-all"
           >
             <Sparkles className="w-4 h-4 text-brand-primary" />
             PulseAI Tools
           </Link>
           <Link
             to="/about"
-            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               isActive('/about')
                 ? 'bg-brand-primary-light text-brand-primary'
                 : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
@@ -88,7 +88,7 @@ export const Navbar = () => {
           </Link>
           <Link
             to="/help"
-            className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               isActive('/contact') || isActive('/help')
                 ? 'bg-brand-primary-light text-brand-primary'
                 : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
@@ -104,9 +104,9 @@ export const Navbar = () => {
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2.5 p-1.5 pr-3 rounded-xl border border-brand-border bg-white hover:border-brand-primary transition-all shadow-subtle cursor-pointer"
+                className="flex items-center gap-2 p-1 pr-2.5 rounded-lg border border-brand-border bg-white hover:border-brand-primary transition-all shadow-subtle cursor-pointer"
               >
-                <div className="w-8 h-8 rounded-lg overflow-hidden bg-brand-primary-light flex items-center justify-center text-brand-navy font-bold text-xs">
+                <div className="w-7 h-7 rounded-md overflow-hidden bg-brand-primary-light flex items-center justify-center text-brand-navy font-bold text-xs">
                   {user.profileImage ? (
                     <img src={user.profileImage} alt={user.fullName} className="w-full h-full object-cover" />
                   ) : (
