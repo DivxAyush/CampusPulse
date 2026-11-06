@@ -417,7 +417,7 @@ export const AiResumeAnalyzerPage = () => {
               <div className="min-w-0">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Detected Location</div>
                 <div className="text-xs font-bold text-brand-navy truncate">
-                  {candidateProfile?.location || analysis?.extractedData?.location || 'Bengaluru, India'}
+                  {candidateProfile?.location || analysis?.extractedData?.location || 'Not specified on resume'}
                 </div>
               </div>
             </div>
@@ -429,9 +429,11 @@ export const AiResumeAnalyzerPage = () => {
               <div className="min-w-0">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Experience</div>
                 <div className="text-xs font-bold text-brand-navy truncate">
-                  {candidateProfile?.totalExperienceYears
-                    ? `${candidateProfile.totalExperienceYears} Years Verified`
-                    : 'Fresher / Early Career'}
+                  {candidateProfile?.totalExperienceYears !== undefined && candidateProfile.totalExperienceYears !== null
+                    ? candidateProfile.totalExperienceYears > 0
+                      ? `${candidateProfile.totalExperienceYears} Years Verified`
+                      : 'Fresher / Entry Level'
+                    : candidateProfile?.totalExperience || 'Fresher / Entry Level'}
                 </div>
               </div>
             </div>
@@ -442,8 +444,11 @@ export const AiResumeAnalyzerPage = () => {
               </div>
               <div className="min-w-0">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Academic Background</div>
-                <div className="text-xs font-bold text-brand-navy truncate" title={candidateProfile?.education?.[0]?.degree || 'B.Tech / Degree'}>
-                  {candidateProfile?.education?.[0]?.degree || 'Bachelor of Technology'}
+                <div
+                  className="text-xs font-bold text-brand-navy truncate"
+                  title={candidateProfile?.education?.[0]?.degree || analysis?.extractedData?.education?.[0]?.degree || 'Academic details'}
+                >
+                  {candidateProfile?.education?.[0]?.degree || analysis?.extractedData?.education?.[0]?.degree || 'Academic details from resume'}
                 </div>
               </div>
             </div>
@@ -453,27 +458,32 @@ export const AiResumeAnalyzerPage = () => {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-brand-navy uppercase tracking-wider flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-brand-primary" /> Verified Technical Skills ({(candidateProfile?.skills || analysis?.extractedData?.skills || []).length})
+                <Layers className="w-3.5 h-3.5 text-brand-primary" /> Verified Skills & Competencies (
+                {(candidateProfile?.skills || analysis?.extractedData?.skills || []).length})
               </span>
-              <span className="text-[10px] text-brand-muted">Identified for ATS keyword indexing</span>
+              <span className="text-[10px] text-brand-muted">Extracted from your resume for ATS index matching</span>
             </div>
 
-            <div className="flex flex-wrap gap-1.5">
-              {(candidateProfile?.skills || analysis?.extractedData?.skills || [
-                'React', 'Node.js', 'JavaScript', 'MongoDB', 'Express', 'Tailwind CSS', 'REST APIs', 'Git'
-              ]).map((skill, idx) => (
-                <motion.span
-                  key={idx}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: idx * 0.02 }}
-                  className="px-2.5 py-1 rounded-lg bg-gray-50 text-brand-navy border border-gray-200 text-xs font-medium flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
-                >
-                  <Check className="w-3 h-3 text-brand-primary flex-shrink-0" />
-                  <span>{skill}</span>
-                </motion.span>
-              ))}
-            </div>
+            {(candidateProfile?.skills?.length || analysis?.extractedData?.skills?.length) ? (
+              <div className="flex flex-wrap gap-1.5">
+                {(candidateProfile?.skills || analysis?.extractedData?.skills).map((skill, idx) => (
+                  <motion.span
+                    key={idx}
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: idx * 0.02 }}
+                    className="px-2.5 py-1 rounded-lg bg-gray-50 text-brand-navy border border-gray-200 text-xs font-medium flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
+                  >
+                    <Check className="w-3 h-3 text-brand-primary flex-shrink-0" />
+                    <span>{skill}</span>
+                  </motion.span>
+                ))}
+              </div>
+            ) : (
+              <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/80 text-xs text-amber-800">
+                No specific domain skill keywords recognized yet. Upload a resume with clear skill bullet points to index competencies.
+              </div>
+            )}
           </div>
         </motion.div>
       )}
@@ -659,11 +669,13 @@ export const AiResumeAnalyzerPage = () => {
                 <h3 className="text-xs sm:text-sm font-bold text-brand-navy">Demonstrated Strengths</h3>
               </div>
               <ul className="space-y-2">
-                {(analysis.strengths || [
-                  'Demonstrated proficiency in modern full stack technologies',
-                  'Clean chronological layout with clear section distinction',
-                  'Strong balance of technical competencies and project execution',
-                ]).map((s, i) => (
+                {(analysis.strengths && analysis.strengths.length > 0
+                  ? analysis.strengths
+                  : [
+                      'Clean textual structure with readable section headings',
+                      'Direct alignment between stated career objectives and experience',
+                    ]
+                ).map((s, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-brand-text">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
                     <span className="leading-relaxed">{s}</span>
@@ -679,11 +691,13 @@ export const AiResumeAnalyzerPage = () => {
                 <h3 className="text-xs sm:text-sm font-bold text-brand-navy">High-Impact Optimization Opportunities</h3>
               </div>
               <ul className="space-y-2">
-                {(analysis.weaknesses || [
-                  'Incorporate quantifiable achievements (e.g. latency reduced by X%, throughput increased)',
-                  'Highlight automated testing suites (Jest, Vitest, Cypress) in technical skills',
-                  'Include cloud deployment links or live demo portfolio URLs',
-                ]).map((w, i) => (
+                {(analysis.weaknesses && analysis.weaknesses.length > 0
+                  ? analysis.weaknesses
+                  : [
+                      'Incorporate quantifiable achievements (e.g., % growth, scale of projects or teams managed)',
+                      'Include professional social profiles (LinkedIn or domain portfolio)',
+                    ]
+                ).map((w, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-brand-text">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0" />
                     <span className="leading-relaxed">{w}</span>
@@ -700,11 +714,13 @@ export const AiResumeAnalyzerPage = () => {
                 <FileText className="w-4 h-4 text-brand-primary" /> Recommended Sections to Consider
               </h3>
               <ul className="space-y-2 text-xs text-brand-muted">
-                {(analysis.missingSections || [
-                  'Continuous Integration & Deployment (CI/CD)',
-                  'Open Source Contributions / GitHub Activity',
-                  'Observability & Performance Metrics',
-                ]).map((sec, i) => (
+                {(analysis.missingSections && analysis.missingSections.length > 0
+                  ? analysis.missingSections
+                  : [
+                      'Executive Career Summary',
+                      'Domain Certifications & Accreditations',
+                    ]
+                ).map((sec, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
                     <span>{sec}</span>
@@ -718,11 +734,13 @@ export const AiResumeAnalyzerPage = () => {
                 <Target className="w-4 h-4 text-brand-primary" /> PulseAI Strategic Career Recommendations
               </h3>
               <ul className="space-y-2 text-xs text-brand-muted">
-                {(analysis.careerRecommendations || [
-                  'Target Full Stack & Frontend Engineer roles across venture-backed tech firms',
-                  'Add containerization (Docker) and cloud deployments to project highlights',
-                  'Focus on API performance and state management in technical interviews',
-                ]).map((rec, i) => (
+                {(analysis.careerRecommendations && analysis.careerRecommendations.length > 0
+                  ? analysis.careerRecommendations
+                  : [
+                      'Align keyword terminology directly with active campus placement job specifications',
+                      'Quantify deliverables with measurable business impact indicators',
+                    ]
+                ).map((rec, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
                     <span>{rec}</span>

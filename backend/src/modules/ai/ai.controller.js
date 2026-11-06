@@ -40,10 +40,17 @@ export const uploadAndAnalyzeResume = async (req, res) => {
     );
 
     // 2. Extract text from resume buffer
-    const extractedText = await extractTextFromBuffer(req.file.buffer, req.file.mimetype);
+    const extractedText = await extractTextFromBuffer(req.file.buffer, req.file.mimetype, req.file.originalname);
+
+    if (!extractedText || extractedText.trim().length < 25) {
+      return res.status(400).json({
+        success: false,
+        message: 'Could not extract readable text from this file. Please ensure your resume is not an image-only scan and contains selectable text in PDF or DOCX format.',
+      });
+    }
 
     // 3. Run AI analysis (PulseAI Engine)
-    const analysisResult = await analyzeResumeAI(extractedText, candidate.headline || 'Software Engineer');
+    const analysisResult = await analyzeResumeAI(extractedText, candidate.headline || 'Professional');
 
     // 4. Create/update Resume document
     const existingCount = await Resume.countDocuments({ candidateId: candidate._id });
@@ -153,7 +160,7 @@ export const analyzeResume = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please upload a resume file to run PulseAI diagnostics.' });
     }
 
-    const analysisResult = await analyzeResumeAI(textToAnalyze, targetRole || candidate?.headline || 'Software Engineer');
+    const analysisResult = await analyzeResumeAI(textToAnalyze, targetRole || candidate?.headline || 'Professional');
 
     let resumeAnalysis = null;
     if (candidate && resume) {
