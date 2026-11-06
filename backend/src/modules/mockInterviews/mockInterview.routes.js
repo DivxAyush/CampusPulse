@@ -20,3 +20,4 @@ router.get('/admin/all', protect, authorize('admin'), getAllMockInterviewsAdmin)
 router.patch('/admin/:id/status', protect, authorize('admin'), updateMockInterviewStatusAdmin);
 
 export default router;
+

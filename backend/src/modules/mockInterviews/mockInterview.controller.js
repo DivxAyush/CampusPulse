@@ -220,3 +220,4 @@ export const updateMockInterviewStatusAdmin = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to update mock interview.', error: err.message });
   }
 };
+

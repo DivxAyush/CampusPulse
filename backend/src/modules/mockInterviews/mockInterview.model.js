@@ -59,3 +59,4 @@ const mockInterviewSchema = new mongoose.Schema(
 );
 
 export const MockInterview = mongoose.model('MockInterview', mockInterviewSchema);
+
