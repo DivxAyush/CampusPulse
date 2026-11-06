@@ -97,8 +97,8 @@ export const Footer = () => {
 
           {/* Platform Links */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-4">Company</h4>
-            <ul className="space-y-2.5 text-sm text-gray-400">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-4">Company & Support</h4>
+            <ul className="space-y-2.5 text-xs text-gray-400">
               <li>
                 <Link to="/about" className="hover:text-brand-primary transition-colors">
                   About Campus Plus
@@ -106,8 +106,16 @@ export const Footer = () => {
               </li>
               <li>
                 <Link to="/contact" className="hover:text-brand-primary transition-colors">
-                  Contact Support
+                  Help & Support Center
                 </Link>
+              </li>
+              <li className="pt-1 text-gray-300 font-medium">
+                <a href="tel:+919878543210" className="hover:text-brand-primary transition-colors">
+                  📞 +91 9878543210
+                </a>
+              </li>
+              <li className="text-[11px] text-gray-400 leading-relaxed">
+                📍 Jaypee Aman N5-601, Sector 151, Greater Noida, UP
               </li>
             </ul>
           </div>

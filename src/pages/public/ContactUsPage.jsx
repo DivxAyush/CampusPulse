@@ -388,7 +388,9 @@ export const ContactUsPage = () => {
           </div>
           <h4 className="font-bold text-sm text-brand-navy">Telephone Support</h4>
           <div className="space-y-1 text-xs text-brand-muted">
-            <div className="font-semibold text-brand-navy">+91 (80) 4123 4567</div>
+            <a href="tel:+919878543210" className="font-bold text-sm text-brand-navy hover:text-brand-primary transition-colors block">
+              +91 9878543210
+            </a>
             <div>Mon – Sat: 9:00 AM – 7:00 PM IST</div>
           </div>
         </div>
@@ -397,10 +399,10 @@ export const ContactUsPage = () => {
           <div className="w-9 h-9 rounded-xl bg-cyan-50 flex items-center justify-center text-cyan-800">
             <MapPin className="w-4 h-4" />
           </div>
-          <h4 className="font-bold text-sm text-brand-navy">Bengaluru Office</h4>
+          <h4 className="font-bold text-sm text-brand-navy">Head Office</h4>
           <div className="space-y-0.5 text-xs text-brand-muted leading-relaxed">
             <div className="font-semibold text-brand-navy">Campus Plus Technologies Pvt. Ltd.</div>
-            <div>Koramangala 4th Block, Bengaluru, India</div>
+            <div>Jaypee Aman N5-601, Sector 151, Greater Noida, UP</div>
           </div>
         </div>
       </div>
