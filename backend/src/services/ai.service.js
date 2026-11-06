@@ -95,6 +95,7 @@ const callDatamanLLM = async (messages, maxTokens = 2500, timeoutMs = 25000) => 
  * Used when LLM gateway is queuing/re-deploying so candidate gets 100% accurate extraction immediately from THEIR actual resume text
  */
 const KNOWN_SKILLS = [
+  // Tech & Engineering
   'JavaScript', 'TypeScript', 'React', 'React.js', 'Next.js', 'Vue.js', 'Angular', 'HTML5', 'CSS3', 'Tailwind CSS',
   'Node.js', 'Express.js', 'Express', 'NestJS', 'Python', 'Django', 'FastAPI', 'Flask', 'Java', 'Spring Boot', 'Spring',
   'C++', 'C#', '.NET', 'Go', 'Golang', 'Rust', 'PHP', 'Laravel', 'Ruby', 'Ruby on Rails',
@@ -102,7 +103,25 @@ const KNOWN_SKILLS = [
   'Docker', 'Kubernetes', 'AWS', 'Amazon Web Services', 'Azure', 'GCP', 'Google Cloud', 'Linux', 'CI/CD', 'Git', 'GitHub',
   'REST API', 'RESTful APIs', 'GraphQL', 'Microservices', 'Kafka', 'RabbitMQ', 'WebSockets', 'Socket.io',
   'Machine Learning', 'Deep Learning', 'PyTorch', 'TensorFlow', 'NLP', 'Computer Vision', 'Generative AI', 'LLM',
-  'Figma', 'UI/UX Design', 'Agile', 'Scrum', 'Jira', 'Unit Testing', 'Jest', 'Cypress', 'Playwright', 'Postman'
+  'Figma', 'UI/UX Design', 'Agile', 'Scrum', 'Jira', 'Unit Testing', 'Jest', 'Cypress', 'Playwright', 'Postman',
+
+  // Marketing & Growth
+  'Digital Marketing', 'Performance Marketing', 'SEO', 'SEM', 'Google Ads', 'Meta Ads', 'Social Media Marketing',
+  'Content Marketing', 'Brand Strategy', 'Growth Marketing', 'Email Marketing', 'Copywriting', 'HubSpot',
+  'Google Analytics', 'Conversion Rate Optimization', 'CRO', 'Market Research', 'Lead Generation', 'Inbound Marketing',
+  'Product Marketing', 'Influencer Marketing', 'Public Relations', 'Campaign Management', 'Klaviyo', 'Mailchimp',
+
+  // Finance & Accounting
+  'Financial Analysis', 'Financial Modeling', 'Corporate Finance', 'Valuation', 'DCF', 'Investment Banking',
+  'Accounting', 'Tally', 'Tally Prime', 'GST', 'Taxation', 'Direct Tax', 'Indirect Tax', 'Auditing', 'Statutory Audit',
+  'Risk Management', 'Compliance', 'Budgeting', 'Financial Forecasting', 'Advanced Excel', 'MIS Reporting',
+  'Wealth Management', 'Portfolio Management', 'Cash Flow Management', 'Working Capital', 'Equity Research',
+
+  // Human Resources & People Operations
+  'Human Resources', 'HR Management', 'Talent Acquisition', 'Recruitment', 'Technical Recruiting', 'Campus Hiring',
+  'Employee Relations', 'Employee Onboarding', 'Performance Management', 'HRBP', 'Payroll Management',
+  'Compensation & Benefits', 'HR Policies', 'Labor Laws', 'POSH Compliance', 'People Operations', 'Employee Engagement',
+  'Training & Development', 'Learning & Development', 'Workforce Planning', 'HR Analytics'
 ];
 
 const KNOWN_CITIES = [
@@ -177,16 +196,26 @@ export const extractDynamicProfileFromText = (text = '') => {
 
   // 6. Extract Education
   const education = [];
-  if (/b\.?tech|bachelor of technology/i.test(clean)) {
-    education.push({ degree: 'B.Tech Computer Science / Engineering', year: 'Completed / Final Year' });
+  if (/mba|master of business administration/i.test(clean)) {
+    education.push({ degree: 'MBA (Marketing / Finance / HR)', year: 'Post Graduate' });
+  } else if (/bba|bachelor of business administration/i.test(clean)) {
+    education.push({ degree: 'BBA (Business Administration)', year: 'Graduated' });
+  } else if (/b\.?com|bachelor of commerce/i.test(clean)) {
+    education.push({ degree: 'B.Com (Finance / Accounting)', year: 'Graduated' });
+  } else if (/m\.?com|master of commerce/i.test(clean)) {
+    education.push({ degree: 'M.Com (Finance & Taxation)', year: 'Post Graduate' });
+  } else if (/chartered accountant|\bca\b/i.test(clean)) {
+    education.push({ degree: 'Chartered Accountant (ICAI)', year: 'Qualified' });
+  } else if (/b\.?tech|bachelor of technology/i.test(clean)) {
+    education.push({ degree: 'B.Tech Engineering / CS', year: 'Completed / Final Year' });
   } else if (/bca|bachelor of computer applications/i.test(clean)) {
     education.push({ degree: 'BCA (Computer Applications)', year: 'Graduated' });
   } else if (/m\.?tech|master of technology/i.test(clean)) {
     education.push({ degree: 'M.Tech Computer Science', year: 'Post Graduate' });
   } else if (/b\.?sc|bachelor of science/i.test(clean)) {
-    education.push({ degree: 'B.Sc Computer Science / IT', year: 'Graduate' });
+    education.push({ degree: 'B.Sc / Bachelor of Science', year: 'Graduate' });
   } else if (/degree|diploma/i.test(clean)) {
-    education.push({ degree: 'Technical Degree / Diploma', year: 'Graduate' });
+    education.push({ degree: 'University Degree / Diploma', year: 'Graduate' });
   }
 
   return {
