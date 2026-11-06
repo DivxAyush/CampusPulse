@@ -280,8 +280,9 @@ export const forgotPassword = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide email.' });
   }
   res.json({
-    success: true,
-    message: 'If an account exists with this email, a password reset link has been sent.',
+    success: false,
+    underConstruction: true,
+    message: 'Yeh feature abhi under construction hai. Kuch time baad isko chalu kiya jayega.',
   });
 };
 
