@@ -15,7 +15,6 @@ import {
   Building2,
   BarChart3,
   X,
-  HelpCircle,
 } from 'lucide-react';
 
 export const Sidebar = ({ role = 'candidate', onClose }) => {
@@ -27,7 +26,6 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Find Jobs', path: '/jobs', icon: Briefcase },
     { label: 'Saved Jobs', path: '/candidate/saved', icon: Bookmark },
     { label: 'My Applications', path: '/candidate/applications', icon: Send },
-    { label: 'Help & Support', path: '/help', icon: HelpCircle },
     { label: 'Settings', path: '/candidate/settings', icon: Settings },
   ];
 
@@ -38,7 +36,6 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Post a New Job', path: '/company/jobs/create', icon: PlusCircle, badge: 'New' },
     { label: 'Applicants', path: '/company/applicants', icon: Users },
     { label: 'Interviews', path: '/company/interviews', icon: Calendar },
-    { label: 'Help & Support', path: '/help', icon: HelpCircle },
     { label: 'Settings', path: '/company/settings', icon: Settings },
   ];
 
@@ -48,7 +45,6 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Companies', path: '/admin/companies', icon: Building2 },
     { label: 'Job Moderation', path: '/admin/jobs', icon: Briefcase },
     { label: 'System Reports', path: '/admin/reports', icon: BarChart3 },
-    { label: 'Help & Support', path: '/help', icon: HelpCircle },
   ];
 
   const links = role === 'company' ? companyLinks : role === 'admin' ? adminLinks : candidateLinks;
