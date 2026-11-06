@@ -23,9 +23,9 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Dashboard', path: '/candidate/dashboard', icon: LayoutDashboard },
     { label: 'My Profile', path: '/candidate/profile', icon: User },
     { label: 'My Resume', path: '/candidate/resumes', icon: FileText },
-    { label: 'PulseAI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles, badge: 'PulseAI' },
-    { label: 'Career Roadmap', path: '/candidate/career-roadmap', icon: Compass, badge: 'AI' },
-    { label: 'Mock Interview', path: '/candidate/mock-interview', icon: Calendar, badge: 'New' },
+    { label: 'PulseAI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles },
+    { label: 'Career Roadmap', path: '/candidate/career-roadmap', icon: Compass },
+    { label: 'Mock Interview', path: '/candidate/mock-interview', icon: Calendar },
     { label: 'Find Jobs', path: '/candidate/jobs', icon: Briefcase },
     { label: 'Saved Jobs', path: '/candidate/saved', icon: Bookmark },
     { label: 'My Applications', path: '/candidate/applications', icon: Send },
@@ -36,7 +36,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Dashboard', path: '/company/dashboard', icon: LayoutDashboard },
     { label: 'Company Profile', path: '/company/profile', icon: Building2 },
     { label: 'Manage Jobs', path: '/company/jobs', icon: Briefcase },
-    { label: 'Post a New Job', path: '/company/jobs/create', icon: PlusCircle, badge: 'New' },
+    { label: 'Post a New Job', path: '/company/jobs/create', icon: PlusCircle },
     { label: 'Applicants', path: '/company/applicants', icon: Users },
     { label: 'Interviews', path: '/company/interviews', icon: Calendar },
     { label: 'Settings', path: '/company/settings', icon: Settings },
@@ -48,7 +48,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Companies', path: '/admin/companies', icon: Building2 },
     { label: 'Job Moderation', path: '/admin/jobs', icon: Briefcase },
     { label: 'Applications', path: '/admin/applications', icon: Send },
-    { label: 'Mock Interviews', path: '/admin/mock-interviews', icon: Calendar, badge: 'New' },
+    { label: 'Mock Interviews', path: '/admin/mock-interviews', icon: Calendar },
     { label: 'System Reports', path: '/admin/reports', icon: BarChart3 },
   ];
 
@@ -91,11 +91,6 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
                   <Icon className="w-4 h-4 text-brand-primary" />
                   <span>{link.label}</span>
                 </div>
-                {link.badge && (
-                  <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-md bg-brand-primary text-white">
-                    {link.badge}
-                  </span>
-                )}
               </NavLink>
             );
           })}
