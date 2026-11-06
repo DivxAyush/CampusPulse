@@ -131,7 +131,7 @@ export const RegisterPage = () => {
                 label="Full Name"
                 required
                 icon={User}
-                placeholder="Ayush Sharma"
+                placeholder="Abhishek Chandra"
                 value={candData.fullName}
                 onChange={(e) => setCandData({ ...candData, fullName: e.target.value })}
               />
@@ -140,7 +140,7 @@ export const RegisterPage = () => {
                 type="email"
                 required
                 icon={Mail}
-                placeholder="ayush@example.com"
+                placeholder="abhishek@example.com"
                 value={candData.email}
                 onChange={(e) => setCandData({ ...candData, email: e.target.value })}
               />

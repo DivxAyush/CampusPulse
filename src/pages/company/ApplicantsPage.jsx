@@ -253,7 +253,7 @@ export const ApplicantsPage = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPreviewResume(app.resumeId || { fileName: 'Ayush_Sharma_Resume.pdf' })}
+                      onClick={() => setPreviewResume(app.resumeId || { fileName: 'Abhishek_Chandra_Resume.pdf' })}
                       icon={FileText}
                       className="text-xs"
                     >

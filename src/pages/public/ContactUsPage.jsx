@@ -266,7 +266,7 @@ export const ContactUsPage = () => {
             <Input
               label="Your Full Name"
               required
-              placeholder="e.g., Ayush Sharma"
+              placeholder="e.g., Abhishek Chandra"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />

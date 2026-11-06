@@ -148,7 +148,7 @@ export const CompanyDashboardPage = () => {
                             )}
                           </div>
                           <div>
-                            <div className="font-bold text-brand-navy">{userObj.fullName || 'Ayush Sharma'}</div>
+                            <div className="font-bold text-brand-navy">{userObj.fullName || 'Abhishek Chandra'}</div>
                             <div className="text-[11px] text-brand-muted">{userObj.email || 'candidate@campusplus.com'}</div>
                           </div>
                         </div>
