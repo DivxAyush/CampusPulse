@@ -120,11 +120,12 @@ export const JobDetailsPage = () => {
   }
 
   const company = job.companyId || {};
+  const isInsideWorkspace = isAuthenticated && role === 'candidate';
 
   return (
-    <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+    <div className={`w-full space-y-6 ${isInsideWorkspace ? '' : 'max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-6'}`}>
       {/* Back button */}
-      <Link to="/jobs" className="inline-flex items-center gap-2 text-xs font-bold text-brand-muted hover:text-brand-primary transition-colors">
+      <Link to={isInsideWorkspace ? "/candidate/jobs" : "/jobs"} className="inline-flex items-center gap-2 text-xs font-bold text-brand-muted hover:text-brand-primary transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to all jobs
       </Link>
 

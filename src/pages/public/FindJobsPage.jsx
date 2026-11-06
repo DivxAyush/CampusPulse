@@ -7,8 +7,11 @@ import { ApplyModal } from '../../components/jobs/ApplyModal';
 import { EmptyState } from '../../components/common/EmptyState';
 import { Badge } from '../../components/common/Badge';
 import { jobsAPI } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 export const FindJobsPage = () => {
+  const { isAuthenticated, role } = useAuth();
+  const isInsideWorkspace = isAuthenticated && role === 'candidate';
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [filters, setFilters] = useState({
@@ -60,7 +63,7 @@ export const FindJobsPage = () => {
   };
 
   return (
-    <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    <div className={`w-full space-y-6 ${isInsideWorkspace ? '' : 'max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-6'}`}>
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>
