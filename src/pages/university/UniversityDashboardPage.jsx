@@ -19,38 +19,51 @@ import {
   ShieldCheck,
   ChevronRight,
   FileSpreadsheet,
+  Briefcase,
+  DollarSign,
+  PieChart,
+  Target,
 } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
 
 export const UniversityDashboardPage = () => {
-  const [selectedDept, setSelectedDept] = useState('All Departments');
+  const [selectedDept, setSelectedDept] = useState('All Business & Commerce Domains');
 
   const placementStats = {
-    totalStudents: 840,
-    placedStudents: 658,
-    placementRate: 78.4,
-    avgPackage: '₹11.8 LPA',
-    highestPackage: '₹44.5 LPA',
-    medianPackage: '₹9.5 LPA',
-    activeDrives: 24,
-    participatingCompanies: 68,
+    totalStudents: 720,
+    placedStudents: 598,
+    placementRate: 83.1,
+    avgPackage: '₹14.2 LPA',
+    highestPackage: '₹38.5 LPA',
+    medianPackage: '₹12.0 LPA',
+    activeDrives: 32,
+    participatingCompanies: 84,
   };
 
+  const domainBreakdown = [
+    { domain: 'Marketing & Brand Strategy', placed: '86%', students: 260, avgCtc: '₹14.8 LPA', topHiring: 'HUL, P&G, Zepto, Amazon' },
+    { domain: 'Finance & Investment Banking', placed: '84%', students: 240, avgCtc: '₹16.2 LPA', topHiring: 'Deloitte, ICICI, Goldman, KPMG' },
+    { domain: 'Human Resources (HR) & Talent Ops', placed: '81%', students: 140, avgCtc: '₹12.5 LPA', topHiring: 'PwC, Tata Steel, Reliance, ITC' },
+    { domain: 'Business Analytics & Strategy', placed: '88%', students: 80, avgCtc: '₹15.4 LPA', topHiring: 'McKinsey, Bain, EY, Cognizant' },
+  ];
+
   const skillGaps = [
-    { skill: 'Docker & Cloud Containerization', campusProficiency: 38, marketDemand: 84, gap: -46, priority: 'critical' },
-    { skill: 'Distributed System Design & Indexing', campusProficiency: 44, marketDemand: 80, gap: -36, priority: 'critical' },
-    { skill: 'Automated Unit/E2E Testing (Jest, Cypress)', campusProficiency: 31, marketDemand: 65, gap: -34, priority: 'warning' },
-    { skill: 'TypeScript & Type Safety', campusProficiency: 58, marketDemand: 82, gap: -24, priority: 'warning' },
-    { skill: 'React.js & Frontend State Optimization', campusProficiency: 82, marketDemand: 86, gap: -4, priority: 'good' },
-    { skill: 'RESTful APIs & Backend Architecture', campusProficiency: 89, marketDemand: 88, gap: 1, priority: 'good' },
+    { domain: 'Finance', skill: 'Advanced Financial Modeling & DCF Valuation', campusProficiency: 42, marketDemand: 88, gap: -46, priority: 'critical', action: 'Financial Modeling Bootcamp' },
+    { domain: 'Marketing', skill: 'Performance Marketing & Multi-Channel ROAS Attribution', campusProficiency: 39, marketDemand: 85, gap: -46, priority: 'critical', action: 'Meta/Google Ads Lab' },
+    { domain: 'HR', skill: 'People Analytics & HRIS Platforms (Workday / Darwinbox)', campusProficiency: 34, marketDemand: 78, gap: -44, priority: 'critical', action: 'HRIS Analytics Workshop' },
+    { domain: 'Finance', skill: 'Financial Statement Analysis & Capital Budgeting', campusProficiency: 52, marketDemand: 84, gap: -32, priority: 'warning', action: 'Equity Valuation Masterclass' },
+    { domain: 'HR', skill: 'Talent Acquisition & Compensation Benchmarking', campusProficiency: 65, marketDemand: 86, gap: -21, priority: 'warning', action: 'Executive Search Simulation' },
+    { domain: 'Marketing', skill: 'Brand Strategy, Product Positioning & Go-To-Market', campusProficiency: 84, marketDemand: 86, gap: -2, priority: 'good', action: 'On Track (Exceeds Target)' },
   ];
 
   const campusDrives = [
-    { company: 'Razorpay', logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop&q=80', role: 'Full Stack SDE-1', package: '₹22 - ₹28 LPA', eligible: 240, status: 'Online Assessment', date: 'Tomorrow, 10:00 AM' },
-    { company: 'PhonePe', logo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop&q=80', role: 'Backend Platform Engineer', package: '₹24 - ₹32 LPA', eligible: 195, status: 'Technical Interviews', date: '12 Nov 2026' },
-    { company: 'Zepto', logo: 'https://images.unsplash.com/photo-1572021335469-31706a17aaef?w=100&h=100&fit=crop&q=80', role: 'Frontend Engineer', package: '₹16 - ₹22 LPA', eligible: 310, status: 'Shortlisting Open', date: '15 Nov 2026' },
-    { company: 'CRED', logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop&q=80', role: 'Product Development Engineer', package: '₹26 - ₹36 LPA', eligible: 140, status: 'Final Round', date: '18 Nov 2026' },
+    { company: 'Hindustan Unilever (HUL)', logo: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=100&h=100&fit=crop&q=80', role: 'Management Trainee - Brand & Marketing', domain: 'Marketing', package: '₹24 - ₹30 LPA', eligible: 180, status: 'Final Panel Interviews', date: 'Tomorrow, 09:30 AM' },
+    { company: 'Deloitte', logo: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=100&h=100&fit=crop&q=80', role: 'Associate Consultant - Financial Advisory', domain: 'Finance', package: '₹18 - ₹24 LPA', eligible: 210, status: 'Case Study Round', date: '12 Nov 2026' },
+    { company: 'PwC India', logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&h=100&fit=crop&q=80', role: 'Human Capital & HR Advisory Associate', domain: 'HR', package: '₹15 - ₹19 LPA', eligible: 115, status: 'Group Discussion', date: '14 Nov 2026' },
+    { company: 'ICICI Bank', logo: 'https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=100&h=100&fit=crop&q=80', role: 'Management Trainee - Wealth & Corporate Banking', domain: 'Finance', package: '₹16 - ₹21 LPA', eligible: 240, status: 'Shortlisting Open', date: '16 Nov 2026' },
+    { company: 'Tata Steel', logo: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=100&h=100&fit=crop&q=80', role: 'Assistant Manager - Human Resources (HRBP)', domain: 'HR', package: '₹14 - ₹18 LPA', eligible: 95, status: 'Technical HR Rounds', date: '18 Nov 2026' },
+    { company: 'Zepto', logo: 'https://images.unsplash.com/photo-1572021335469-31706a17aaef?w=100&h=100&fit=crop&q=80', role: 'Growth & Performance Marketing Specialist', domain: 'Marketing', package: '₹17 - ₹23 LPA', eligible: 160, status: 'Campaign Strategy Round', date: '20 Nov 2026' },
   ];
 
   return (
@@ -67,7 +80,7 @@ export const UniversityDashboardPage = () => {
               University Placement & Cohort Employability Dashboard
             </h1>
             <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
-              Apex Institute of Technology • Season 2025–2026 Cohort Analytics
+              Apex School of Management & Commerce • Batch of 2025–2026 (Marketing, Finance & HR Cohorts)
             </p>
           </div>
 
@@ -77,11 +90,11 @@ export const UniversityDashboardPage = () => {
               onChange={(e) => setSelectedDept(e.target.value)}
               className="text-xs font-semibold py-2 px-3 rounded-xl bg-white border border-gray-300 text-gray-700 outline-none shadow-xs"
             >
-              <option>All Departments</option>
-              <option>Computer Science & Engineering (CSE)</option>
-              <option>Information Technology (IT)</option>
-              <option>Electronics & Communication (ECE)</option>
-              <option>AI & Data Science (AIDS)</option>
+              <option>All Business & Commerce Domains</option>
+              <option>Marketing & Brand Management</option>
+              <option>Finance & Corporate Banking</option>
+              <option>Human Resources (HR) & People Analytics</option>
+              <option>Business Strategy & Analytics</option>
             </select>
 
             <Button
@@ -91,7 +104,7 @@ export const UniversityDashboardPage = () => {
               onClick={() => window.print()}
               className="text-xs"
             >
-              Export TPO Report
+              Export TPO Cohort Report
             </Button>
           </div>
         </div>
@@ -105,14 +118,14 @@ export const UniversityDashboardPage = () => {
             </div>
             <div className="text-2xl font-extrabold text-[#0B251E]">{placementStats.placementRate}%</div>
             <div className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-              <span>↑ +12.3% vs previous year</span>
+              <span>↑ +14.6% YoY Placement Yield</span>
               <span className="text-gray-400">({placementStats.placedStudents}/{placementStats.totalStudents} placed)</span>
             </div>
           </div>
 
           <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-xs space-y-2">
             <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs font-bold uppercase tracking-wider">Average Package (CTC)</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Average CTC Package</span>
               <Award className="w-4 h-4 text-emerald-600" />
             </div>
             <div className="text-2xl font-extrabold text-[#0B251E]">{placementStats.avgPackage}</div>
@@ -128,78 +141,58 @@ export const UniversityDashboardPage = () => {
             </div>
             <div className="text-2xl font-extrabold text-[#0B251E]">{placementStats.activeDrives} Drives</div>
             <div className="text-[11px] text-gray-500 font-medium">
-              From {placementStats.participatingCompanies} verified recruiting partners
+              From {placementStats.participatingCompanies} leading corporate partners
             </div>
           </div>
 
           <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-xs space-y-2">
             <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs font-bold uppercase tracking-wider">Interview-Ready Tier</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Executive-Ready Tier</span>
               <ShieldCheck className="w-4 h-4 text-purple-600" />
             </div>
-            <div className="text-2xl font-extrabold text-[#0B251E]">82.4%</div>
+            <div className="text-2xl font-extrabold text-[#0B251E]">84.6%</div>
             <div className="text-[11px] text-purple-700 font-semibold">
-              PulseAI Score &gt;= 75 on verified ATS tests
+              Cleared PulseAI corporate readiness tests
             </div>
           </div>
         </div>
 
-        {/* Employability Funnel & Readiness Distribution */}
+        {/* Domain Cohort Placement Breakdown (Marketing, Finance, HR) */}
         <div className="rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-subtle space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-[#0B251E] flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-[#159B79]" /> Student Placement-Readiness Funnel
+                <BarChart3 className="w-5 h-5 text-[#159B79]" /> Domain Placement Breakdown: Marketing, Finance & HR
               </h3>
               <p className="text-xs text-gray-500 mt-0.5">
-                Cohort diagnostic categorisation based on PulseAI ATS benchmark scoring and technical mock testing.
+                Cohort performance and corporate placement yield across core business specializations.
               </p>
             </div>
-            <Badge variant="primary" size="sm">
-              Batch of 2026
-            </Badge>
+            <span className="text-xs font-bold px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200">
+              Batch of 720 Students
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {/* Tier 1 */}
-            <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-emerald-900 uppercase tracking-wider">Tier 1: Interview Ready</span>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900 text-[10px] font-extrabold">41%</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {domainBreakdown.map((item, idx) => (
+              <div key={idx} className="p-5 rounded-2xl bg-gray-50 border border-gray-200/80 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{item.domain}</span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+                    {item.placed} Placed
+                  </span>
+                </div>
+                <div className="text-2xl font-extrabold text-[#0B251E]">{item.avgCtc}</div>
+                <div className="text-xs text-gray-600 space-y-1">
+                  <div>Cohort Size: <strong className="text-gray-900">{item.students} Candidates</strong></div>
+                  <div className="text-[11px] text-gray-500">Key Recruiters: {item.topHiring}</div>
+                </div>
               </div>
-              <div className="text-3xl font-extrabold text-emerald-950">345 Students</div>
-              <p className="text-xs text-emerald-800 leading-relaxed">
-                Scored 85+ on ATS benchmark tests. Immediate candidates for high-tier dream offers (₹18L+ LPA).
-              </p>
-            </div>
-
-            {/* Tier 2 */}
-            <div className="p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-blue-900 uppercase tracking-wider">Tier 2: Minor Skill Gap</span>
-                <span className="px-2 py-0.5 rounded-full bg-blue-200 text-blue-900 text-[10px] font-extrabold">45%</span>
-              </div>
-              <div className="text-3xl font-extrabold text-blue-950">382 Students</div>
-              <p className="text-xs text-blue-800 leading-relaxed">
-                Scored 70–84. Strong core engineering foundation. Needs 2–3 weeks focused prep on system design and cloud deployments.
-              </p>
-            </div>
-
-            {/* Tier 3 */}
-            <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-900 uppercase tracking-wider">Tier 3: Critical Intervention</span>
-                <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold">14%</span>
-              </div>
-              <div className="text-3xl font-extrabold text-amber-950">113 Students</div>
-              <p className="text-xs text-amber-800 leading-relaxed">
-                Scored below 70. Flagged for targeted remedial mock interviews, resume restructuring, and project building.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Student Skill-Gaps vs Market Demand Table */}
+        {/* Student Skill-Gaps vs Industry Demand (Marketing, Finance, HR) */}
         <div className="rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-subtle space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
             <div>
@@ -207,32 +200,42 @@ export const UniversityDashboardPage = () => {
                 <AlertTriangle className="w-5 h-5 text-amber-500" /> Student Skill Gaps vs. Industry Demand
               </h3>
               <p className="text-xs text-gray-500 mt-0.5">
-                Real-time gap detection based on active job requirements across top hiring companies vs. candidate profiles.
+                Benchmarked against active recruiter criteria for Marketing, Corporate Finance, and HR positions.
               </p>
             </div>
-            <span className="text-xs text-gray-400 font-mono">Updated today via PulseAI Skill-Gap Agent</span>
+            <span className="text-xs text-gray-400 font-mono">Calibrated via PulseAI Skill-Gap Agent</span>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-gray-200 text-gray-400 uppercase font-semibold text-[10px] tracking-wider">
+                  <th className="pb-3">Domain</th>
                   <th className="pb-3">Competency / Skill Area</th>
                   <th className="pb-3 text-center">Campus Proficiency</th>
                   <th className="pb-3 text-center">Market Demand</th>
-                  <th className="pb-3 text-center">Net Gap</th>
-                  <th className="pb-3 text-right">Recommended Action</th>
+                  <th className="pb-3 text-center">Net Deficit</th>
+                  <th className="pb-3 text-right">TPO Recommended Intervention</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {skillGaps.map((item, idx) => (
                   <tr key={idx} className="hover:bg-gray-50/80 transition-colors">
-                    <td className="py-3.5 font-bold text-gray-900">{item.skill}</td>
-                    <td className="py-3.5 text-center">
-                      <div className="inline-flex items-center gap-1.5 font-semibold text-gray-700">
-                        <span>{item.campusProficiency}%</span>
-                      </div>
+                    <td className="py-3.5">
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          item.domain === 'Marketing'
+                            ? 'bg-purple-100 text-purple-800'
+                            : item.domain === 'Finance'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : 'bg-blue-100 text-blue-800'
+                        }`}
+                      >
+                        {item.domain}
+                      </span>
                     </td>
+                    <td className="py-3.5 font-bold text-gray-900">{item.skill}</td>
+                    <td className="py-3.5 text-center font-semibold text-gray-700">{item.campusProficiency}%</td>
                     <td className="py-3.5 text-center font-semibold text-gray-700">{item.marketDemand}%</td>
                     <td className="py-3.5 text-center">
                       <span
@@ -247,13 +250,13 @@ export const UniversityDashboardPage = () => {
                         {item.gap > 0 ? `+${item.gap}%` : `${item.gap}%`}
                       </span>
                     </td>
-                    <td className="py-3.5 text-right">
+                    <td className="py-3.5 text-right font-medium">
                       {item.gap <= -30 ? (
-                        <span className="text-xs font-bold text-red-600">🚨 Mandatory Bootcamp</span>
+                        <span className="text-xs font-bold text-red-600">🚨 {item.action}</span>
                       ) : item.gap < 0 ? (
-                        <span className="text-xs font-semibold text-amber-600">⚠️ Elective Workshop</span>
+                        <span className="text-xs font-semibold text-amber-600">⚠️ {item.action}</span>
                       ) : (
-                        <span className="text-xs font-semibold text-emerald-600">✅ On Target</span>
+                        <span className="text-xs font-semibold text-emerald-600">✅ {item.action}</span>
                       )}
                     </td>
                   </tr>
@@ -263,37 +266,52 @@ export const UniversityDashboardPage = () => {
           </div>
         </div>
 
-        {/* Live Campus Recruitment Drives */}
+        {/* Live Campus Placement Drives (Marketing, Finance, HR Top Recruiters) */}
         <div className="rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-subtle space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-[#0B251E] flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-blue-600" /> Active & Upcoming Placement Drives
+                <Calendar className="w-5 h-5 text-blue-600" /> Active Corporate Recruitment Drives
               </h3>
               <p className="text-xs text-gray-500 mt-0.5">
-                Real-time tracking of partner recruiter schedules, candidate eligibility, and assessment pipelines.
+                Real-time tracking of corporate recruiters hiring for Marketing, Finance, and Human Resources.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {campusDrives.map((d, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-gray-50 border border-gray-200/80 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
+              <div key={i} className="p-4 rounded-2xl bg-gray-50 border border-gray-200/80 flex flex-col justify-between space-y-3">
+                <div className="flex items-start gap-3">
                   <img
                     src={d.logo}
                     alt={d.company}
-                    className="w-11 h-11 rounded-xl object-cover border border-gray-200"
+                    className="w-11 h-11 rounded-xl object-cover border border-gray-200 shrink-0"
                   />
                   <div>
-                    <h4 className="text-sm font-bold text-[#0B251E]">{d.role}</h4>
-                    <p className="text-xs text-gray-500 font-semibold">{d.company} • <span className="text-emerald-700 font-bold">{d.package}</span></p>
-                    <span className="text-[11px] text-gray-400">{d.eligible} Eligible Students • {d.date}</span>
+                    <span
+                      className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase mb-1 ${
+                        d.domain === 'Marketing'
+                          ? 'bg-purple-100 text-purple-800'
+                          : d.domain === 'Finance'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-blue-100 text-blue-800'
+                      }`}
+                    >
+                      {d.domain}
+                    </span>
+                    <h4 className="text-xs sm:text-sm font-bold text-[#0B251E] line-clamp-1">{d.role}</h4>
+                    <p className="text-xs text-gray-500 font-semibold">{d.company}</p>
                   </div>
                 </div>
 
-                <div className="text-right shrink-0">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-white text-blue-700 border border-blue-200 shadow-2xs">
+                <div className="pt-2 border-t border-gray-200 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="font-extrabold text-emerald-800">{d.package}</span>
+                    <span className="block text-[10px] text-gray-400">{d.eligible} Eligible Students</span>
+                  </div>
+
+                  <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-white text-blue-700 border border-blue-200 shadow-2xs">
                     {d.status}
                   </span>
                 </div>

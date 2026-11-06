@@ -338,3 +338,4 @@ export const PricingPage = () => {
 };
 
 export default PricingPage;
+

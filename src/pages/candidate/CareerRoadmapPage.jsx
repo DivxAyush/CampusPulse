@@ -8,19 +8,22 @@ import {
   Sparkles,
   ArrowRight,
   BookOpen,
-  Code,
   Mic,
   Award,
   AlertCircle,
   Play,
   RotateCcw,
-  Send,
   Zap,
   Layers,
   ChevronRight,
-  HelpCircle,
   Calendar,
   Check,
+  TrendingUp,
+  DollarSign,
+  Users,
+  Target,
+  BarChart,
+  Briefcase,
 } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
@@ -29,120 +32,293 @@ import { useToast } from '../../context/ToastContext';
 export const CareerRoadmapPage = () => {
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState('roadmap'); // 'roadmap' | 'mock-interview'
+  const [selectedDomain, setSelectedDomain] = useState('marketing'); // 'marketing' | 'finance' | 'hr'
 
-  // Roadmap State
-  const [roadmapWeek, setRoadmapWeek] = useState(1);
+  // Roadmap Progress State
   const [completedSteps, setCompletedSteps] = useState(new Set([1]));
 
-  // Mock Interview Simulator State
-  const [selectedTopic, setSelectedTopic] = useState('react');
+  // Mock Interview State
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [candidateAnswer, setCandidateAnswer] = useState('');
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluationResult, setEvaluationResult] = useState(null);
 
-  const skillGaps = [
-    { skill: 'Docker & Containerization', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 3-4' },
-    { skill: 'System Design & Database Indexing', gapLevel: 'Medium', priority: 'High', weeks: 'Weeks 1-2' },
-    { skill: 'Automated Testing (Jest / Vitest)', gapLevel: 'Medium', priority: 'Recommended', weeks: 'Weeks 5-6' },
-    { skill: 'CI/CD Pipelines (GitHub Actions)', gapLevel: 'Low', priority: 'Bonus', weeks: 'Weeks 7-8' },
-  ];
-
-  const roadmapMilestones = [
-    {
-      week: 1,
-      title: 'Weeks 1–2: Advanced Backend Architecture & Indexing',
-      status: 'in-progress',
-      summary: 'Master database performance, composite indexing, and microservice communication.',
-      deliverables: [
-        'Design compound indexes in MongoDB for query sub-50ms execution',
-        'Implement Redis caching layer for heavy read routes',
-        'Build authenticated RESTful API with rate limiting and JWT rotation',
+  // Domain Configurations
+  const domainData = {
+    marketing: {
+      name: 'Marketing & Brand Strategy',
+      icon: Target,
+      color: 'purple',
+      badge: 'High Growth Domain',
+      skillGaps: [
+        { skill: 'Performance Marketing & Multi-Channel ROAS', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 1–2' },
+        { skill: 'Conversion Rate Optimization (CRO & GA4)', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 3–4' },
+        { skill: 'Go-To-Market (GTM) Strategy & Positioning', gapLevel: 'Medium', priority: 'Priority', weeks: 'Weeks 5–6' },
+        { skill: 'Retention Marketing & CRM Automation (HubSpot)', gapLevel: 'Low', priority: 'Recommended', weeks: 'Weeks 7–8' },
       ],
-      resources: [
-        { name: 'Database Indexing Blueprint', type: 'Guide' },
-        { name: 'Node.js Microservices Lab', type: 'Repository' },
+      milestones: [
+        {
+          week: 1,
+          title: 'Weeks 1–2: Performance Marketing & Paid Acquisition',
+          summary: 'Master campaign scaling, Meta & Google Ads optimization, and CAC:LTV economics.',
+          deliverables: [
+            'Audit multi-channel paid acquisition campaigns and diagnose CAC creep',
+            'Construct audience segmentation funnels across Top of Funnel (TOFU) and Bottom of Funnel (BOFU)',
+            'Formulate ROAS attribution models accounting for 7-day click / 1-day view windows',
+          ],
+          resources: [
+            { name: 'Meta & Google Ads Scaling Playbook', type: 'Framework' },
+            { name: 'CAC:LTV Optimization Spreadsheet', type: 'Template' },
+          ],
+        },
+        {
+          week: 3,
+          title: 'Weeks 3–4: Marketing Analytics & Conversion Rate Optimization (CRO)',
+          summary: 'Bridge the data attribution gap with GA4, Mixpanel, and landing page A/B tests.',
+          deliverables: [
+            'Set up event tracking and custom conversion funnels in Google Analytics 4',
+            'Design and execute A/B split tests on checkout and signup pages',
+            'Calculate statistical significance and lift metrics for landing page variations',
+          ],
+          resources: [
+            { name: 'CRO & Funnel Diagnostics Handbook', type: 'Guide' },
+            { name: 'GA4 Event Tagging Matrix', type: 'Cheatsheet' },
+          ],
+        },
+        {
+          week: 5,
+          title: 'Weeks 5–6: Brand Positioning & Product Marketing Strategy',
+          summary: 'Craft differentiated value propositions, customer persona maps, and GTM plans.',
+          deliverables: [
+            'Build ideal customer profiles (ICPs) and competitive positioning battlecards',
+            'Draft comprehensive Go-To-Market (GTM) launch schedule for a new product tier',
+            'Conduct customer voice analysis to refine messaging hierarchy',
+          ],
+          resources: [
+            { name: 'B2B & B2C Product Positioning Framework', type: 'Guide' },
+            { name: 'GTM Launch Template', type: 'Template' },
+          ],
+        },
+        {
+          week: 7,
+          title: 'Weeks 7–8: Executive Pitch & CMO Panel Mock Interviews',
+          summary: 'Simulate high-stakes marketing case presentations and behavioral leadership panels.',
+          deliverables: [
+            'Complete 3 marketing case study rounds on product turnaround & crisis PR',
+            'Present a ₹50 Lakh annual marketing budget allocation exercise',
+            'Refine STAR behavioral responses for growth leadership roles',
+          ],
+          resources: [
+            { name: 'CMO Case Study Interview Handbook', type: 'Guide' },
+            { name: 'Budget Allocation Modeling Template', type: 'Template' },
+          ],
+        },
+      ],
+      mockQuestions: [
+        {
+          question:
+            'How do you calculate the Customer Lifetime Value (LTV) to Customer Acquisition Cost (CAC) ratio, and what strategic interventions would you deploy if CAC jumps by 40% in paid digital channels?',
+          role: 'Performance Marketing Lead / Growth Manager',
+          difficulty: 'Advanced',
+          keywords: ['LTV:CAC Ratio', 'Retention Rate', 'Payback Period', 'Ad Fatigue', 'Organic Flywheel', 'Referral Loops'],
+          sampleGoodAnswer:
+            'LTV:CAC is calculated as (Customer Value * Average Lifespan * Gross Margin) / Total Acquisition Spend. If CAC surges by 40%, I would diagnose ad fatigue and creative saturation, re-allocate budget to retargeting high-intent segments, refine audience exclusions, and activate organic retention flywheels like referral loops to lower blended CAC.',
+        },
+        {
+          question:
+            'Walk me through a 90-day Go-To-Market (GTM) launch plan for a premium consumer product entering a saturated market.',
+          role: 'Product Marketing Manager (PMM)',
+          difficulty: 'Comprehensive',
+          keywords: ['Positioning', 'Beta Cohort', 'Influencer Seeding', 'Channel Mix', 'North Star Metric', 'Post-Launch Retention'],
+          sampleGoodAnswer:
+            'Day 1-30 focuses on ICP validation, competitive battlecards, and private beta seeding. Day 31-60 drives buzz with exclusive influencer gifting, PR coverage, and search intent capture. Day 61-90 scales multi-channel performance ads while tracking Day-30 retention and cohort NPS as primary health indicators.',
+        },
       ],
     },
-    {
-      week: 3,
-      title: 'Weeks 3–4: Docker & Production Cloud Deployment',
-      status: 'upcoming',
-      summary: 'Bridge the critical containerization gap required by 84% of hiring partners.',
-      deliverables: [
-        'Write multi-stage Dockerfiles for React frontend & Node backend',
-        'Configure docker-compose with MongoDB & Redis services',
-        'Deploy production cluster to AWS ECS / Render with SSL',
+    finance: {
+      name: 'Finance & Investment Banking',
+      icon: DollarSign,
+      color: 'emerald',
+      badge: 'High CTC Domain',
+      skillGaps: [
+        { skill: '3-Statement Financial Modeling & LBO', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 1–2' },
+        { skill: 'DCF Valuation & WACC Sensitivity Analysis', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 3–4' },
+        { skill: 'Financial Statement Analysis & Capital Budgeting', gapLevel: 'Medium', priority: 'Priority', weeks: 'Weeks 5–6' },
+        { skill: 'M&A Deal Structuring & Due Diligence', gapLevel: 'Low', priority: 'Recommended', weeks: 'Weeks 7–8' },
       ],
-      resources: [
-        { name: 'Containerization 101 for Full Stack', type: 'Interactive Lab' },
-        { name: 'Production Dockerfile Templates', type: 'Cheatsheet' },
+      milestones: [
+        {
+          week: 1,
+          title: 'Weeks 1–2: 3-Statement Financial Modeling & Projections',
+          summary: 'Build dynamic linked Income Statement, Balance Sheet, and Cash Flow models.',
+          deliverables: [
+            'Construct integrated 5-year financial statement forecast in Excel',
+            'Model working capital schedules, depreciation waterfalls, and debt amortization',
+            'Handle circular references with dynamic interest expense toggles',
+          ],
+          resources: [
+            { name: 'Wall Street 3-Statement Modeling Template', type: 'Excel Model' },
+            { name: 'Working Capital Mechanics Guide', type: 'Handbook' },
+          ],
+        },
+        {
+          week: 3,
+          title: 'Weeks 3–4: Valuation Methodologies (DCF, Comps, Precedents)',
+          summary: 'Master intrinsic and relative valuation frameworks used by investment banks.',
+          deliverables: [
+            'Calculate Weighted Average Cost of Capital (WACC) with CAPM and debt weighting',
+            'Model Unlevered Free Cash Flow (UFCF) and Terminal Value via Gordon Growth & Exit Multiple',
+            'Run 2-variable sensitivity tables on WACC vs Terminal Growth Rate',
+          ],
+          resources: [
+            { name: 'DCF Valuation Architecture Blueprint', type: 'Excel Model' },
+            { name: 'Trading Comps Valuation Matrix', type: 'Guide' },
+          ],
+        },
+        {
+          week: 5,
+          title: 'Weeks 5–6: Corporate Finance & Capital Structure Optimization',
+          summary: 'Evaluate debt vs equity financing, dividend policy, and capital budgeting.',
+          deliverables: [
+            'Analyze NPV and IRR for competing multi-crore capital expenditure proposals',
+            'Evaluate optimal debt-to-equity ratios and interest coverage thresholds',
+            'Draft credit committee risk summary for syndicated loan issuance',
+          ],
+          resources: [
+            { name: 'Capital Budgeting Decision Matrix', type: 'Template' },
+            { name: 'Corporate Credit Analysis Guide', type: 'Handbook' },
+          ],
+        },
+        {
+          week: 7,
+          title: 'Weeks 7–8: Investment Banking Panel Mocks & Pitch Presentations',
+          summary: 'Defend M&A transaction pitches and answer rapid-fire financial accounting questions.',
+          deliverables: [
+            'Pitch a strategic buy-side acquisition case for a consumer tech firm',
+            'Clear 3 rapid-fire accounting interview rounds on working capital adjustments',
+            'Complete LBO paper modeling exercise in under 45 minutes',
+          ],
+          resources: [
+            { name: 'Investment Banking 400 Questions Guide', type: 'Handbook' },
+            { name: 'Paper LBO Cheat Sheet', type: 'Template' },
+          ],
+        },
+      ],
+      mockQuestions: [
+        {
+          question:
+            'Walk me through a Discounted Cash Flow (DCF) model from Free Cash Flow to Enterprise Value. How do you derive WACC and determine Terminal Value?',
+          role: 'Investment Banking Analyst / Financial Advisory',
+          difficulty: 'Advanced',
+          keywords: ['UFCF', 'EBIT(1-t)', 'CapEx', 'WACC', 'Cost of Equity', 'Gordon Growth', 'Enterprise Value'],
+          sampleGoodAnswer:
+            'I project Unlevered Free Cash Flow: EBIT*(1 - Tax Rate) + D&A - CapEx - Change in Net Working Capital. Next, I discount UFCF using WACC, where Cost of Equity is calculated via CAPM: Rf + Beta*(Rm - Rf). Terminal Value is calculated using Gordon Growth Rate or Exit Multiple method, then discounted back to present value. Summing the PV of discrete cash flows and PV of Terminal Value yields Enterprise Value.',
+        },
+        {
+          question:
+            'If Depreciation increases by ₹10 Crore, walk me through how this impacts all three financial statements step-by-step, assuming a 30% tax rate.',
+          role: 'Corporate Finance Specialist / Equity Research',
+          difficulty: 'Core Accounting',
+          keywords: ['Income Statement', 'Operating Cash Flow', 'Balance Sheet', 'Tax Shield', 'Retained Earnings'],
+          sampleGoodAnswer:
+            '1. Income Statement: Operating Income drops by ₹10 Cr. With a 30% tax rate, net income decreases by ₹7 Cr. 2. Cash Flow Statement: Net income is down ₹7 Cr, but Depreciation is added back as a non-cash expense (+₹10 Cr), so Cash from Operations increases by ₹3 Cr. 3. Balance Sheet: Cash increases by ₹3 Cr, PP&E drops by ₹10 Cr due to accumulated depreciation, so Assets decline by ₹7 Cr. On the Liabilities & Equity side, Retained Earnings decrease by ₹7 Cr, keeping the Balance Sheet perfectly balanced.',
+        },
       ],
     },
-    {
-      week: 5,
-      title: 'Weeks 5–6: Frontend Performance & Automated Testing',
-      status: 'upcoming',
-      summary: 'Elevate frontend scores to 95+ and implement automated test coverage.',
-      deliverables: [
-        'Implement automated unit tests with Vitest / Jest (80%+ coverage)',
-        'Optimize bundle size using React.lazy, dynamic imports, and Webpack split',
-        'Profile rendering bottlenecks using Chrome DevTools Performance tab',
+    hr: {
+      name: 'Human Resources (HR) & People Analytics',
+      icon: Users,
+      color: 'blue',
+      badge: 'Core Corporate Domain',
+      skillGaps: [
+        { skill: 'People Analytics & Predictive Attrition Modeling', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 1–2' },
+        { skill: 'HRIS Platforms & Talent Workflow Automation', gapLevel: 'High', priority: 'Urgent', weeks: 'Weeks 3–4' },
+        { skill: 'Compensation Benchmarking & Total Rewards (P50/P75)', gapLevel: 'Medium', priority: 'Priority', weeks: 'Weeks 5–6' },
+        { skill: 'Labor Compliance, POSH & Industrial Relations', gapLevel: 'Low', priority: 'Recommended', weeks: 'Weeks 7–8' },
       ],
-      resources: [
-        { name: 'Modern React Testing Handbook', type: 'Article' },
-        { name: 'Lighthouse 100/100 Checklist', type: 'Cheatsheet' },
+      milestones: [
+        {
+          week: 1,
+          title: 'Weeks 1–2: People Analytics & Attrition Diagnostics',
+          summary: 'Use workforce data to isolate attrition drivers and compute quality-of-hire metrics.',
+          deliverables: [
+            'Construct executive HR dashboard in Tableau / Excel tracking voluntary vs involuntary attrition',
+            'Model correlation between manager tenure, appraisal ratings, and retention risk',
+            'Formulate 9-Box Grid talent assessment matrix for succession planning',
+          ],
+          resources: [
+            { name: 'People Analytics Metrics Framework', type: 'Handbook' },
+            { name: '9-Box Talent Calibration Matrix', type: 'Template' },
+          ],
+        },
+        {
+          week: 3,
+          title: 'Weeks 3–4: Modern Talent Acquisition & Sourcing Funnels',
+          summary: 'Optimize time-to-fill, cost-per-hire, and employer branding campaigns.',
+          deliverables: [
+            'Design multi-stage technical screening pipeline reducing time-to-hire by 25%',
+            'Develop campus recruitment drive rubrics ensuring diversity & inclusion parity',
+            'Build candidate engagement nurture sequences using modern ATS/CRM tooling',
+          ],
+          resources: [
+            { name: 'End-to-End Talent Sourcing Guide', type: 'Playbook' },
+            { name: 'Candidate Experience Rubric', type: 'Template' },
+          ],
+        },
+        {
+          week: 5,
+          title: 'Weeks 5–6: Compensation, Benefits & Total Rewards Architecture',
+          summary: 'Master percentile benchmarking (P50/P75), ESOP vesting, and annual appraisal cycles.',
+          deliverables: [
+            'Build salary band ranges with compa-ratio calibrations across seniority levels',
+            'Design performance-linked incentive (PLI) bonus structure aligned with business KPIs',
+            'Calculate ESOP pool dilution and 4-year vesting schedules with 1-year cliff',
+          ],
+          resources: [
+            { name: 'Compensation Benchmarking Framework', type: 'Excel Model' },
+            { name: 'Total Rewards & Benefits Guide', type: 'Handbook' },
+          ],
+        },
+        {
+          week: 7,
+          title: 'Weeks 7–8: Strategic HRBP Case Presentations & Grievance Scenarios',
+          summary: 'Handle employee relations, labor code compliance, and cultural integration challenges.',
+          deliverables: [
+            'Resolve simulated workplace dispute and POSH complaint investigation protocol',
+            'Present change management strategy for organizational restructuring',
+            'Demonstrate STAR competency behavioral responses for HR leadership roles',
+          ],
+          resources: [
+            { name: 'HRBP Case Study Interview Toolkit', type: 'Guide' },
+            { name: 'Workplace Investigation Checklist', type: 'Handbook' },
+          ],
+        },
+      ],
+      mockQuestions: [
+        {
+          question:
+            'How would you design a data-backed talent retention strategy in a high-growth startup experiencing an annual voluntary attrition rate of 28% across critical departments?',
+          role: 'HR Business Partner (HRBP) / Talent Lead',
+          difficulty: 'Strategic HR',
+          keywords: ['Attrition Drivers', 'Stay Interviews', 'Compa-Ratio', 'Career Lattice', 'Manager Effectiveness', 'eNPS'],
+          sampleGoodAnswer:
+            'First, I conduct cohort attrition analysis to pinpoint whether turnover is concentrated in specific tenures (e.g. 12-18 months) or under specific managers. Next, I benchmark compa-ratios to ensure fair compensation bands, implement quarterly stay interviews with high-potentials, and introduce clear dual-track career ladders (IC vs Management) to eliminate career stagnation.',
+        },
+        {
+          question:
+            'Explain how you establish market-competitive compensation bands using market percentile benchmarking (P50 / P75), and how you resolve compensation compression during aggressive lateral hiring.',
+          role: 'Compensation & Benefits (Total Rewards) Specialist',
+          difficulty: 'Technical HR',
+          keywords: ['Compa-Ratio', 'P50/P75 Benchmarking', 'Salary Bands', 'Compression', 'Market Adjustments', 'Pay Equity'],
+          sampleGoodAnswer:
+            'I establish midpoint targets based on market surveys (e.g. Aon, Mercer) aligning with company philosophy—targeting P75 for mission-critical revenue roles and P50 for operational roles. To resolve compensation compression where new hires earn more than tenured top performers, I perform internal pay equity audits and grant off-cycle equity grants or market corrections to tenured performers with high appraisal scores.',
+        },
       ],
     },
-    {
-      week: 7,
-      title: 'Weeks 7–8: System Design & Multi-Round Mock Interviews',
-      status: 'upcoming',
-      summary: 'Simulate full-loop interview panels with PulseAI Interview Agent and senior mentors.',
-      deliverables: [
-        'Complete 4 technical coding mock sessions',
-        'Practice High Level Design (HLD) for URL Shortener & E-Commerce Cart',
-        'Refine STAR behavioral responses for leadership principles',
-      ],
-      resources: [
-        { name: 'System Design Interview Cheatsheet', type: 'Guide' },
-        { name: 'STAR Behavioral Framework', type: 'Template' },
-      ],
-    },
-  ];
-
-  const mockQuestions = {
-    react: [
-      {
-        question: 'How does React 18 reconciliation work, and what strategies do you use to prevent unnecessary component re-renders?',
-        role: 'Senior React Developer',
-        difficulty: 'Medium-Hard',
-        keywords: ['Fiber', 'Virtual DOM', 'React.memo', 'useMemo', 'useCallback', 'Diffing algorithm'],
-        sampleGoodAnswer:
-          'React uses the Fiber reconciliation engine to construct a work-in-progress tree. To prevent re-renders, I leverage React.memo with customized equality checks, wrap expensive computations with useMemo, and maintain stable function references using useCallback.',
-      },
-      {
-        question: 'Explain the difference between optimistic UI updates and pessimistic UI updates in web platforms. When would you choose which?',
-        role: 'Frontend Engineer',
-        difficulty: 'Medium',
-        keywords: ['Optimistic update', 'Rollback', 'Latency', 'Financial transactions'],
-        sampleGoodAnswer:
-          'Optimistic updates reflect state changes immediately before server confirmation to maximize perceived performance (ideal for likes, comments, upvotes). Pessimistic updates wait for server ACK (essential for payments and critical writes).',
-      },
-    ],
-    backend: [
-      {
-        question: 'How do you handle race conditions and database deadlocks in a high-concurrency payment or ticket booking API?',
-        role: 'Backend Platform Engineer',
-        difficulty: 'Hard',
-        keywords: ['ACID', 'Transactions', 'Optimistic Locking', 'Pessimistic Locking', 'Distributed Lock', 'Redis'],
-        sampleGoodAnswer:
-          'I use distributed locking (e.g. Redlock algorithm on Redis) alongside database-level optimistic locking with version fields. For critical ledger transactions, database isolation level SERIALIZABLE with retry backoffs ensures safety.',
-      },
-    ],
   };
 
-  const currentQuestions = mockQuestions[selectedTopic] || mockQuestions.react;
+  const currentDomainInfo = domainData[selectedDomain] || domainData.marketing;
+  const currentQuestions = currentDomainInfo.mockQuestions;
   const activeQuestion = currentQuestions[currentQuestionIndex] || currentQuestions[0];
 
   const handleStepToggle = (weekNum) => {
@@ -156,8 +332,8 @@ export const CareerRoadmapPage = () => {
   };
 
   const handleEvaluateMock = () => {
-    if (!candidateAnswer.trim() || candidateAnswer.length < 20) {
-      addToast('Please type a more comprehensive technical answer before evaluating.', 'warning');
+    if (!candidateAnswer.trim() || candidateAnswer.length < 25) {
+      addToast('Please type a more comprehensive professional response before evaluating.', 'warning');
       return;
     }
 
@@ -165,18 +341,18 @@ export const CareerRoadmapPage = () => {
     setTimeout(() => {
       setIsEvaluating(false);
       setEvaluationResult({
-        score: 89,
+        score: 91,
         strengths: [
-          'Directly addressed the core architectural concept with clear terminology',
-          'Mentioned appropriate performance trade-offs and mitigation strategies',
+          'Directly addressed the core strategic dilemma with industry-standard terminology',
+          'Demonstrated clear understanding of quantitative trade-offs and organizational impact',
         ],
         improvements: [
-          'Could explicitly mention time/space complexity or failure rollback strategies',
-          'Include real-world production metrics from past project experience',
+          'Could explicitly mention ROI attribution formulas or real stakeholder communication nuances',
+          'Add a metric-driven example from your past internship or academic project',
         ],
         idealAnswer: activeQuestion.sampleGoodAnswer,
       });
-      addToast('PulseAI Interview Agent has completed evaluation!', 'success');
+      addToast('PulseAI Interview Agent has completed domain evaluation!', 'success');
     }, 1800);
   };
 
@@ -187,13 +363,13 @@ export const CareerRoadmapPage = () => {
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-400/30">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-            <span>PulseAI Career Acceleration Engine</span>
+            <span>PulseAI Career Acceleration • Business & Management</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
             AI Mock Interviews & Personalised Career Roadmap
           </h1>
           <p className="text-xs sm:text-sm text-emerald-100/70 leading-relaxed">
-            Close your verified skill gaps with an 8-week structured roadmap, and sharpen your technical communication with interactive AI mock rounds.
+            Close your domain skill gaps across <strong>Marketing</strong>, <strong>Finance</strong>, and <strong>Human Resources</strong>. Practice case study mocks and follow structured 8-week career roadmaps.
           </p>
         </div>
 
@@ -224,6 +400,67 @@ export const CareerRoadmapPage = () => {
         </div>
       </div>
 
+      {/* Domain Selection Pills (Marketing, Finance, HR) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-brand-border shadow-subtle">
+        <div className="flex items-center gap-2 text-xs font-bold text-brand-navy">
+          <Briefcase className="w-4 h-4 text-brand-primary" />
+          <span>Select Your Target Specialization:</span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedDomain('marketing');
+              setCurrentQuestionIndex(0);
+              setEvaluationResult(null);
+              setCandidateAnswer('');
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+              selectedDomain === 'marketing'
+                ? 'bg-purple-600 text-white border-purple-600 shadow-xs'
+                : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'
+            }`}
+          >
+            <Target className="w-3.5 h-3.5" /> Marketing & Brand Strategy
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedDomain('finance');
+              setCurrentQuestionIndex(0);
+              setEvaluationResult(null);
+              setCandidateAnswer('');
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+              selectedDomain === 'finance'
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'
+            }`}
+          >
+            <DollarSign className="w-3.5 h-3.5" /> Finance & Investment Banking
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedDomain('hr');
+              setCurrentQuestionIndex(0);
+              setEvaluationResult(null);
+              setCandidateAnswer('');
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+              selectedDomain === 'hr'
+                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" /> Human Resources (HR)
+          </button>
+        </div>
+      </div>
+
       {/* TAB 1: CAREER ROADMAP & SKILL GAP */}
       {activeTab === 'roadmap' && (
         <div className="space-y-8">
@@ -232,10 +469,10 @@ export const CareerRoadmapPage = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand-border pb-4">
               <div>
                 <h3 className="text-lg font-bold text-brand-navy flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5 text-amber-500" /> Identified Skill Voids from PulseAI Diagnostics
+                  <AlertCircle className="w-5 h-5 text-amber-500" /> Isolated {currentDomainInfo.name} Skill Voids
                 </h3>
                 <p className="text-xs text-brand-muted mt-0.5">
-                  High-demand competencies missing from your resume that top tech recruiters prioritize.
+                  Core competencies prioritized by corporate recruiters hiring for top management roles.
                 </p>
               </div>
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
@@ -244,14 +481,14 @@ export const CareerRoadmapPage = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {skillGaps.map((item, idx) => (
+              {currentDomainInfo.skillGaps.map((item, idx) => (
                 <div key={idx} className="p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-2">
                   <div className="flex items-center justify-between">
                     <span
                       className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                         item.priority === 'Urgent'
                           ? 'bg-red-100 text-red-800'
-                          : item.priority === 'High'
+                          : item.priority === 'Priority'
                           ? 'bg-amber-100 text-amber-800'
                           : 'bg-emerald-100 text-emerald-800'
                       }`}
@@ -272,10 +509,10 @@ export const CareerRoadmapPage = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand-border pb-4">
               <div>
                 <h3 className="text-lg font-bold text-brand-navy flex items-center gap-2">
-                  <Compass className="w-5 h-5 text-brand-primary" /> 8-Week Personalised Placement Pathway
+                  <Compass className="w-5 h-5 text-brand-primary" /> 8-Week Pathway for {currentDomainInfo.name}
                 </h3>
                 <p className="text-xs text-brand-muted mt-0.5">
-                  Curated step-by-step technical milestones designed to boost your interview readiness to 90%+.
+                  Step-by-step business case deliverables designed to prepare you for premier corporate placement rounds.
                 </p>
               </div>
 
@@ -286,7 +523,7 @@ export const CareerRoadmapPage = () => {
             </div>
 
             <div className="space-y-6">
-              {roadmapMilestones.map((milestone, idx) => {
+              {currentDomainInfo.milestones.map((milestone, idx) => {
                 const isCompleted = completedSteps.has(milestone.week);
                 return (
                   <div
@@ -368,33 +605,19 @@ export const CareerRoadmapPage = () => {
           {/* Controls Bar */}
           <div className="rounded-3xl bg-white border border-brand-border p-6 shadow-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
                 <Mic className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-brand-navy">Interactive AI Mock Round</h3>
-                <p className="text-xs text-brand-muted">PulseAI Interview Agent evaluates technical depth & communication</p>
+                <h3 className="text-base font-bold text-brand-navy">Interactive AI Mock Round ({currentDomainInfo.name})</h3>
+                <p className="text-xs text-brand-muted">PulseAI Interview Agent evaluates strategic depth, metrics, and STAR clarity</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <select
-                value={selectedTopic}
-                onChange={(e) => {
-                  setSelectedTopic(e.target.value);
-                  setCurrentQuestionIndex(0);
-                  setEvaluationResult(null);
-                  setCandidateAnswer('');
-                }}
-                className="text-xs font-semibold py-2 px-3 rounded-xl bg-white border border-gray-300 text-gray-700 outline-none"
-              >
-                <option value="react">React & Modern Frontend</option>
-                <option value="backend">Backend & System Design</option>
-              </select>
-
               <Link to="/candidate/mock-interview">
                 <Button variant="outline" size="sm" icon={Calendar} className="text-xs">
-                  Schedule 1-on-1 Human Session
+                  Schedule 1-on-1 Panel Session
                 </Button>
               </Link>
             </div>
@@ -404,7 +627,7 @@ export const CareerRoadmapPage = () => {
           <div className="rounded-3xl bg-white border border-brand-border p-6 sm:p-8 shadow-subtle space-y-6">
             <div className="flex items-center justify-between border-b border-brand-border pb-3">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[11px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
                   Question {currentQuestionIndex + 1} of {currentQuestions.length}
                 </span>
                 <span className="text-xs font-semibold text-gray-500">• {activeQuestion.role}</span>
@@ -419,27 +642,27 @@ export const CareerRoadmapPage = () => {
                 "{activeQuestion.question}"
               </h3>
               <p className="text-xs text-brand-muted">
-                Tip: Explain your architectural rationale, mention key methods/hooks, and provide an edge-case example.
+                Tip: Structure your response with clear business frameworks, mention metrics/ratios, and justify your strategic rationale.
               </p>
             </div>
 
             {/* Answer Input Field */}
             <div className="space-y-2">
               <label className="block text-xs font-bold text-brand-navy">
-                Your Answer (Explain in detail):
+                Your Professional Response (Explain your methodology in detail):
               </label>
               <textarea
                 rows={5}
                 value={candidateAnswer}
                 onChange={(e) => setCandidateAnswer(e.target.value)}
-                placeholder="e.g. In React 18, reconciliation is handled via the Fiber tree where work units are schedulable. To prevent re-renders, I leverage React.memo with customized equality comparisons..."
+                placeholder="Type your structured answer here. Include business frameworks, metric calculations, and real-world project context..."
                 className="w-full text-xs sm:text-sm p-4 rounded-2xl bg-gray-50 border border-brand-border outline-none focus:border-brand-primary focus:bg-white transition-all text-brand-navy resize-none"
               />
             </div>
 
             <div className="flex items-center justify-between pt-2">
               <div className="text-xs text-brand-muted">
-                Keywords to address:{' '}
+                Key concepts to emphasize:{' '}
                 {activeQuestion.keywords.slice(0, 3).map((kw, i) => (
                   <span key={i} className="font-semibold text-brand-navy mr-1.5 underline decoration-emerald-500">
                     {kw}
@@ -473,8 +696,8 @@ export const CareerRoadmapPage = () => {
                     {evaluationResult.score}
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-brand-navy">PulseAI Evaluation Score</h4>
-                    <span className="text-xs text-emerald-700 font-semibold">Strong Technical Foundation Demonstrated</span>
+                    <h4 className="text-base font-bold text-brand-navy">PulseAI Strategic Assessment Score</h4>
+                    <span className="text-xs text-emerald-700 font-semibold">Ready for Corporate Leadership Rounds</span>
                   </div>
                 </div>
 
@@ -529,7 +752,7 @@ export const CareerRoadmapPage = () => {
               {/* Model Ideal Answer */}
               <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 space-y-1.5">
                 <span className="text-xs font-bold text-brand-navy flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-brand-primary" /> Model Benchmark Answer:
+                  <Sparkles className="w-3.5 h-3.5 text-brand-primary" /> Model Benchmark Response:
                 </span>
                 <p className="text-xs sm:text-sm text-gray-700 leading-relaxed font-medium">
                   {evaluationResult.idealAnswer}

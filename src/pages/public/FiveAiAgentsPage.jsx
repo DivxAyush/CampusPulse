@@ -98,10 +98,10 @@ export const FiveAiAgentsPage = () => {
       badgeColor: 'bg-purple-100 text-purple-800',
       accentColor: 'from-purple-500 to-pink-500',
       description:
-        'Simulates real technical and behavioral interview rounds. Evaluates answers for technical precision, STAR structure, and edge cases, delivering instant actionable feedback.',
+        'Simulates real technical, business case, and behavioral interview rounds across Marketing, Finance, HR, and Tech. Evaluates answers for quantitative metrics, strategic depth, and STAR structure.',
       capabilities: [
         'Adaptive follow-up question generation',
-        'Code reasoning & complexity grading',
+        'Business case & metrics calculation grading',
         'STAR methodology answer validation',
         'Confidence & communication metrics',
       ],
@@ -301,3 +301,4 @@ export const FiveAiAgentsPage = () => {
 };
 
 export default FiveAiAgentsPage;
+
