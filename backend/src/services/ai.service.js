@@ -264,7 +264,7 @@ ${resumeText.slice(0, 12000)}`;
           location: parsed.candidate?.location || dynamicFallback.location,
           skills: (parsed.candidate?.skills?.length ? parsed.candidate.skills : dynamicFallback.skills),
         },
-        model: AI_MODEL,
+        model: 'PulseAI Neural Engine',
       };
     }
   } catch (err) {
@@ -327,7 +327,7 @@ ${resumeText.slice(0, 12000)}`;
         reason: 'Uses active leadership verbs and quantifies engineering outcomes.',
       },
     ],
-    model: `${AI_MODEL} (Hybrid Engine)`,
+    model: 'PulseAI Neural Engine',
   };
 };
 

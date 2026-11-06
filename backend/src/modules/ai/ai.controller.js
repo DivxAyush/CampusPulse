@@ -43,7 +43,7 @@ export const uploadAndAnalyzeResume = async (req, res) => {
     // 2. Extract text from resume buffer
     const extractedText = await extractTextFromBuffer(req.file.buffer, req.file.mimetype);
 
-    // 3. Run AI analysis (Dataman Qwen 27B + intelligent heuristic parsing)
+    // 3. Run AI analysis (PulseAI Engine)
     const analysisResult = await analyzeResumeAI(extractedText, candidate.headline || 'Software Engineer');
 
     // 4. Create/update Resume document
@@ -78,7 +78,7 @@ export const uploadAndAnalyzeResume = async (req, res) => {
       suggestions: analysisResult.suggestions,
       missingSections: analysisResult.missingSections,
       careerRecommendations: analysisResult.careerRecommendations,
-      model: analysisResult.model || 'qwen3.8-27b',
+      model: analysisResult.model || 'PulseAI Neural Engine',
     });
 
     // 6. Automatically sync Candidate profile with real extracted data
@@ -139,7 +139,7 @@ export const analyzeResume = async (req, res) => {
       resume = await Resume.findById(resumeId);
     } else if (candidate) {
       resume = await Resume.findOne({ candidateId: candidate._id, isPrimary: true }) ||
-                     await Resume.findOne({ candidateId: candidate._id }).sort({ createdAt: -1 });
+        await Resume.findOne({ candidateId: candidate._id }).sort({ createdAt: -1 });
     }
 
     if (!textToAnalyze && resume) {
@@ -171,7 +171,7 @@ export const analyzeResume = async (req, res) => {
           suggestions: analysisResult.suggestions,
           missingSections: analysisResult.missingSections,
           careerRecommendations: analysisResult.careerRecommendations,
-          model: analysisResult.model || 'qwen3.8-27b',
+          model: analysisResult.model || 'PulseAI Neural Engine',
         },
         { upsert: true, new: true }
       );
@@ -222,7 +222,7 @@ export const getLatestAnalysis = async (req, res) => {
     }
 
     const primaryResume = await Resume.findOne({ candidateId: candidate._id, isPrimary: true }) ||
-                          await Resume.findOne({ candidateId: candidate._id }).sort({ createdAt: -1 });
+      await Resume.findOne({ candidateId: candidate._id }).sort({ createdAt: -1 });
 
     const allResumes = await Resume.find({ candidateId: candidate._id }).sort({ createdAt: -1 });
 

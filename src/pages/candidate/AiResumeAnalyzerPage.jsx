@@ -53,7 +53,7 @@ export const AiResumeAnalyzerPage = () => {
 
   const SCAN_STAGES = [
     { title: 'Extracting Binary Document Vector', desc: 'Parsing PDF/DOCX structure into plain text tokens...' },
-    { title: 'Connecting to Dataman Qwen 27B AI', desc: 'Running natural language semantic inspection & reasoning...' },
+    { title: 'Connecting to PulseAI Neural Engine', desc: 'Running natural language semantic inspection & reasoning...' },
     { title: 'Extracting Location, Experience & Skills', desc: 'Taxonomy matching across 150+ tech industry competencies...' },
     { title: 'Computing ATS Benchmarks & Matching Opportunities', desc: 'Ranking verified openings by skill synergy and match %...' },
   ];
@@ -210,7 +210,7 @@ export const AiResumeAnalyzerPage = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
               <span>PulseAI Neural Diagnostics v3.8</span>
               <span className="text-emerald-400/50">•</span>
-              <span className="text-emerald-200 font-mono">Qwen 27B Active</span>
+              <span className="text-emerald-200 font-mono">PulseAI Active</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
@@ -319,7 +319,7 @@ export const AiResumeAnalyzerPage = () => {
                     Neural Pipeline Running
                   </span>
                 </div>
-                <span className="text-xs font-mono text-emerald-400/80">Qwen 27B LLM</span>
+                <span className="text-xs font-mono text-emerald-400/80">PulseAI Core</span>
               </div>
 
               {/* Holographic scanner visual */}
@@ -389,7 +389,7 @@ export const AiResumeAnalyzerPage = () => {
               <div>
                 <h3 className="text-lg font-bold text-brand-navy">PulseAI Extracted Candidate DNA</h3>
                 <p className="text-xs text-brand-muted">
-                  Directly parsed from your document by Dataman Qwen 27B neural analysis.
+                  Directly parsed from your document by PulseAI advanced neural analysis.
                 </p>
               </div>
             </div>
