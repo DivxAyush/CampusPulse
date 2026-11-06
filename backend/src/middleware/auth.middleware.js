@@ -67,7 +67,16 @@ export const optionalAuth = async (req, res, next) => {
 
     if (token) {
       const decoded = jwt.verify(token, JWT_SECRET);
-      const user = await User.findById(decoded.id).select('-passwordHash');
+      let user = null;
+      try {
+        user = await User.findById(decoded.id).select('-passwordHash');
+      } catch (e) {}
+      if (!user) {
+        user = {
+          _id: decoded.id,
+          role: decoded.role || 'candidate',
+        };
+      }
       if (user) {
         req.user = user;
       }

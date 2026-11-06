@@ -37,9 +37,20 @@ export const FindJobsPage = () => {
   const loadJobs = async () => {
     setIsLoading(true);
     try {
-      const res = await jobsAPI.getJobs(filters);
+      const [res, savedRes] = await Promise.all([
+        jobsAPI.getJobs(filters),
+        isAuthenticated && role === 'candidate'
+          ? jobsAPI.getSavedJobs().catch(() => ({ jobs: [] }))
+          : Promise.resolve({ jobs: [] }),
+      ]);
+
       if (res.success) {
-        setJobs(res.jobs || []);
+        const savedIds = new Set((savedRes?.jobs || []).map((j) => (j._id || j).toString()));
+        const enrichedJobs = (res.jobs || []).map((j) => ({
+          ...j,
+          isSaved: Boolean(j.isSaved || savedIds.has(j._id?.toString())),
+        }));
+        setJobs(enrichedJobs);
         setTotalJobs(res.total || 0);
         setTotalPages(res.totalPages || 1);
       }
@@ -127,6 +138,7 @@ export const FindJobsPage = () => {
                 <JobCard
                   key={job._id}
                   job={job}
+                  isSavedInitial={Boolean(job.isSaved)}
                   onApplyClick={(target) => setSelectedJobForApply(target)}
                 />
               ))}

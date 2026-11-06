@@ -259,6 +259,7 @@ export const HomePage = () => {
               <JobCard
                 key={job._id}
                 job={job}
+                isSavedInitial={Boolean(job.isSaved)}
                 onApplyClick={(targetJob) => setSelectedJobForApply(targetJob)}
               />
             ))}

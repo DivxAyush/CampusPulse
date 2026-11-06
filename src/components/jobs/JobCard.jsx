@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -22,8 +22,12 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
   const { isAuthenticated, role } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
-  const [isSaved, setIsSaved] = useState(isSavedInitial);
+  const [isSaved, setIsSaved] = useState(Boolean(isSavedInitial || job?.isSaved));
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setIsSaved(Boolean(isSavedInitial || job?.isSaved));
+  }, [isSavedInitial, job?.isSaved]);
 
   const formatSalary = (salary) => {
     if (!salary || !salary.min) return 'Competitive Compensation';
@@ -51,6 +55,7 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
     try {
       const res = await jobsAPI.toggleSaveJob(job._id);
       setIsSaved(res.saved);
+      if (job) job.isSaved = res.saved;
       addToast(res.message, 'success');
     } catch (err) {
       addToast(err.message || 'Error saving job', 'error');

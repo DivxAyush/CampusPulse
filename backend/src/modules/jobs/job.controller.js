@@ -69,12 +69,34 @@ export const getJobs = async (req, res) => {
       .skip(skip)
       .limit(limitNum);
 
+    let savedJobIds = new Set();
+    if (req.user && req.user._id) {
+      try {
+        let candidate = await Candidate.findOne({ userId: req.user._id });
+        if (!candidate && req.user.role === 'candidate') {
+          candidate = await Candidate.create({ userId: req.user._id });
+        }
+        if (candidate) {
+          const userSaved = await SavedJob.find({ candidateId: candidate._id }).select('jobId');
+          savedJobIds = new Set(userSaved.map((s) => s.jobId.toString()));
+        }
+      } catch (err) {
+        console.warn('Could not populate saved jobs:', err.message);
+      }
+    }
+
+    const transformedJobs = jobs.map((j) => {
+      const obj = j.toObject();
+      obj.isSaved = savedJobIds.has(j._id.toString());
+      return obj;
+    });
+
     res.json({
       success: true,
       total,
       page: pageNum,
       totalPages: Math.ceil(total / limitNum),
-      jobs,
+      jobs: transformedJobs,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -111,7 +133,26 @@ export const getJobBySlug = async (req, res) => {
       .populate('companyId', 'companyName slug logo industry headquarters')
       .limit(3);
 
-    res.json({ success: true, job, similarJobs });
+    let isSaved = false;
+    if (req.user && req.user._id) {
+      try {
+        let candidate = await Candidate.findOne({ userId: req.user._id });
+        if (!candidate && req.user.role === 'candidate') {
+          candidate = await Candidate.create({ userId: req.user._id });
+        }
+        if (candidate) {
+          const existing = await SavedJob.findOne({ candidateId: candidate._id, jobId: job._id });
+          isSaved = !!existing;
+        }
+      } catch (err) {
+        console.warn('Could not check if job is saved:', err.message);
+      }
+    }
+
+    const jobObj = job.toObject();
+    jobObj.isSaved = isSaved;
+
+    res.json({ success: true, job: jobObj, similarJobs });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -322,7 +363,10 @@ export const toggleSaveJob = async (req, res) => {
       return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
-    const candidate = await Candidate.findOne({ userId: req.user._id });
+    let candidate = await Candidate.findOne({ userId: req.user._id });
+    if (!candidate && req.user.role === 'candidate') {
+      candidate = await Candidate.create({ userId: req.user._id });
+    }
     if (!candidate) {
       return res.status(403).json({ success: false, message: 'Only candidates can save jobs.' });
     }
@@ -347,7 +391,10 @@ export const getSavedJobs = async (req, res) => {
       return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
     }
 
-    const candidate = await Candidate.findOne({ userId: req.user._id });
+    let candidate = await Candidate.findOne({ userId: req.user._id });
+    if (!candidate && req.user.role === 'candidate') {
+      candidate = await Candidate.create({ userId: req.user._id });
+    }
     if (!candidate) {
       return res.status(403).json({ success: false, message: 'Candidate not found.' });
     }

@@ -47,6 +47,7 @@ export const JobDetailsPage = () => {
       const res = await jobsAPI.getJobBySlug(slug);
       if (res.success && res.job) {
         setJob(res.job);
+        setIsSaved(Boolean(res.job.isSaved));
         setSimilarJobs(res.similarJobs || []);
       }
     } catch (err) {
