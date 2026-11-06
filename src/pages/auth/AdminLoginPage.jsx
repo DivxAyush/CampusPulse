@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldAlert, ShieldCheck, Mail, Lock, UserCheck, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Mail, Lock, ShieldAlert } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { Logo } from '../../components/common/Logo';
@@ -35,12 +35,6 @@ export const AdminLoginPage = () => {
     }
   };
 
-  const handleDemoFill = () => {
-    setEmail('admin@campusplus.com');
-    setPassword('admin123');
-    setErrorMessage('');
-  };
-
   return (
     <div className="h-[calc(100vh-4rem)] flex items-center justify-center p-3 sm:p-4 overflow-hidden bg-brand-bg">
       <motion.div
@@ -54,11 +48,11 @@ export const AdminLoginPage = () => {
           <div className="flex justify-center mb-1">
             <Logo variant="image" size="lg" className="h-10" />
           </div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
-            <ShieldAlert className="w-3.5 h-3.5 text-amber-600" /> Dedicated Admin Portal
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-800 border border-slate-200">
+            <ShieldAlert className="w-3.5 h-3.5 text-slate-700" /> Authorized Personnel Only
           </div>
           <h1 className="text-xl font-bold text-brand-navy">Administrator Sign In</h1>
-          <p className="text-xs text-brand-muted">Enter administrative credentials to access moderation</p>
+          <p className="text-xs text-brand-muted">Secure access for system administrators & moderation team</p>
         </div>
 
         {/* Error alert */}
@@ -75,7 +69,7 @@ export const AdminLoginPage = () => {
             type="email"
             required
             icon={Mail}
-            placeholder="admin@campusplus.com"
+            placeholder="admin@campuspulse.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -102,26 +96,17 @@ export const AdminLoginPage = () => {
           </Button>
         </form>
 
-        {/* 1-Click Demo Login */}
-        <div className="pt-3 border-t border-brand-border space-y-2">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-brand-muted text-center flex items-center justify-center gap-1">
-            <UserCheck className="w-3.5 h-3.5 text-brand-primary" /> Quick Demo Fill
+        {/* Security & Return navigation */}
+        <div className="pt-3 border-t border-brand-border text-center space-y-2">
+          <div className="flex items-center justify-center gap-1.5 text-[11px] text-brand-muted">
+            <Lock className="w-3 h-3 text-slate-400" /> 256-bit SSL encrypted administrative gateway
           </div>
-          <button
-            type="button"
-            onClick={handleDemoFill}
-            className="w-full py-2 px-3 rounded-xl border border-brand-border text-xs font-semibold text-brand-text bg-brand-bg hover:border-brand-primary hover:text-brand-primary transition-all text-center flex items-center justify-center gap-2"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-brand-primary" /> Fill Admin Credentials (admin@campusplus.com)
-          </button>
-        </div>
-
-        {/* Return to standard user login */}
-        <div className="text-xs text-brand-muted text-center pt-1">
-          Candidate or Employer?{' '}
-          <Link to="/login" className="font-bold text-brand-primary hover:underline">
-            Go to User Sign In
-          </Link>
+          <div className="text-xs text-brand-muted">
+            Candidate or Employer?{' '}
+            <Link to="/login" className="font-bold text-brand-primary hover:underline">
+              Go to User Sign In
+            </Link>
+          </div>
         </div>
       </motion.div>
     </div>

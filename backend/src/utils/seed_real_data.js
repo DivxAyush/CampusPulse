@@ -20,6 +20,31 @@ const run = async () => {
 
   const salt = await bcrypt.genSalt(10);
   const commonPasswordHash = await bcrypt.hash('Elephant9k$', salt);
+  const adminPasswordHash = await bcrypt.hash('admin@123', salt);
+
+  // 0. Dedicated Admin: CampusPulse Administrator (admin@campuspulse.com)
+  let adminUser = await User.findOne({ email: 'admin@campuspulse.com' });
+  if (adminUser) {
+    adminUser.passwordHash = adminPasswordHash;
+    adminUser.role = 'admin';
+    adminUser.fullName = 'CampusPulse Administrator';
+    adminUser.isEmailVerified = true;
+    adminUser.accountStatus = 'active';
+    await adminUser.save();
+    console.log('Updated admin user admin@campuspulse.com with password admin@123');
+  } else {
+    adminUser = await User.create({
+      fullName: 'CampusPulse Administrator',
+      email: 'admin@campuspulse.com',
+      phone: '',
+      passwordHash: adminPasswordHash,
+      role: 'admin',
+      isEmailVerified: true,
+      accountStatus: 'active',
+      profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
+    });
+    console.log('Created admin user admin@campuspulse.com with password admin@123');
+  }
 
   // 1. Recruiter: Ayush Kumar (ayush21929a@gmail.com)
   let ayushUser = await User.findOne({ email: 'ayush21929a@gmail.com' });
