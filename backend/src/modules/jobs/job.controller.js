@@ -4,7 +4,7 @@ import { Candidate } from '../candidates/candidate.model.js';
 import { Application } from '../applications/application.model.js';
 import { SavedJob } from '../savedJobs/savedJob.model.js';
 import { Resume } from '../resumes/resume.model.js';
-import { calculateJobMatch } from '../../services/gemini.service.js';
+import { calculateJobMatch } from '../../services/ai.service.js';
 import { getIsConnected } from '../../config/db.js';
 
 export const getJobs = async (req, res) => {

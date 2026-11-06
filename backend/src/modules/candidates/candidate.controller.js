@@ -6,8 +6,7 @@ import { Job } from '../jobs/job.model.js';
 import { ResumeAnalysis } from '../ai/resumeAnalysis.model.js';
 import { uploadToCloudinary, deleteFromCloudinary } from '../../config/cloudinary.js';
 import { extractTextFromBuffer } from '../../services/textExtractor.service.js';
-import { analyzeResumeAI } from '../../services/ai.service.js';
-import { calculateJobMatch } from '../../services/gemini.service.js';
+import { analyzeResumeAI, calculateJobMatch } from '../../services/ai.service.js';
 import { getIsConnected } from '../../config/db.js';
 
 export const getProfile = async (req, res) => {

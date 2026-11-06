@@ -6,10 +6,10 @@ import { ResumeAnalysis } from './resumeAnalysis.model.js';
 import {
   analyzeResumeAI,
   matchCandidateWithJobs,
+  calculateJobMatch,
 } from '../../services/ai.service.js';
 import { extractTextFromBuffer } from '../../services/textExtractor.service.js';
 import { uploadToCloudinary } from '../../config/cloudinary.js';
-import { calculateJobMatch } from '../../services/gemini.service.js';
 import { getIsConnected } from '../../config/db.js';
 
 /**

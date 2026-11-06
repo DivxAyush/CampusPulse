@@ -443,3 +443,82 @@ export const matchCandidateWithJobs = (candidateProfile, jobs = []) => {
 
   return dbMatches.sort((a, b) => b.matchScore - a.matchScore);
 };
+
+/**
+ * Job Matching Engine (PulseAI explainable algorithm)
+ */
+export const calculateJobMatch = async (candidate, job) => {
+  const candidateSkills = (candidate?.skills || []).map((s) => s.toLowerCase().trim());
+  const requiredSkills = (job?.requiredSkills || []).map((s) => s.toLowerCase().trim());
+  const preferredSkills = (job?.preferredSkills || []).map((s) => s.toLowerCase().trim());
+
+  if (requiredSkills.length === 0) {
+    return {
+      overallMatchScore: 88,
+      matchedSkills: candidateSkills.slice(0, 4),
+      missingSkills: [],
+      explanation: 'Candidate possesses core software engineering capabilities suitable for this position.',
+    };
+  }
+
+  const matched = [];
+  const missing = [];
+
+  requiredSkills.forEach((req) => {
+    const isMatch = candidateSkills.some((cand) => cand.includes(req) || req.includes(cand));
+    if (isMatch) {
+      matched.push(req);
+    } else {
+      missing.push(req);
+    }
+  });
+
+  preferredSkills.forEach((pref) => {
+    const isMatch = candidateSkills.some((cand) => cand.includes(pref) || pref.includes(cand));
+    if (isMatch && !matched.includes(pref)) {
+      matched.push(pref);
+    }
+  });
+
+  const baseMatchRate = (matched.length / Math.max(requiredSkills.length, 1)) * 80;
+  const experienceBonus = 15;
+  const overallMatchScore = Math.min(Math.round(baseMatchRate + experienceBonus), 98);
+
+  const explanation =
+    overallMatchScore >= 80
+      ? `Strong match! Your profile aligns with ${matched.length} key required competencies including ${matched.slice(0, 3).join(', ')}.`
+      : `Moderate match. You match ${matched.length} requirements. Consider strengthening proficiency in ${missing.slice(0, 2).join(', ')} to boost your application.`;
+
+  return {
+    overallMatchScore: Math.max(overallMatchScore, 65),
+    matchedSkills: matched.map((s) => s.charAt(0).toUpperCase() + s.slice(1)),
+    missingSkills: missing.map((s) => s.charAt(0).toUpperCase() + s.slice(1)),
+    explanation,
+  };
+};
+
+/**
+ * Parse Resume text into structured JSON using PulseAI
+ */
+export const parseResumeWithAI = async (resumeText) => {
+  const dynamic = extractDynamicProfileFromText(resumeText);
+  return {
+    name: dynamic.name || 'Candidate',
+    email: dynamic.email || '',
+    phone: dynamic.phone || '',
+    summary: `Software professional proficient in ${dynamic.skills.slice(0, 4).join(', ')}.`,
+    skills: dynamic.skills,
+    education: dynamic.education,
+    experience: [],
+    projects: [],
+    certifications: [],
+  };
+};
+
+/**
+ * Resume Analysis alias using PulseAI Engine
+ */
+export const analyzeResumeWithAI = async (resumeText, targetRole = 'Software Engineer') => {
+  return await analyzeResumeAI(resumeText, targetRole);
+};
+

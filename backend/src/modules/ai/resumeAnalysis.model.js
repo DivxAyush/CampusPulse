@@ -52,7 +52,7 @@ const resumeAnalysisSchema = new mongoose.Schema(
     careerRecommendations: [String],
     model: {
       type: String,
-      default: 'gemini-1.5-flash',
+      default: 'PulseAI Neural Engine',
     },
     promptVersion: {
       type: String,

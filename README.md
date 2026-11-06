@@ -64,7 +64,7 @@
 cd backend
 npm install
 cp .env.example .env
-# Update .env with your GEMINI_API_KEY and credentials if desired
+# Update .env with your environment credentials if desired
 npm run dev
 ```
 Backend runs on `http://localhost:5000`.
