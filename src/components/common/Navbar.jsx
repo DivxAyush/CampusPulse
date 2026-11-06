@@ -45,39 +45,39 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full glass-nav transition-all">
-      <div className="w-full px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand Logo */}
         <Logo variant="image" size="sm" className="h-8" />
 
-        {/* Desktop Navigation Links (hidden for admin since sidebar handles all navigation) */}
+        {/* Desktop Navigation Links */}
         {role !== 'admin' && (
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          <nav className="hidden md:flex items-center gap-1">
             <Link
               to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/jobs') || isActive('/candidate/jobs')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80'
+                  : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
               Find Jobs
             </Link>
             <Link
               to="/companies"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/companies')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80'
+                  : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
               Companies
             </Link>
             <Link
               to="/ai-agents"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 isActive('/ai-agents')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80'
+                  : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
               <Workflow className="w-3.5 h-3.5 text-brand-primary" />
@@ -85,51 +85,34 @@ export const Navbar = () => {
             </Link>
             <Link
               to="/pricing"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/pricing')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80'
+                  : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
               Pricing
             </Link>
             <Link
               to="/university/dashboard"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 isActive('/university/dashboard')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80'
+                  : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
               <GraduationCap className="w-3.5 h-3.5 text-brand-primary" />
               University TPO
             </Link>
             <Link
-              to={isAuthenticated && role === 'candidate' ? '/candidate/ai-analyzer' : '/jobs'}
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-text hover:text-brand-primary hover:bg-white/80 flex items-center gap-1.5 transition-all"
-            >
-              <Sparkles className="w-4 h-4 text-brand-primary" />
-              PulseAI Tools
-            </Link>
-            <Link
               to="/about"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/about')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80'
+                  : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
               About Us
-            </Link>
-            <Link
-              to="/help"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                isActive('/contact') || isActive('/help')
-                  ? 'bg-brand-primary-light text-brand-primary'
-                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
-              }`}
-            >
-              Help & Support
             </Link>
           </nav>
         )}

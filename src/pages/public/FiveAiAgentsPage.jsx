@@ -135,7 +135,7 @@ export const FiveAiAgentsPage = () => {
 
   return (
     <div className="w-full bg-[#FAFCFB] min-h-screen py-12 px-4 sm:px-6 lg:px-8 space-y-16">
-      <div className="max-w-6xl mx-auto space-y-12">
+      <div className="max-w-[1680px] mx-auto space-y-12">
         {/* Hero Section */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">

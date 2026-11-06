@@ -18,10 +18,8 @@ import {
   ArrowRight,
   ShieldCheck,
   ChevronRight,
-  FileSpreadsheet,
   Briefcase,
   DollarSign,
-  PieChart,
   Target,
 } from 'lucide-react';
 import { Button } from '../../components/common/Button';
@@ -68,27 +66,28 @@ export const UniversityDashboardPage = () => {
 
   return (
     <div className="w-full bg-[#FAFCFB] min-h-screen py-8 px-4 sm:px-6 lg:px-8 space-y-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Top Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200/80 pb-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 mb-1">
+      <div className="max-w-[1680px] mx-auto space-y-8">
+        {/* Top Header - Perfect Balanced Grid */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-gray-200/80 pb-6">
+          <div className="space-y-1.5 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
               <span>TPO Intelligence Hub • Powered by PulseAI TPO Agent</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B251E] tracking-tight">
               University Placement & Cohort Employability Dashboard
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">
+            <p className="text-xs sm:text-sm text-gray-500 font-medium">
               Apex School of Management & Commerce • Batch of 2025–2026 (Marketing, Finance & HR Cohorts)
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          {/* Right Toolbar Controls - Consistent h-10 alignment in single horizontal row */}
+          <div className="flex flex-row items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap">
             <select
               value={selectedDept}
               onChange={(e) => setSelectedDept(e.target.value)}
-              className="text-xs font-semibold py-2 px-3 rounded-xl bg-white border border-gray-300 text-gray-700 outline-none shadow-xs"
+              className="text-xs font-semibold h-10 px-3.5 rounded-xl bg-white border border-gray-300 text-gray-700 outline-none shadow-xs hover:border-gray-400 focus:border-emerald-500 transition-colors cursor-pointer"
             >
               <option>All Business & Commerce Domains</option>
               <option>Marketing & Brand Management</option>
@@ -99,65 +98,81 @@ export const UniversityDashboardPage = () => {
 
             <Button
               variant="outline"
-              size="sm"
+              size="md"
               icon={Download}
               onClick={() => window.print()}
-              className="text-xs"
+              className="text-xs font-bold h-10 px-4 whitespace-nowrap bg-white hover:bg-gray-50 shadow-xs"
             >
               Export TPO Cohort Report
             </Button>
           </div>
         </div>
 
-        {/* 4 Key Stat Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-xs space-y-2">
-            <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs font-bold uppercase tracking-wider">Placement Rate</span>
-              <TrendingUp className="w-4 h-4 text-emerald-600" />
+        {/* 4 Key Stat Cards - Unified height & spacing */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-subtle flex flex-col justify-between h-full space-y-3">
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Placement Rate</span>
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <TrendingUp className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-2xl font-extrabold text-[#0B251E]">{placementStats.placementRate}%</div>
-            <div className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
-              <span>↑ +14.6% YoY Placement Yield</span>
-              <span className="text-gray-400">({placementStats.placedStudents}/{placementStats.totalStudents} placed)</span>
-            </div>
-          </div>
-
-          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-xs space-y-2">
-            <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs font-bold uppercase tracking-wider">Average CTC Package</span>
-              <Award className="w-4 h-4 text-emerald-600" />
-            </div>
-            <div className="text-2xl font-extrabold text-[#0B251E]">{placementStats.avgPackage}</div>
-            <div className="text-[11px] text-gray-500 font-medium">
-              Highest: <strong className="text-emerald-800">{placementStats.highestPackage}</strong> • Median: {placementStats.medianPackage}
+            <div>
+              <div className="text-3xl font-extrabold text-[#0B251E]">{placementStats.placementRate}%</div>
+              <div className="text-[11px] text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+                <span>↑ +14.6% YoY Placement Yield</span>
+                <span className="text-gray-400">({placementStats.placedStudents}/{placementStats.totalStudents})</span>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-xs space-y-2">
-            <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs font-bold uppercase tracking-wider">Active Campus Drives</span>
-              <Building2 className="w-4 h-4 text-blue-600" />
+          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-subtle flex flex-col justify-between h-full space-y-3">
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Average CTC Package</span>
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <Award className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-2xl font-extrabold text-[#0B251E]">{placementStats.activeDrives} Drives</div>
-            <div className="text-[11px] text-gray-500 font-medium">
-              From {placementStats.participatingCompanies} leading corporate partners
+            <div>
+              <div className="text-3xl font-extrabold text-[#0B251E]">{placementStats.avgPackage}</div>
+              <div className="text-[11px] text-gray-500 font-medium mt-1">
+                Highest: <strong className="text-emerald-800 font-bold">{placementStats.highestPackage}</strong> • Median: {placementStats.medianPackage}
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-xs space-y-2">
-            <div className="flex items-center justify-between text-gray-400">
-              <span className="text-xs font-bold uppercase tracking-wider">Executive-Ready Tier</span>
-              <ShieldCheck className="w-4 h-4 text-purple-600" />
+          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-subtle flex flex-col justify-between h-full space-y-3">
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Active Campus Drives</span>
+              <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <Building2 className="w-4 h-4" />
+              </div>
             </div>
-            <div className="text-2xl font-extrabold text-[#0B251E]">84.6%</div>
-            <div className="text-[11px] text-purple-700 font-semibold">
-              Cleared PulseAI corporate readiness tests
+            <div>
+              <div className="text-3xl font-extrabold text-[#0B251E]">{placementStats.activeDrives} Drives</div>
+              <div className="text-[11px] text-gray-500 font-medium mt-1">
+                From {placementStats.participatingCompanies} corporate hiring partners
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-white border border-gray-200/90 p-5 shadow-subtle flex flex-col justify-between h-full space-y-3">
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Executive-Ready Tier</span>
+              <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold text-[#0B251E]">84.6%</div>
+              <div className="text-[11px] text-purple-700 font-semibold mt-1">
+                Cleared PulseAI corporate readiness tests
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Domain Cohort Placement Breakdown (Marketing, Finance, HR) */}
+        {/* Domain Cohort Placement Breakdown - Identical Card Heights */}
         <div className="rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-subtle space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
             <div>
@@ -168,31 +183,38 @@ export const UniversityDashboardPage = () => {
                 Cohort performance and corporate placement yield across core business specializations.
               </p>
             </div>
-            <span className="text-xs font-bold px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200">
-              Batch of 720 Students
+            <span className="text-xs font-bold px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full border border-emerald-200 shrink-0 self-start sm:self-auto">
+              Batch of 720 Candidates
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {domainBreakdown.map((item, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-gray-50 border border-gray-200/80 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{item.domain}</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+              <div
+                key={idx}
+                className="p-5 rounded-2xl bg-gray-50/80 border border-gray-200/80 flex flex-col justify-between h-full space-y-4 hover:border-emerald-400/60 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-2 min-h-[38px]">
+                  <span className="text-xs font-bold text-gray-600 uppercase tracking-wider leading-snug line-clamp-2">
+                    {item.domain}
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold shrink-0 whitespace-nowrap">
                     {item.placed} Placed
                   </span>
                 </div>
-                <div className="text-2xl font-extrabold text-[#0B251E]">{item.avgCtc}</div>
-                <div className="text-xs text-gray-600 space-y-1">
-                  <div>Cohort Size: <strong className="text-gray-900">{item.students} Candidates</strong></div>
-                  <div className="text-[11px] text-gray-500">Key Recruiters: {item.topHiring}</div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[#0B251E]">{item.avgCtc}</div>
+                  <div className="text-xs text-gray-600 mt-2 space-y-1">
+                    <div>Cohort: <strong className="text-gray-900 font-bold">{item.students} Students</strong></div>
+                    <div className="text-[11px] text-gray-500 truncate" title={item.topHiring}>Key: {item.topHiring}</div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Student Skill-Gaps vs Industry Demand (Marketing, Finance, HR) */}
+        {/* Student Skill-Gaps vs Industry Demand Table */}
         <div className="rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-subtle space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
             <div>
@@ -206,24 +228,24 @@ export const UniversityDashboardPage = () => {
             <span className="text-xs text-gray-400 font-mono">Calibrated via PulseAI Skill-Gap Agent</span>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto rounded-2xl border border-gray-200">
+            <table className="w-full text-left text-xs bg-white">
               <thead>
-                <tr className="border-b border-gray-200 text-gray-400 uppercase font-semibold text-[10px] tracking-wider">
-                  <th className="pb-3">Domain</th>
-                  <th className="pb-3">Competency / Skill Area</th>
-                  <th className="pb-3 text-center">Campus Proficiency</th>
-                  <th className="pb-3 text-center">Market Demand</th>
-                  <th className="pb-3 text-center">Net Deficit</th>
-                  <th className="pb-3 text-right">TPO Recommended Intervention</th>
+                <tr className="border-b border-gray-200 bg-gray-50/80 text-gray-500 uppercase font-bold text-[10px] tracking-wider">
+                  <th className="py-3 px-4">Domain</th>
+                  <th className="py-3 px-4">Competency / Skill Area</th>
+                  <th className="py-3 px-4 text-center">Campus Proficiency</th>
+                  <th className="py-3 px-4 text-center">Market Demand</th>
+                  <th className="py-3 px-4 text-center">Net Deficit</th>
+                  <th className="py-3 px-4 text-right">TPO Recommended Intervention</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {skillGaps.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-gray-50/80 transition-colors">
-                    <td className="py-3.5">
+                  <tr key={idx} className="hover:bg-gray-50/60 transition-colors">
+                    <td className="py-3.5 px-4">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                        className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${
                           item.domain === 'Marketing'
                             ? 'bg-purple-100 text-purple-800'
                             : item.domain === 'Finance'
@@ -234,10 +256,10 @@ export const UniversityDashboardPage = () => {
                         {item.domain}
                       </span>
                     </td>
-                    <td className="py-3.5 font-bold text-gray-900">{item.skill}</td>
-                    <td className="py-3.5 text-center font-semibold text-gray-700">{item.campusProficiency}%</td>
-                    <td className="py-3.5 text-center font-semibold text-gray-700">{item.marketDemand}%</td>
-                    <td className="py-3.5 text-center">
+                    <td className="py-3.5 px-4 font-bold text-gray-900">{item.skill}</td>
+                    <td className="py-3.5 px-4 text-center font-semibold text-gray-700">{item.campusProficiency}%</td>
+                    <td className="py-3.5 px-4 text-center font-semibold text-gray-700">{item.marketDemand}%</td>
+                    <td className="py-3.5 px-4 text-center">
                       <span
                         className={`px-2.5 py-1 rounded-full font-bold text-[11px] ${
                           item.gap <= -30
@@ -250,7 +272,7 @@ export const UniversityDashboardPage = () => {
                         {item.gap > 0 ? `+${item.gap}%` : `${item.gap}%`}
                       </span>
                     </td>
-                    <td className="py-3.5 text-right font-medium">
+                    <td className="py-3.5 px-4 text-right font-medium">
                       {item.gap <= -30 ? (
                         <span className="text-xs font-bold text-red-600">🚨 {item.action}</span>
                       ) : item.gap < 0 ? (
@@ -266,7 +288,7 @@ export const UniversityDashboardPage = () => {
           </div>
         </div>
 
-        {/* Live Campus Placement Drives (Marketing, Finance, HR Top Recruiters) */}
+        {/* Live Campus Placement Drives */}
         <div className="rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-subtle space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
             <div>
@@ -279,16 +301,19 @@ export const UniversityDashboardPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {campusDrives.map((d, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-gray-50 border border-gray-200/80 flex flex-col justify-between space-y-3">
+              <div
+                key={i}
+                className="p-5 rounded-2xl bg-gray-50/80 border border-gray-200/80 flex flex-col justify-between space-y-4 hover:border-emerald-400/60 transition-colors"
+              >
                 <div className="flex items-start gap-3">
                   <img
                     src={d.logo}
                     alt={d.company}
-                    className="w-11 h-11 rounded-xl object-cover border border-gray-200 shrink-0"
+                    className="w-12 h-12 rounded-2xl object-cover border border-gray-200 shrink-0 shadow-2xs"
                   />
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <span
                       className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase mb-1 ${
                         d.domain === 'Marketing'
@@ -300,18 +325,18 @@ export const UniversityDashboardPage = () => {
                     >
                       {d.domain}
                     </span>
-                    <h4 className="text-xs sm:text-sm font-bold text-[#0B251E] line-clamp-1">{d.role}</h4>
+                    <h4 className="text-xs sm:text-sm font-bold text-[#0B251E] truncate">{d.role}</h4>
                     <p className="text-xs text-gray-500 font-semibold">{d.company}</p>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-gray-200 flex items-center justify-between text-xs">
+                <div className="pt-3 border-t border-gray-200/80 flex items-center justify-between text-xs">
                   <div>
                     <span className="font-extrabold text-emerald-800">{d.package}</span>
-                    <span className="block text-[10px] text-gray-400">{d.eligible} Eligible Students</span>
+                    <span className="block text-[10px] text-gray-400">{d.eligible} Eligible Candidates</span>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-white text-blue-700 border border-blue-200 shadow-2xs">
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-white text-blue-700 border border-blue-200 shadow-2xs">
                     {d.status}
                   </span>
                 </div>
