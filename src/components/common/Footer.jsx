@@ -82,6 +82,26 @@ export const Footer = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/candidate/career-roadmap" className="hover:text-brand-primary transition-colors">
+                    AI Career Roadmap & Mock Prep
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/ai-agents" className="hover:text-brand-primary transition-colors">
+                    5 PulseAI Agents
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/pricing" className="hover:text-brand-primary transition-colors">
+                    Pricing & AI Credits
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/university/dashboard" className="hover:text-brand-primary transition-colors">
+                    University TPO Hub
+                  </Link>
+                </li>
+                <li>
                   <Link to="/candidate/resumes" className="hover:text-brand-primary transition-colors">
                     Resume Vault
                   </Link>

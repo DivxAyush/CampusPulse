@@ -15,6 +15,9 @@ import { CompaniesPage } from '../pages/public/CompaniesPage';
 import { CompanyDetailsPage } from '../pages/public/CompanyDetailsPage';
 import { AboutUsPage } from '../pages/public/AboutUsPage';
 import { ContactUsPage } from '../pages/public/ContactUsPage';
+import { PricingPage } from '../pages/public/PricingPage';
+import { FiveAiAgentsPage } from '../pages/public/FiveAiAgentsPage';
+import { UniversityDashboardPage } from '../pages/university/UniversityDashboardPage';
 
 // Auth Pages
 import { LoginPage } from '../pages/auth/LoginPage';
@@ -31,6 +34,7 @@ import { RecommendedJobsPage } from '../pages/candidate/RecommendedJobsPage';
 import { SavedJobsPage } from '../pages/candidate/SavedJobsPage';
 import { MyApplicationsPage } from '../pages/candidate/MyApplicationsPage';
 import { CandidateMockInterviewPage } from '../pages/candidate/CandidateMockInterviewPage';
+import { CareerRoadmapPage } from '../pages/candidate/CareerRoadmapPage';
 import { CandidateSettingsPage } from '../pages/candidate/CandidateSettingsPage';
 
 // Company Pages
@@ -59,6 +63,10 @@ export const AppRoutes = () => {
         <Route path="/jobs/:slug" element={<JobDetailsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/companies/:slug" element={<CompanyDetailsPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/ai-agents" element={<FiveAiAgentsPage />} />
+        <Route path="/university/dashboard" element={<UniversityDashboardPage />} />
+        <Route path="/tpo/dashboard" element={<UniversityDashboardPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/help" element={<ContactUsPage />} />
@@ -82,6 +90,8 @@ export const AppRoutes = () => {
         <Route path="saved" element={<SavedJobsPage />} />
         <Route path="applications" element={<MyApplicationsPage />} />
         <Route path="mock-interview" element={<CandidateMockInterviewPage />} />
+        <Route path="career-roadmap" element={<CareerRoadmapPage />} />
+        <Route path="career-prep" element={<CareerRoadmapPage />} />
         <Route path="settings" element={<CandidateSettingsPage />} />
       </Route>
 

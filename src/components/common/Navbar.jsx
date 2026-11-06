@@ -14,6 +14,8 @@ import {
   FileText,
   ShieldCheck,
   Compass,
+  GraduationCap,
+  Workflow,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from './Button';
@@ -69,6 +71,38 @@ export const Navbar = () => {
               }`}
             >
               Companies
+            </Link>
+            <Link
+              to="/ai-agents"
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                isActive('/ai-agents')
+                  ? 'bg-brand-primary-light text-brand-primary'
+                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+              }`}
+            >
+              <Workflow className="w-3.5 h-3.5 text-brand-primary" />
+              5 AI Agents
+            </Link>
+            <Link
+              to="/pricing"
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                isActive('/pricing')
+                  ? 'bg-brand-primary-light text-brand-primary'
+                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+              }`}
+            >
+              Pricing
+            </Link>
+            <Link
+              to="/university/dashboard"
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                isActive('/university/dashboard')
+                  ? 'bg-brand-primary-light text-brand-primary'
+                  : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+              }`}
+            >
+              <GraduationCap className="w-3.5 h-3.5 text-brand-primary" />
+              University TPO
             </Link>
             <Link
               to={isAuthenticated && role === 'candidate' ? '/candidate/ai-analyzer' : '/jobs'}
@@ -285,6 +319,27 @@ export const Navbar = () => {
                   className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
                 >
                   Companies
+                </Link>
+                <Link
+                  to="/ai-agents"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  5 AI Agents
+                </Link>
+                <Link
+                  to="/pricing"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Pricing
+                </Link>
+                <Link
+                  to="/university/dashboard"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  University TPO Dashboard
                 </Link>
                 <Link
                   to="/about"

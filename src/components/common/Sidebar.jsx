@@ -14,6 +14,7 @@ import {
   Calendar,
   Building2,
   BarChart3,
+  Compass,
   X,
 } from 'lucide-react';
 
@@ -23,6 +24,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'My Profile', path: '/candidate/profile', icon: User },
     { label: 'My Resume', path: '/candidate/resumes', icon: FileText },
     { label: 'PulseAI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles, badge: 'PulseAI' },
+    { label: 'Career Roadmap', path: '/candidate/career-roadmap', icon: Compass, badge: 'AI' },
     { label: 'Mock Interview', path: '/candidate/mock-interview', icon: Calendar, badge: 'New' },
     { label: 'Find Jobs', path: '/candidate/jobs', icon: Briefcase },
     { label: 'Saved Jobs', path: '/candidate/saved', icon: Bookmark },
