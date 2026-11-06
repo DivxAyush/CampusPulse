@@ -60,6 +60,7 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
   };
 
   const company = job.companyId || {};
+  const jobLink = role === 'candidate' ? `/candidate/jobs/${job.slug}` : `/jobs/${job.slug}`;
 
   return (
     <motion.div
@@ -83,7 +84,7 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
                 {company.companyName || 'Verified Partner'}
                 {company.isVerified && <CheckCircle2 className="w-3.5 h-3.5 text-brand-primary" />}
               </div>
-              <Link to={`/jobs/${job.slug}`}>
+              <Link to={jobLink}>
                 <h3 className="text-base sm:text-lg font-bold text-brand-navy group-hover:text-brand-primary transition-colors line-clamp-1">
                   {job.title}
                 </h3>
@@ -160,7 +161,7 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link to={`/jobs/${job.slug}`}>
+          <Link to={jobLink}>
             <Button variant="ghost" size="sm" className="text-xs">
               Details
             </Button>
@@ -170,7 +171,7 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
             size="sm"
             onClick={() => {
               if (onApplyClick) onApplyClick(job);
-              else navigate(`/jobs/${job.slug}`);
+              else navigate(jobLink);
             }}
             className="text-xs"
           >

@@ -50,9 +50,9 @@ export const Navbar = () => {
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">
           <Link
-            to="/jobs"
+            to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              isActive('/jobs')
+              isActive('/jobs') || isActive('/candidate/jobs')
                 ? 'bg-brand-primary-light text-brand-primary'
                 : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
             }`}
@@ -267,7 +267,7 @@ export const Navbar = () => {
             className="md:hidden border-b border-brand-border bg-white px-4 pt-2 pb-6 space-y-2 shadow-card"
           >
             <Link
-              to="/jobs"
+              to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
               onClick={() => setIsMobileMenuOpen(false)}
               className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
             >

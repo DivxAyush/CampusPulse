@@ -73,6 +73,8 @@ export const AppRoutes = () => {
         <Route path="profile" element={<CandidateProfilePage />} />
         <Route path="resumes" element={<CandidateResumePage />} />
         <Route path="ai-analyzer" element={<AiResumeAnalyzerPage />} />
+        <Route path="jobs" element={<FindJobsPage />} />
+        <Route path="jobs/:slug" element={<JobDetailsPage />} />
         <Route path="recommended" element={<RecommendedJobsPage />} />
         <Route path="saved" element={<SavedJobsPage />} />
         <Route path="applications" element={<MyApplicationsPage />} />

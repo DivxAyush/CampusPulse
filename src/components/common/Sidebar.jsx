@@ -23,7 +23,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'My Profile', path: '/candidate/profile', icon: User },
     { label: 'My Resume', path: '/candidate/resumes', icon: FileText },
     { label: 'PulseAI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles, badge: 'PulseAI' },
-    { label: 'Find Jobs', path: '/jobs', icon: Briefcase },
+    { label: 'Find Jobs', path: '/candidate/jobs', icon: Briefcase },
     { label: 'Saved Jobs', path: '/candidate/saved', icon: Bookmark },
     { label: 'My Applications', path: '/candidate/applications', icon: Send },
     { label: 'Settings', path: '/candidate/settings', icon: Settings },
@@ -76,10 +76,9 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
-                    isActive
-                      ? 'bg-brand-primary-light text-brand-navy font-bold shadow-subtle'
-                      : 'text-brand-text hover:bg-gray-100/70 hover:text-brand-primary'
+                  `flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all ${isActive
+                    ? 'bg-brand-primary-light text-brand-navy font-bold shadow-subtle'
+                    : 'text-brand-text hover:bg-gray-100/70 hover:text-brand-primary'
                   }`
                 }
               >
