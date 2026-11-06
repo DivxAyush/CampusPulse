@@ -172,11 +172,10 @@ export const JobDetailsPage = () => {
           <div className="flex items-center gap-3 self-start">
             <button
               onClick={handleToggleSave}
-              className={`p-3 rounded-2xl border transition-all cursor-pointer ${
-                isSaved
+              className={`p-3 rounded-2xl border transition-all cursor-pointer ${isSaved
                   ? 'bg-brand-primary-light border-brand-primary text-brand-primary'
                   : 'border-brand-border text-brand-muted hover:border-brand-primary hover:text-brand-primary bg-white'
-              }`}
+                }`}
               title="Save Job"
             >
               <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />

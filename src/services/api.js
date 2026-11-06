@@ -91,6 +91,11 @@ export const applicationAPI = {
 // AI Services
 export const aiAPI = {
   analyzeResume: (data) => api.post('/ai/resume/analyze', data),
+  uploadAndAnalyze: (formData) =>
+    api.post('/ai/resume/upload-and-analyze', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  getLatestAnalysis: () => api.get('/ai/resume/latest'),
   matchJob: (data) => api.post('/ai/matching/jobs', data),
   matchCandidates: (data) => api.post('/ai/matching/candidates', data),
 };
