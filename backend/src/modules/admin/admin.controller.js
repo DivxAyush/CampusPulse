@@ -4,6 +4,7 @@ import { Candidate } from '../candidates/candidate.model.js';
 import { Job } from '../jobs/job.model.js';
 import { Application } from '../applications/application.model.js';
 import { ResumeAnalysis } from '../ai/resumeAnalysis.model.js';
+import { MockInterview } from '../mockInterviews/mockInterview.model.js';
 import { getIsConnected } from '../../config/db.js';
 
 export const getAdminStats = async (req, res) => {
@@ -19,6 +20,8 @@ export const getAdminStats = async (req, res) => {
     const activeJobs = await Job.countDocuments({ status: 'published' });
     const totalApplications = await Application.countDocuments();
     const totalAnalyses = await ResumeAnalysis.countDocuments();
+    const totalMockInterviews = await MockInterview.countDocuments();
+    const pendingMockInterviews = await MockInterview.countDocuments({ status: 'pending' });
 
     res.json({
       success: true,
@@ -30,6 +33,8 @@ export const getAdminStats = async (req, res) => {
         activeJobs,
         totalApplications,
         totalAnalyses,
+        totalMockInterviews,
+        pendingMockInterviews,
       },
     });
   } catch (error) {

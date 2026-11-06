@@ -23,6 +23,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'My Profile', path: '/candidate/profile', icon: User },
     { label: 'My Resume', path: '/candidate/resumes', icon: FileText },
     { label: 'PulseAI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles, badge: 'PulseAI' },
+    { label: 'Mock Interview', path: '/candidate/mock-interview', icon: Calendar, badge: 'New' },
     { label: 'Find Jobs', path: '/candidate/jobs', icon: Briefcase },
     { label: 'Saved Jobs', path: '/candidate/saved', icon: Bookmark },
     { label: 'My Applications', path: '/candidate/applications', icon: Send },
@@ -45,6 +46,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'Companies', path: '/admin/companies', icon: Building2 },
     { label: 'Job Moderation', path: '/admin/jobs', icon: Briefcase },
     { label: 'Applications', path: '/admin/applications', icon: Send },
+    { label: 'Mock Interviews', path: '/admin/mock-interviews', icon: Calendar, badge: 'New' },
     { label: 'System Reports', path: '/admin/reports', icon: BarChart3 },
   ];
 

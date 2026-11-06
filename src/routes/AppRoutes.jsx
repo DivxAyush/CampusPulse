@@ -30,6 +30,7 @@ import { AiResumeAnalyzerPage } from '../pages/candidate/AiResumeAnalyzerPage';
 import { RecommendedJobsPage } from '../pages/candidate/RecommendedJobsPage';
 import { SavedJobsPage } from '../pages/candidate/SavedJobsPage';
 import { MyApplicationsPage } from '../pages/candidate/MyApplicationsPage';
+import { CandidateMockInterviewPage } from '../pages/candidate/CandidateMockInterviewPage';
 import { CandidateSettingsPage } from '../pages/candidate/CandidateSettingsPage';
 
 // Company Pages
@@ -46,6 +47,7 @@ import { CompanySettingsPage } from '../pages/company/CompanySettingsPage';
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminUsersPage, AdminCompaniesPage, AdminJobsPage, AdminReportsPage } from '../pages/admin/AdminUsersPage';
 import { AdminApplicationsPage } from '../pages/admin/AdminApplicationsPage';
+import { AdminMockInterviewsPage } from '../pages/admin/AdminMockInterviewsPage';
 
 export const AppRoutes = () => {
   return (
@@ -79,6 +81,7 @@ export const AppRoutes = () => {
         <Route path="recommended" element={<RecommendedJobsPage />} />
         <Route path="saved" element={<SavedJobsPage />} />
         <Route path="applications" element={<MyApplicationsPage />} />
+        <Route path="mock-interview" element={<CandidateMockInterviewPage />} />
         <Route path="settings" element={<CandidateSettingsPage />} />
       </Route>
 
@@ -103,6 +106,7 @@ export const AppRoutes = () => {
         <Route path="companies" element={<AdminCompaniesPage />} />
         <Route path="jobs" element={<AdminJobsPage />} />
         <Route path="applications" element={<AdminApplicationsPage />} />
+        <Route path="mock-interviews" element={<AdminMockInterviewsPage />} />
         <Route path="reports" element={<AdminReportsPage />} />
       </Route>
 

@@ -121,4 +121,13 @@ export const supportAPI = {
   getFaqs: (params) => api.get('/support/faqs', { params }),
 };
 
+// Mock Interview Services
+export const mockInterviewAPI = {
+  enroll: (data) => api.post('/mock-interviews/enroll', data),
+  getMyStatus: () => api.get('/mock-interviews/my-status'),
+  cancel: (id) => api.delete(`/mock-interviews/${id}`),
+  getAdminAll: (params) => api.get('/mock-interviews/admin/all', { params }),
+  updateStatus: (id, data) => api.patch(`/mock-interviews/admin/${id}/status`, data),
+};
+
 export default api;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Users, Building2, Briefcase, BarChart3, Sparkles, Send, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Users, Building2, Briefcase, BarChart3, Sparkles, Send, CheckCircle2, Calendar, ArrowRight } from 'lucide-react';
 import { StatCard } from '../../components/common/StatCard';
 import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
@@ -72,6 +72,36 @@ export const AdminDashboardPage = () => {
           to="/admin/applications"
           isLoading={isLoading}
         />
+      </div>
+
+      {/* Mock Interview Management Banner */}
+      <div className="bg-white rounded-3xl border border-brand-border p-6 shadow-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
+            <Calendar className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-bold text-brand-navy">Mock Interview Enrollments</h3>
+              {stats?.pendingMockInterviews > 0 && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800">
+                  {stats.pendingMockInterviews} Pending Action
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-brand-muted mt-0.5">
+              Review candidates who requested 1-on-1 technical mock interview rounds, schedule dates, and assign meeting links.
+            </p>
+          </div>
+        </div>
+
+        <Link
+          to="/admin/mock-interviews"
+          className="px-4 py-2.5 bg-brand-primary hover:bg-brand-primary-hover text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0"
+        >
+          <span>Manage Mock Interviews</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
     </div>
   );

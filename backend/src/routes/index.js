@@ -7,6 +7,7 @@ import applicationRoutes from '../modules/applications/application.routes.js';
 import aiRoutes from '../modules/ai/ai.routes.js';
 import adminRoutes from '../modules/admin/admin.routes.js';
 import supportRoutes from '../modules/support/support.routes.js';
+import mockInterviewRoutes from '../modules/mockInterviews/mockInterview.routes.js';
 import { getHealthPayload } from '../utils/healthCheck.js';
 
 const router = express.Router();
@@ -23,5 +24,6 @@ router.use('/applications', applicationRoutes);
 router.use('/ai', aiRoutes);
 router.use('/admin', adminRoutes);
 router.use('/support', supportRoutes);
+router.use('/mock-interviews', mockInterviewRoutes);
 
 export default router;

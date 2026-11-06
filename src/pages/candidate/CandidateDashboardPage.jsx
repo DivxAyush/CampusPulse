@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import {
   Sparkles,
   FileText,
+  Calendar,
   Send,
   Bookmark,
   Building2,
@@ -76,7 +77,7 @@ export const CandidateDashboardPage = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
           <Link to="/candidate/resumes">
             <Button variant="outline" size="md" icon={FileText}>
               Manage Resumes
@@ -85,6 +86,11 @@ export const CandidateDashboardPage = () => {
           <Link to="/candidate/ai-analyzer">
             <Button variant="primary" size="md" icon={Sparkles}>
               PulseAI Resume Scan
+            </Button>
+          </Link>
+          <Link to="/candidate/mock-interview">
+            <Button variant="secondary" size="md" icon={Calendar} className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold">
+              I Want Mock Interview
             </Button>
           </Link>
         </div>
@@ -157,6 +163,24 @@ export const CandidateDashboardPage = () => {
         <Link to="/candidate/ai-analyzer" className="flex-shrink-0">
           <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right">
             Run ATS Scan
+          </Button>
+        </Link>
+      </div>
+
+      {/* Mock Interview Promo & Action Card */}
+      <div className="bg-gradient-to-r from-teal-950 via-brand-navy to-emerald-950 rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-card border border-emerald-500/20">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-brand-primary/20 text-brand-primary border border-brand-primary/30">
+            <Calendar className="w-3.5 h-3.5" /> 1-on-1 Mentorship & Mock Rounds
+          </div>
+          <h3 className="text-xl font-bold text-white">Crack Top Tech Roles with a Mock Interview</h3>
+          <p className="text-xs sm:text-sm text-gray-300 max-w-xl leading-relaxed">
+            Practice live coding, DSA problem solving, and system design with verified senior engineers. Enroll with 1 click to get your session scheduled by the admin team.
+          </p>
+        </div>
+        <Link to="/candidate/mock-interview" className="flex-shrink-0">
+          <Button variant="primary" size="md" icon={Calendar} iconPosition="left" className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold">
+            I Want Mock Interview
           </Button>
         </Link>
       </div>
