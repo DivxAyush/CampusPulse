@@ -14,6 +14,7 @@ import {
   Calendar,
   Users,
   ExternalLink,
+  ShieldCheck,
 } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
@@ -170,16 +171,18 @@ export const JobDetailsPage = () => {
 
           {/* Action buttons */}
           <div className="flex items-center gap-3 self-start">
-            <button
-              onClick={handleToggleSave}
-              className={`p-3 rounded-2xl border transition-all cursor-pointer ${isSaved
-                  ? 'bg-brand-primary-light border-brand-primary text-brand-primary'
-                  : 'border-brand-border text-brand-muted hover:border-brand-primary hover:text-brand-primary bg-white'
-                }`}
-              title="Save Job"
-            >
-              <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
-            </button>
+            {role !== 'admin' && role !== 'company' && (
+              <button
+                onClick={handleToggleSave}
+                className={`p-3 rounded-2xl border transition-all cursor-pointer ${isSaved
+                    ? 'bg-brand-primary-light border-brand-primary text-brand-primary'
+                    : 'border-brand-border text-brand-muted hover:border-brand-primary hover:text-brand-primary bg-white'
+                  }`}
+                title="Save Job"
+              >
+                <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
+              </button>
+            )}
             <button
               onClick={handleShare}
               className="p-3 rounded-2xl border border-brand-border text-brand-muted hover:border-brand-primary hover:text-brand-primary bg-white transition-all cursor-pointer"
@@ -187,9 +190,17 @@ export const JobDetailsPage = () => {
             >
               <Share2 className="w-5 h-5" />
             </button>
-            <Button variant="primary" size="lg" onClick={handleApplyClick} icon={Sparkles}>
-              Apply for Job
-            </Button>
+            {role === 'admin' ? (
+              <Link to="/admin/jobs">
+                <Button variant="outline" size="lg" className="border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white">
+                  <ShieldCheck className="w-4 h-4 mr-1.5" /> Moderate Job
+                </Button>
+              </Link>
+            ) : role !== 'company' ? (
+              <Button variant="primary" size="lg" onClick={handleApplyClick} icon={Sparkles}>
+                Apply for Job
+              </Button>
+            ) : null}
           </div>
         </div>
 
@@ -277,15 +288,17 @@ export const JobDetailsPage = () => {
           )}
 
           {/* Bottom Apply Action Bar */}
-          <div className="pt-6 border-t border-brand-border flex items-center justify-between">
-            <div>
-              <div className="text-xs font-bold text-brand-navy">Interested in this position?</div>
-              <div className="text-xs text-brand-muted">Applications are reviewed on a rolling basis.</div>
+          {role !== 'admin' && role !== 'company' && (
+            <div className="pt-6 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <div className="text-xs font-bold text-brand-navy">Interested in this position?</div>
+                <div className="text-xs text-brand-muted">Applications are reviewed on a rolling basis.</div>
+              </div>
+              <Button variant="primary" size="md" onClick={handleApplyClick} icon={Sparkles}>
+                Apply Now
+              </Button>
             </div>
-            <Button variant="primary" size="md" onClick={handleApplyClick} icon={Sparkles}>
-              Apply Now
-            </Button>
-          </div>
+          )}
         </div>
 
         {/* Right Column: Company Info Card */}

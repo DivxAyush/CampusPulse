@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 export const Logo = ({
   variant = 'full', // 'full' | 'icon' | 'mark'
@@ -7,7 +8,11 @@ export const Logo = ({
   isDark = false,   // whether rendered on dark background (like footer)
   className = '',
   withLink = true,
+  to,
 }) => {
+  const { isAuthenticated, role } = useAuth();
+  const targetLink = to || (isAuthenticated ? (role === 'admin' ? '/admin/dashboard' : role === 'company' ? '/company/dashboard' : '/') : '/');
+
   const sizes = {
     sm: { icon: 'h-8', full: 'h-7', text: 'text-lg', sub: 'text-[9px]' },
     md: { icon: 'h-10', full: 'h-9', text: 'text-xl', sub: 'text-[10px]' },
@@ -24,7 +29,7 @@ export const Logo = ({
         className={`${selectedSize.full} w-auto object-contain transition-transform duration-200 group-hover:scale-105 ${className}`}
       />
     );
-    return withLink ? <Link to="/" className="group inline-flex items-center">{imageContent}</Link> : imageContent;
+    return withLink ? <Link to={targetLink} className="group inline-flex items-center">{imageContent}</Link> : imageContent;
   }
 
   const content = (
@@ -71,7 +76,7 @@ export const Logo = ({
   }
 
   return (
-    <Link to="/" className="group inline-flex items-center">
+    <Link to={targetLink} className="group inline-flex items-center">
       {content}
     </Link>
   );

@@ -92,18 +92,20 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
             </div>
           </div>
 
-          <button
-            onClick={handleToggleSave}
-            disabled={isSaving}
-            className={`p-2 rounded-xl border transition-all cursor-pointer ${
-              isSaved
-                ? 'bg-brand-primary-light border-brand-primary text-brand-primary'
-                : 'border-brand-border text-brand-muted hover:text-brand-primary hover:border-brand-primary bg-white'
-            }`}
-            aria-label="Save job"
-          >
-            <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
-          </button>
+          {role !== 'admin' && role !== 'company' && (
+            <button
+              onClick={handleToggleSave}
+              disabled={isSaving}
+              className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                isSaved
+                  ? 'bg-brand-primary-light border-brand-primary text-brand-primary'
+                  : 'border-brand-border text-brand-muted hover:text-brand-primary hover:border-brand-primary bg-white'
+              }`}
+              aria-label="Save job"
+            >
+              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+            </button>
+          )}
         </div>
 
         {/* Badges Bar: Job type, work mode, experience */}
@@ -166,17 +168,25 @@ export const JobCard = ({ job, onApplyClick, isSavedInitial = false }) => {
               Details
             </Button>
           </Link>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => {
-              if (onApplyClick) onApplyClick(job);
-              else navigate(jobLink);
-            }}
-            className="text-xs"
-          >
-            Apply Now
-          </Button>
+          {role === 'admin' ? (
+            <Link to="/admin/jobs">
+              <Button variant="outline" size="sm" className="text-xs text-brand-primary border-brand-primary hover:bg-brand-primary hover:text-white">
+                Moderate
+              </Button>
+            </Link>
+          ) : role === 'company' ? null : (
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                if (onApplyClick) onApplyClick(job);
+                else navigate(jobLink);
+              }}
+              className="text-xs"
+            >
+              Apply Now
+            </Button>
+          )}
         </div>
       </div>
     </motion.div>

@@ -49,53 +49,110 @@ export const Navbar = () => {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-          <Link
-            to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              isActive('/jobs') || isActive('/candidate/jobs')
-                ? 'bg-brand-primary-light text-brand-primary'
-                : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
-            }`}
-          >
-            Find Jobs
-          </Link>
-          <Link
-            to="/companies"
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              isActive('/companies')
-                ? 'bg-brand-primary-light text-brand-primary'
-                : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
-            }`}
-          >
-            Companies
-          </Link>
-          <Link
-            to={isAuthenticated && role === 'candidate' ? '/candidate/ai-analyzer' : '/jobs'}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-text hover:text-brand-primary hover:bg-white/80 flex items-center gap-1.5 transition-all"
-          >
-            <Sparkles className="w-4 h-4 text-brand-primary" />
-            PulseAI Tools
-          </Link>
-          <Link
-            to="/about"
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              isActive('/about')
-                ? 'bg-brand-primary-light text-brand-primary'
-                : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
-            }`}
-          >
-            About Us
-          </Link>
-          <Link
-            to="/help"
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              isActive('/contact') || isActive('/help')
-                ? 'bg-brand-primary-light text-brand-primary'
-                : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
-            }`}
-          >
-            Help & Support
-          </Link>
+          {isAuthenticated && role === 'admin' ? (
+            <>
+              <Link
+                to="/admin/dashboard"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/admin/dashboard') || isActive('/admin')
+                    ? 'bg-brand-primary-light text-brand-primary font-bold'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Overview
+              </Link>
+              <Link
+                to="/admin/users"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/admin/users')
+                    ? 'bg-brand-primary-light text-brand-primary font-bold'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                All Users
+              </Link>
+              <Link
+                to="/admin/companies"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/admin/companies')
+                    ? 'bg-brand-primary-light text-brand-primary font-bold'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Companies
+              </Link>
+              <Link
+                to="/admin/jobs"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/admin/jobs')
+                    ? 'bg-brand-primary-light text-brand-primary font-bold'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Job Moderation
+              </Link>
+              <Link
+                to="/admin/reports"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/admin/reports')
+                    ? 'bg-brand-primary-light text-brand-primary font-bold'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                System Reports
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/jobs') || isActive('/candidate/jobs')
+                    ? 'bg-brand-primary-light text-brand-primary'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Find Jobs
+              </Link>
+              <Link
+                to="/companies"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/companies')
+                    ? 'bg-brand-primary-light text-brand-primary'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Companies
+              </Link>
+              <Link
+                to={isAuthenticated && role === 'candidate' ? '/candidate/ai-analyzer' : '/jobs'}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-text hover:text-brand-primary hover:bg-white/80 flex items-center gap-1.5 transition-all"
+              >
+                <Sparkles className="w-4 h-4 text-brand-primary" />
+                PulseAI Tools
+              </Link>
+              <Link
+                to="/about"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/about')
+                    ? 'bg-brand-primary-light text-brand-primary'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                About Us
+              </Link>
+              <Link
+                to="/help"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/contact') || isActive('/help')
+                    ? 'bg-brand-primary-light text-brand-primary'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Help & Support
+              </Link>
+            </>
+          )}
         </nav>
 
         {/* Right CTA / User Menu */}
@@ -266,34 +323,76 @@ export const Navbar = () => {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-b border-brand-border bg-white px-4 pt-2 pb-6 space-y-2 shadow-card"
           >
-            <Link
-              to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
-            >
-              Find Jobs
-            </Link>
-            <Link
-              to="/companies"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
-            >
-              Companies
-            </Link>
-            <Link
-              to="/about"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
-            >
-              About Us
-            </Link>
-            <Link
-              to="/help"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
-            >
-              Help & Support
-            </Link>
+            {isAuthenticated && role === 'admin' ? (
+              <>
+                <Link
+                  to="/admin/dashboard"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Admin Overview
+                </Link>
+                <Link
+                  to="/admin/users"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  All Users
+                </Link>
+                <Link
+                  to="/admin/companies"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Companies
+                </Link>
+                <Link
+                  to="/admin/jobs"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Job Moderation
+                </Link>
+                <Link
+                  to="/admin/reports"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  System Reports
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to={isAuthenticated && role === 'candidate' ? '/candidate/jobs' : '/jobs'}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Find Jobs
+                </Link>
+                <Link
+                  to="/companies"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Companies
+                </Link>
+                <Link
+                  to="/about"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  About Us
+                </Link>
+                <Link
+                  to="/help"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Help & Support
+                </Link>
+              </>
+            )}
 
             <div className="pt-3 border-t border-brand-border flex flex-col gap-2">
               {isAuthenticated ? (

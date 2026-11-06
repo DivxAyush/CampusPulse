@@ -59,7 +59,7 @@ export const ApplyModal = ({ isOpen, onClose, job, onSuccess }) => {
     }
   };
 
-  if (!job) return null;
+  if (!job || role === 'admin' || role === 'company') return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Submit Application" maxWidth="max-w-xl">

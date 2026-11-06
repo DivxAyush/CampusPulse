@@ -17,6 +17,13 @@ export const PublicLayout = () => {
     return <Navigate to={target + location.search} replace />;
   }
 
+  // If an admin visits public job search or landing page, keep them in Admin Portal
+  if (isAuthenticated && role === 'admin') {
+    if (location.pathname === '/' || location.pathname === '/jobs') {
+      return <Navigate to={location.pathname === '/jobs' ? '/admin/jobs' : '/admin/dashboard'} replace />;
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-brand-bg">
       <Navbar />
