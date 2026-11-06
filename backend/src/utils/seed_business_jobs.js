@@ -705,3 +705,4 @@ run().catch((err) => {
   console.error('Error seeding business jobs:', err);
   process.exit(1);
 });
+
