@@ -101,7 +101,7 @@ export const Footer = () => {
             <ul className="space-y-2.5 text-xs text-gray-400">
               <li>
                 <Link to="/about" className="hover:text-brand-primary transition-colors">
-                  About Campus Plus
+                  About CampusPulse AI
                 </Link>
               </li>
               <li>
@@ -124,7 +124,7 @@ export const Footer = () => {
         {/* Bottom copyright (Privacy, Terms, Conditions, ISO completely removed) */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
           <div>
-            &copy; {new Date().getFullYear()} Campus Plus. All rights reserved.
+            &copy; {new Date().getFullYear()} CampusPulse AI. All rights reserved.
           </div>
         </div>
       </div>

@@ -99,7 +99,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
 
       {/* Bottom info */}
       <div className="pt-3 border-t border-brand-border/60 text-[11px] text-brand-muted px-2 flex items-center justify-between">
-        <span className="font-medium">Campus Plus v1.0</span>
+        <span className="font-medium">CampusPulse AI v1.0</span>
         <span className="flex items-center gap-1 text-emerald-600 font-semibold">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
         </span>
