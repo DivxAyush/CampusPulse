@@ -6,7 +6,6 @@ import { ResumeAnalysis } from './resumeAnalysis.model.js';
 import {
   analyzeResumeAI,
   matchCandidateWithJobs,
-  generateRecommendedJobsForProfile,
 } from '../../services/ai.service.js';
 import { extractTextFromBuffer } from '../../services/textExtractor.service.js';
 import { uploadToCloudinary } from '../../config/cloudinary.js';

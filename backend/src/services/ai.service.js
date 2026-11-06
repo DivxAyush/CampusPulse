@@ -45,6 +45,8 @@ const callDatamanLLM = async (messages, maxTokens = 2500, timeoutMs = 25000) => 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${AI_API_KEY}`,
           'Content-Length': Buffer.byteLength(payload),
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+          'Accept': 'application/json',
         },
         timeout: timeoutMs,
         rejectUnauthorized: false, // Dataman corporate/self-signed cert support
@@ -112,6 +114,17 @@ const KNOWN_CITIES = [
 export const extractDynamicProfileFromText = (text = '') => {
   const clean = text.replace(/\r?\n/g, ' ');
 
+  // 0. Extract Name candidate from header
+  let detectedName = '';
+  const firstLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  for (let i = 0; i < Math.min(firstLines.length, 3); i++) {
+    const line = firstLines[i];
+    if (line.length >= 3 && line.length <= 40 && !/[@:\d\/\\|]/.test(line) && !/resume|curriculum|vitae|profile|page/i.test(line)) {
+      detectedName = line;
+      break;
+    }
+  }
+
   // 1. Extract Email
   const emailMatch = clean.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
   const email = emailMatch ? emailMatch[1] : '';
@@ -128,9 +141,6 @@ export const extractDynamicProfileFromText = (text = '') => {
       detectedLocation = city === 'Bangalore' ? 'Bengaluru, India' : `${city}, India`;
       break;
     }
-  }
-  if (!detectedLocation) {
-    detectedLocation = 'India (Remote / Flexible)';
   }
 
   // 4. Extract Skills
@@ -180,10 +190,11 @@ export const extractDynamicProfileFromText = (text = '') => {
   }
 
   return {
+    name: detectedName,
     email,
     phone,
     location: detectedLocation,
-    skills: detectedSkills.length > 0 ? detectedSkills : ['JavaScript', 'React', 'Node.js', 'REST APIs', 'Git'],
+    skills: detectedSkills,
     totalExperienceYears: Math.min(totalExperienceYears, 20),
     education,
   };
@@ -333,107 +344,8 @@ ${resumeText.slice(0, 12000)}`;
 
 /**
  * Intelligent Job Matching Engine
- * Matches candidate's extracted profile with published jobs in database
+ * Matches candidate's extracted profile with real published jobs in MongoDB Atlas database
  */
-/**
- * Intelligent Job Matching Engine
- * Matches candidate's extracted profile with published jobs in database + provides AI Recommended positions
- */
-export const generateRecommendedJobsForProfile = (candidateProfile) => {
-  const skills = (candidateProfile?.skills && candidateProfile.skills.length > 0)
-    ? candidateProfile.skills
-    : ['React', 'Node.js', 'JavaScript', 'MongoDB', 'REST APIs'];
-  const location = candidateProfile?.location || 'Bengaluru, India';
-  const expYears = candidateProfile?.totalExperienceYears || 1;
-
-  return [
-    {
-      _id: 'ai-rec-1',
-      title: skills.some(s => /react|frontend|next/i.test(s)) ? 'Full Stack Frontend Engineer' : 'Software Development Engineer I',
-      companyId: {
-        companyName: 'Razorpay',
-        logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop&q=80',
-        industry: 'Fintech / Payments',
-        headquarters: 'Bengaluru, India',
-      },
-      location: location.includes('Remote') ? 'Remote (India)' : location,
-      workplaceMode: 'remote',
-      employmentType: 'full-time',
-      salaryRange: expYears > 2 ? '₹18L - ₹26L PA' : '₹10L - ₹15L PA',
-      experienceLevel: expYears > 3 ? 'Mid-Senior' : 'Junior / Mid',
-      requiredSkills: skills.slice(0, 4),
-      preferredSkills: ['Docker', 'AWS', 'TypeScript', 'GraphQL'],
-      matchScore: 96,
-      explanation: `Exceptional match! Your verified expertise in ${skills.slice(0, 3).join(', ')} directly aligns with this team's core tech stack.`,
-      isAiRecommended: true,
-      description: 'Join the core payment gateway team to build ultra-low-latency checkout interfaces and distributed payment microservices.',
-    },
-    {
-      _id: 'ai-rec-2',
-      title: skills.some(s => /node|backend|python/i.test(s)) ? 'Backend Cloud Platform Engineer' : 'Product Engineer (Full Stack)',
-      companyId: {
-        companyName: 'PhonePe',
-        logo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop&q=80',
-        industry: 'Digital Payments & UPI',
-        headquarters: 'Bengaluru, India',
-      },
-      location: 'Bengaluru / Hybrid',
-      workplaceMode: 'hybrid',
-      employmentType: 'full-time',
-      salaryRange: expYears > 2 ? '₹20L - ₹30L PA' : '₹12L - ₹18L PA',
-      experienceLevel: expYears > 2 ? 'Mid-Level' : 'Associate',
-      requiredSkills: [skills[0] || 'Node.js', skills[1] || 'React', 'MongoDB', 'REST APIs'],
-      preferredSkills: ['Kafka', 'Redis', 'Microservices'],
-      matchScore: 91,
-      explanation: `Strong match. Your background in ${skills.slice(0, 2).join(' & ')} provides an ideal foundation for high-scale transactional services.`,
-      isAiRecommended: true,
-      description: 'Architect scalable web services and reactive user interfaces processing tens of millions of daily transactions.',
-    },
-    {
-      _id: 'ai-rec-3',
-      title: 'Senior Frontend / UI Specialist',
-      companyId: {
-        companyName: 'Zepto',
-        logo: 'https://images.unsplash.com/photo-1572021335469-31706a17aaef?w=100&h=100&fit=crop&q=80',
-        industry: 'Quick Commerce & Logistics',
-        headquarters: 'Mumbai, India',
-      },
-      location: 'Mumbai / Remote',
-      workplaceMode: 'remote',
-      employmentType: 'full-time',
-      salaryRange: expYears > 2 ? '₹16L - ₹24L PA' : '₹9L - ₹14L PA',
-      experienceLevel: 'Mid-Level',
-      requiredSkills: ['React', 'JavaScript', 'Tailwind CSS', 'Redux Toolkit'],
-      preferredSkills: ['Next.js', 'Performance Optimization'],
-      matchScore: 88,
-      explanation: `Great synergy with your frontend engineering competencies and responsive component architecture.`,
-      isAiRecommended: true,
-      description: 'Build lightning-fast 10-minute grocery delivery storefronts, interactive maps, and real-time order tracking dashboards.',
-    },
-    {
-      _id: 'ai-rec-4',
-      title: 'Full Stack Web Platform Engineer',
-      companyId: {
-        companyName: 'CRED',
-        logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop&q=80',
-        industry: 'Fintech & Rewards',
-        headquarters: 'Bengaluru, India',
-      },
-      location: 'Bengaluru / On-Site',
-      workplaceMode: 'on-site',
-      employmentType: 'full-time',
-      salaryRange: expYears > 2 ? '₹22L - ₹35L PA' : '₹14L - ₹20L PA',
-      experienceLevel: 'Mid-Senior',
-      requiredSkills: skills.slice(0, 3).concat(['RESTful APIs', 'Database Optimization']),
-      preferredSkills: ['Docker', 'Kubernetes', 'CI/CD'],
-      matchScore: 84,
-      explanation: `High potential candidate. Adding advanced cloud containerization will place you among top 5% applicants.`,
-      isAiRecommended: true,
-      description: 'Collaborate with world-class product designers and architects to build gamified fintech experiences.',
-    },
-  ];
-};
-
 export const matchCandidateWithJobs = (candidateProfile, jobs = []) => {
   const candidateSkills = (candidateProfile?.skills || []).map(s => s.toLowerCase().trim());
   const candidateLoc = (candidateProfile?.location || '').toLowerCase().trim();
@@ -441,40 +353,45 @@ export const matchCandidateWithJobs = (candidateProfile, jobs = []) => {
   const dbMatches = jobs.map(job => {
     const required = (job.requiredSkills || []).map(s => s.toLowerCase().trim());
     const preferred = (job.preferredSkills || []).map(s => s.toLowerCase().trim());
-    const allSkills = [...new Set([...required, ...preferred])];
 
-    const matched = [];
-    const missing = [];
-
-    allSkills.forEach(reqSkill => {
-      const isMatch = candidateSkills.some(cs => cs.includes(reqSkill) || reqSkill.includes(cs));
-      if (isMatch) {
-        matched.push(reqSkill);
-      } else {
-        missing.push(reqSkill);
-      }
+    const matchedRequired = [];
+    const missingRequired = [];
+    required.forEach(req => {
+      const isMatch = candidateSkills.some(cs => cs.includes(req) || req.includes(cs));
+      if (isMatch) matchedRequired.push(req);
+      else missingRequired.push(req);
     });
 
-    // Score calculation
-    let matchRate = 0;
-    if (allSkills.length > 0) {
-      matchRate = (matched.length / allSkills.length) * 75;
-    } else {
-      matchRate = 70;
+    const matchedPreferred = [];
+    preferred.forEach(pref => {
+      const isMatch = candidateSkills.some(cs => cs.includes(pref) || pref.includes(cs));
+      if (isMatch) matchedPreferred.push(pref);
+    });
+
+    const allMatched = [...matchedRequired, ...matchedPreferred];
+    const allMissing = [...missingRequired];
+
+    const reqRatio = required.length > 0 ? (matchedRequired.length / required.length) : 0.5;
+    let baseScore = Math.round(reqRatio * 75);
+    if (matchedPreferred.length > 0) {
+      baseScore += Math.min(matchedPreferred.length * 5, 12);
     }
 
     const jobLoc = (job.location || '').toLowerCase();
     const isRemote = job.workplaceMode === 'remote' || /remote/i.test(jobLoc);
     const locMatch = isRemote || (candidateLoc && jobLoc && (jobLoc.includes(candidateLoc) || candidateLoc.includes(jobLoc)));
-    const locationBonus = locMatch ? 15 : 5;
-    const experienceBonus = 8;
-    const finalScore = Math.min(Math.round(matchRate + locationBonus + experienceBonus), 98);
+    const locationBonus = locMatch ? 10 : 0;
+    const finalScore = Math.min(Math.max(baseScore + locationBonus, 15), 98);
 
-    const explanation = finalScore >= 85
-      ? `Exceptional match! Your verified skills in ${matched.slice(0, 3).join(', ')} strongly align with this position${isRemote ? ' (Remote-friendly)' : ''}.`
-      : finalScore >= 70
-      ? `Strong alignment on core stack (${matched.slice(0, 2).join(', ')}). Acquiring ${missing.slice(0, 2).join(', ')} will make you an elite candidate.`
-      : `Promising entry point. Recommended to review ${missing.slice(0, 3).join(', ')} before applying.`;
+    const explanation = finalScore >= 80
+      ? `Exceptional match! Your verified skills in ${matchedRequired.slice(0, 3).join(', ')} directly align with this position${isRemote ? ' (Remote-friendly)' : ''}.`
+      : finalScore >= 50
+      ? `Moderate alignment. You match ${matchedRequired.length} key requirements. Adding ${allMissing.slice(0, 2).join(', ')} will boost your application.`
+      : `Low synergy. Position primarily requires ${missingRequired.slice(0, 3).join(', ')}.`;
+
+    const salaryFormatted = job.salary?.min && job.salary?.max
+      ? `₹${Math.round(job.salary.min / 100000)}L - ₹${Math.round(job.salary.max / 100000)}L PA`
+      : (job.salaryRange || 'Competitive');
 
     return {
       _id: job._id,
@@ -482,25 +399,18 @@ export const matchCandidateWithJobs = (candidateProfile, jobs = []) => {
       companyId: job.companyId,
       location: job.location,
       workplaceMode: job.workplaceMode,
-      employmentType: job.employmentType,
-      salaryRange: job.salaryRange || 'Competitive',
-      experienceLevel: job.experienceLevel,
+      employmentType: job.jobType || job.employmentType || 'full-time',
+      salaryRange: salaryFormatted,
+      experienceLevel: job.experience || job.experienceLevel || '1-3 years',
       requiredSkills: job.requiredSkills,
-      matchScore: Math.max(finalScore, 65),
-      matchedSkills: matched.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
-      missingSkills: missing.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
+      matchScore: finalScore,
+      matchedSkills: allMatched.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
+      missingSkills: allMissing.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
       isRemote,
       explanation,
       isAiRecommended: false,
     };
   });
 
-  if (dbMatches.length >= 4) {
-    return dbMatches.sort((a, b) => b.matchScore - a.matchScore);
-  }
-
-  // Combine with AI-curated matching positions
-  const aiRecommended = generateRecommendedJobsForProfile(candidateProfile);
-  const combined = [...dbMatches, ...aiRecommended.slice(0, 4 - dbMatches.length)];
-  return combined.sort((a, b) => b.matchScore - a.matchScore);
+  return dbMatches.sort((a, b) => b.matchScore - a.matchScore);
 };

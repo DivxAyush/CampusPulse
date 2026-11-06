@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { extractDynamicProfileFromText, analyzeResumeAI } from './ai.service.js';
 
 const apiKey = process.env.GEMINI_API_KEY || '';
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
@@ -87,53 +88,18 @@ ${resumeText.substring(0, 10000)}
     }
   }
 
-  // Realistic Fallback Parsing
+  // Realistic Fallback Parsing using intelligent text extraction
+  const dynamic = extractDynamicProfileFromText(resumeText);
   return {
-    name: 'Ayush Sharma',
-    email: 'ayush.sharma@example.com',
-    phone: '+91 98765 43210',
-    summary: 'Results-driven Full Stack Engineer with strong proficiency in React, Node.js, Express, and MongoDB. Passionate about architecting scalable web applications with pixel-perfect UI/UX.',
-    skills: ['React.js', 'Node.js', 'Express', 'MongoDB', 'JavaScript', 'Tailwind CSS', 'Redux Toolkit', 'REST APIs', 'Git'],
-    education: [
-      {
-        institution: 'National Institute of Technology',
-        degree: 'Bachelor of Technology',
-        fieldOfStudy: 'Computer Science & Engineering',
-        startYear: '2020',
-        endYear: '2024',
-        grade: '8.7 CGPA',
-      },
-    ],
-    experience: [
-      {
-        company: 'InnovateTech Labs',
-        role: 'Full Stack Developer Intern',
-        location: 'Bengaluru, India',
-        startDate: 'Jan 2024',
-        endDate: 'Jun 2024',
-        current: false,
-        description: 'Engineered high-performance React dashboards, integrated RESTful microservices, and reduced client-side bundle size by 32%.',
-      },
-    ],
-    projects: [
-      {
-        title: 'Campus Plus Recruitment Portal',
-        description: 'Full stack recruitment platform with AI resume analyzer, role-based dashboards, and live job tracking.',
-        techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
-      },
-      {
-        title: 'Real-time Collaborative Task Manager',
-        description: 'WebSocket-powered Kanban board with drag-and-drop workflow automation.',
-        techStack: ['React', 'Express', 'Socket.io', 'MongoDB'],
-      },
-    ],
-    certifications: [
-      {
-        name: 'Meta Certified Front-End Developer',
-        issuer: 'Meta / Coursera',
-        issueDate: '2023',
-      },
-    ],
+    name: dynamic.name || 'Candidate',
+    email: dynamic.email || '',
+    phone: dynamic.phone || '',
+    summary: `Software professional proficient in ${dynamic.skills.slice(0, 4).join(', ')}.`,
+    skills: dynamic.skills,
+    education: dynamic.education,
+    experience: [],
+    projects: [],
+    certifications: [],
   };
 };
 
@@ -204,57 +170,8 @@ ${resumeText.substring(0, 10000)}
     }
   }
 
-  // Realistic Fallback Analysis Data
-  return {
-    overallScore: 86,
-    analysis: {
-      structureScore: 90,
-      summaryScore: 82,
-      skillsScore: 88,
-      experienceScore: 84,
-      readabilityScore: 92,
-    },
-    strengths: [
-      'Strong technical stack alignment with modern frontend & full stack market demand',
-      'Clean chronological hierarchy with clear distinction between experience, projects, and education',
-      'Effective focus on contemporary web technologies (React, Node.js, MongoDB)',
-      'Clear project portfolio demonstrating end-to-end full stack architecture',
-    ],
-    weaknesses: [
-      'Professional summary could feature more quantifiable achievements and KPIs',
-      'Absence of automated testing tools (e.g. Jest, Cypress, Playwright) in primary skills list',
-      'Project descriptions can be enhanced with business impact and latency metrics',
-    ],
-    missingSections: [
-      'Open Source Contributions / GitHub Activity',
-      'Continuous Integration & Deployment (CI/CD)',
-    ],
-    careerRecommendations: [
-      'Target Full Stack Developer & Frontend Engineer roles across high-growth startups and tech firms',
-      'Integrate containerization (Docker) and AWS deployment credentials into projects',
-      'Emphasize API design standards and state management patterns in technical interviews',
-    ],
-    suggestions: [
-      {
-        section: 'Professional Summary',
-        original: 'Results-driven Full Stack Engineer with strong proficiency in React, Node.js, Express, and MongoDB. Passionate about architecting scalable web applications.',
-        improved: 'Performance-driven Full Stack Engineer with extensive experience in React 18, Node.js microservices, and MongoDB. Proven track record of developing responsive web platforms and reducing page load latencies by over 30%.',
-        reason: 'Adds measurable performance indicators and highlights modern production engineering competencies.',
-      },
-      {
-        section: 'Work Experience',
-        original: 'Engineered high-performance React dashboards, integrated RESTful microservices, and reduced client-side bundle size by 32%.',
-        improved: 'Spearheaded the engineering of modular React dashboards with Redux Toolkit and REST APIs, cutting client-side bundle size by 32% and elevating application performance scores to 95+.',
-        reason: 'Uses stronger leadership action verbs and mentions architectural tooling explicitly.',
-      },
-      {
-        section: 'Project Descriptions',
-        original: 'Full stack recruitment platform with AI resume analyzer, role-based dashboards, and live job tracking.',
-        improved: 'Architected an enterprise recruitment platform incorporating PulseAI for automated resume parsing, role-based JWT authorization, and MongoDB Atlas database scaling.',
-        reason: 'Demonstrates deep technical complexity and enterprise-grade integration capabilities.',
-      },
-    ],
-  };
+  // Dynamic analysis fallback using unified PulseAI engine
+  return await analyzeResumeAI(resumeText, targetRole);
 };
 
 /**

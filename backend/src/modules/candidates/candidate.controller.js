@@ -6,7 +6,8 @@ import { Job } from '../jobs/job.model.js';
 import { ResumeAnalysis } from '../ai/resumeAnalysis.model.js';
 import { uploadToCloudinary, deleteFromCloudinary } from '../../config/cloudinary.js';
 import { extractTextFromBuffer } from '../../services/textExtractor.service.js';
-import { parseResumeWithAI, analyzeResumeWithAI, calculateJobMatch } from '../../services/gemini.service.js';
+import { analyzeResumeAI } from '../../services/ai.service.js';
+import { calculateJobMatch } from '../../services/gemini.service.js';
 import { getIsConnected } from '../../config/db.js';
 
 export const getProfile = async (req, res) => {
@@ -145,10 +146,9 @@ export const uploadResume = async (req, res) => {
       'campusplus/resumes'
     );
 
-    // 2. Extract text & parse with PulseAI
+    // 2. Extract text & parse with PulseAI (Dataman Qwen 27B / Neural Engine)
     const extractedText = await extractTextFromBuffer(req.file.buffer, req.file.mimetype);
-    const parsedData = await parseResumeWithAI(extractedText);
-    const analysisData = await analyzeResumeWithAI(extractedText, candidate.headline || 'Software Engineer');
+    const analysisResult = await analyzeResumeAI(extractedText, candidate.headline || 'Software Engineer');
 
     const existingCount = await Resume.countDocuments({ candidateId: candidate._id });
     const resume = await Resume.create({
@@ -166,23 +166,31 @@ export const uploadResume = async (req, res) => {
     const resumeAnalysis = await ResumeAnalysis.create({
       resumeId: resume._id,
       candidateId: candidate._id,
-      overallScore: analysisData.overallScore || 75,
-      extractedData: parsedData,
-      analysis: analysisData.analysis,
-      strengths: analysisData.strengths,
-      weaknesses: analysisData.weaknesses,
-      suggestions: analysisData.suggestions,
-      missingSections: analysisData.missingSections,
-      careerRecommendations: analysisData.careerRecommendations,
-      model: 'gemini-1.5-flash',
+      overallScore: analysisResult.overallScore || 75,
+      extractedData: analysisResult.candidate,
+      analysis: analysisResult.analysis,
+      strengths: analysisResult.strengths,
+      weaknesses: analysisResult.weaknesses,
+      suggestions: analysisResult.suggestions,
+      missingSections: analysisResult.missingSections,
+      careerRecommendations: analysisResult.careerRecommendations,
+      model: analysisResult.model || 'PulseAI Neural Engine',
     });
 
-    if (parsedData?.skills?.length) {
+    // Sync candidate profile with actual extracted details
+    if (analysisResult.candidate?.skills?.length) {
       const existingSkills = new Set(candidate.skills || []);
-      parsedData.skills.forEach((s) => existingSkills.add(s));
+      analysisResult.candidate.skills.forEach((s) => existingSkills.add(s));
       candidate.skills = Array.from(existingSkills);
-      await candidate.save();
     }
+    if (analysisResult.candidate?.location && (!candidate.location || candidate.location === '')) {
+      candidate.location = analysisResult.candidate.location;
+    }
+    if (analysisResult.candidate?.totalExperienceYears !== undefined) {
+      candidate.totalExperience = `${analysisResult.candidate.totalExperienceYears} years`;
+      candidate.experienceLevel = analysisResult.candidate.totalExperienceYears > 4 ? 'senior' : analysisResult.candidate.totalExperienceYears > 1 ? 'mid' : 'junior';
+    }
+    await candidate.save();
 
     res.status(201).json({
       success: true,
