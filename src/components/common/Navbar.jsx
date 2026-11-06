@@ -92,6 +92,16 @@ export const Navbar = () => {
                 Job Moderation
               </Link>
               <Link
+                to="/admin/applications"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  isActive('/admin/applications')
+                    ? 'bg-brand-primary-light text-brand-primary font-bold'
+                    : 'text-brand-text hover:text-brand-primary hover:bg-white/80'
+                }`}
+              >
+                Applications
+              </Link>
+              <Link
                 to="/admin/reports"
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   isActive('/admin/reports')
@@ -197,14 +207,16 @@ export const Navbar = () => {
                         </Badge>
                       </div>
 
-                      <Link
-                        to={getDashboardLink()}
-                        onClick={() => setIsDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-text hover:bg-brand-primary-light hover:text-brand-navy transition-colors font-medium"
-                      >
-                        <Compass className="w-4 h-4 text-brand-primary" />
-                        Dashboard
-                      </Link>
+                      {role !== 'admin' && (
+                        <Link
+                          to={getDashboardLink()}
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-text hover:bg-brand-primary-light hover:text-brand-navy transition-colors font-medium"
+                        >
+                          <Compass className="w-4 h-4 text-brand-primary" />
+                          Dashboard
+                        </Link>
+                      )}
 
                       {role === 'candidate' && (
                         <>
@@ -352,6 +364,13 @@ export const Navbar = () => {
                   className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
                 >
                   Job Moderation
+                </Link>
+                <Link
+                  to="/admin/applications"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
+                >
+                  Candidate Applications
                 </Link>
                 <Link
                   to="/admin/reports"

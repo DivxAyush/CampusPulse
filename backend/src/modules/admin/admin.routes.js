@@ -7,6 +7,7 @@ import {
   toggleCompanyVerification,
   getAdminJobs,
   deleteAdminJob,
+  getAdminApplications,
   getAdminReports,
 } from './admin.controller.js';
 import { protect, authorize } from '../../middleware/auth.middleware.js';
@@ -23,6 +24,7 @@ router.get('/companies', getAdminCompanies);
 router.patch('/companies/:id/verify', toggleCompanyVerification);
 router.get('/jobs', getAdminJobs);
 router.delete('/jobs/:id', deleteAdminJob);
+router.get('/applications', getAdminApplications);
 router.get('/reports', getAdminReports);
 
 export default router;

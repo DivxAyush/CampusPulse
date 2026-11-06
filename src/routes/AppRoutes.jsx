@@ -45,6 +45,7 @@ import { CompanySettingsPage } from '../pages/company/CompanySettingsPage';
 // Admin Pages
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminUsersPage, AdminCompaniesPage, AdminJobsPage, AdminReportsPage } from '../pages/admin/AdminUsersPage';
+import { AdminApplicationsPage } from '../pages/admin/AdminApplicationsPage';
 
 export const AppRoutes = () => {
   return (
@@ -101,6 +102,7 @@ export const AppRoutes = () => {
         <Route path="users" element={<AdminUsersPage />} />
         <Route path="companies" element={<AdminCompaniesPage />} />
         <Route path="jobs" element={<AdminJobsPage />} />
+        <Route path="applications" element={<AdminApplicationsPage />} />
         <Route path="reports" element={<AdminReportsPage />} />
       </Route>
 

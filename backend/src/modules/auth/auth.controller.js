@@ -182,6 +182,14 @@ export const login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials. Password incorrect.' });
     }
 
+    if (user.accountStatus === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        isSuspended: true,
+        message: 'Aapka account suspend hai, please help & support team se baat kijiye.',
+      });
+    }
+
     if (role && user.role !== role && user.role !== 'admin') {
       return res.status(403).json({
         success: false,

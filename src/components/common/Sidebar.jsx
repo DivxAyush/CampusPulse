@@ -44,6 +44,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
     { label: 'All Users', path: '/admin/users', icon: Users },
     { label: 'Companies', path: '/admin/companies', icon: Building2 },
     { label: 'Job Moderation', path: '/admin/jobs', icon: Briefcase },
+    { label: 'Applications', path: '/admin/applications', icon: Send },
     { label: 'System Reports', path: '/admin/reports', icon: BarChart3 },
   ];
 

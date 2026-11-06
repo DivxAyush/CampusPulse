@@ -123,6 +123,25 @@ export const deleteAdminJob = async (req, res) => {
   }
 };
 
+export const getAdminApplications = async (req, res) => {
+  try {
+    if (!getIsConnected()) {
+      return res.status(503).json({ success: false, message: 'Database service is currently unavailable.' });
+    }
+    const applications = await Application.find()
+      .populate('jobId', 'title slug jobType location salary')
+      .populate('companyId', 'companyName slug logo isVerified')
+      .populate({
+        path: 'candidateId',
+        populate: { path: 'userId', select: 'fullName email phone' },
+      })
+      .sort({ createdAt: -1 });
+    res.json({ success: true, applications });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 export const getAdminReports = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();

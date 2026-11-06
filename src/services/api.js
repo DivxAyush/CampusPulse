@@ -109,6 +109,7 @@ export const adminAPI = {
   toggleCompanyVerification: (id) => api.patch(`/admin/companies/${id}/verify`),
   getJobs: () => api.get('/admin/jobs'),
   deleteJob: (id) => api.delete(`/admin/jobs/${id}`),
+  getApplications: () => api.get('/admin/applications'),
   getReports: () => api.get('/admin/reports'),
 };
 

@@ -41,6 +41,14 @@ export const protect = async (req, res, next) => {
       };
     }
 
+    if (user && user.accountStatus === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        isSuspended: true,
+        message: 'Aapka account suspend hai, please help & support team se baat kijiye.',
+      });
+    }
+
     req.user = user;
     next();
   } catch (error) {

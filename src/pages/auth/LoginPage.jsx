@@ -83,8 +83,15 @@ export const LoginPage = () => {
 
         {/* Error message alert */}
         {errorMessage && (
-          <div className="p-2.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium leading-relaxed">
-            {errorMessage}
+          <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium leading-relaxed space-y-1.5">
+            <div>{errorMessage}</div>
+            {errorMessage.toLowerCase().includes('suspend') && (
+              <div className="pt-1.5 border-t border-red-200/80">
+                <Link to="/help" className="font-bold underline text-red-800 hover:text-red-950 inline-flex items-center gap-1">
+                  Contact Help & Support Desk &rarr;
+                </Link>
+              </div>
+            )}
           </div>
         )}
 
