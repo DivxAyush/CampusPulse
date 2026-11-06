@@ -73,41 +73,6 @@ export const AdminDashboardPage = () => {
           isLoading={isLoading}
         />
       </div>
-
-      {/* Deep Link Management Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Link to="/admin/users" className="bg-white p-6 rounded-3xl border border-brand-border shadow-subtle hover:shadow-card hover:border-brand-primary transition-all space-y-2 group">
-          <div className="w-10 h-10 rounded-xl bg-brand-primary-light flex items-center justify-center text-brand-primary group-hover:scale-105 transition-transform">
-            <Users className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-brand-navy group-hover:text-brand-primary transition-colors">User Management</h3>
-          <p className="text-xs text-brand-muted leading-relaxed">Inspect candidate accounts, verification status, and moderation.</p>
-        </Link>
-
-        <Link to="/admin/companies" className="bg-white p-6 rounded-3xl border border-brand-border shadow-subtle hover:shadow-card hover:border-brand-primary transition-all space-y-2 group">
-          <div className="w-10 h-10 rounded-xl bg-brand-primary-light flex items-center justify-center text-brand-primary group-hover:scale-105 transition-transform">
-            <Building2 className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-brand-navy group-hover:text-brand-primary transition-colors">Company Verification</h3>
-          <p className="text-xs text-brand-muted leading-relaxed">Review corporate credentials, assign verification badges, and monitor hiring.</p>
-        </Link>
-
-        <Link to="/admin/jobs" className="bg-white p-6 rounded-3xl border border-brand-border shadow-subtle hover:shadow-card hover:border-brand-primary transition-all space-y-2 group">
-          <div className="w-10 h-10 rounded-xl bg-brand-primary-light flex items-center justify-center text-brand-primary group-hover:scale-105 transition-transform">
-            <Briefcase className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-brand-navy group-hover:text-brand-primary transition-colors">Job Moderation</h3>
-          <p className="text-xs text-brand-muted leading-relaxed">Monitor listings, enforce content standards, and manage expired positions.</p>
-        </Link>
-
-        <Link to="/admin/applications" className="bg-white p-6 rounded-3xl border border-brand-border shadow-subtle hover:shadow-card hover:border-brand-primary transition-all space-y-2 group">
-          <div className="w-10 h-10 rounded-xl bg-brand-primary-light flex items-center justify-center text-brand-primary group-hover:scale-105 transition-transform">
-            <Send className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-brand-navy group-hover:text-brand-primary transition-colors">Candidate Applications</h3>
-          <p className="text-xs text-brand-muted leading-relaxed">Audit submissions, track application pipelines, and inspect hiring velocity.</p>
-        </Link>
-      </div>
     </div>
   );
 };
