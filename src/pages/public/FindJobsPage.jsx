@@ -79,7 +79,7 @@ export const FindJobsPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>
           <Badge variant="primary" size="sm" className="mb-2">
-            Campus Plus Directory
+            CampusPulse AI Directory
           </Badge>
           <h1 className="text-3xl font-extrabold text-brand-navy tracking-tight">Explore Job Openings</h1>
           <p className="text-sm text-brand-muted mt-1">

@@ -78,75 +78,205 @@ export const HomePage = () => {
   return (
     <div className="space-y-20 pb-20 overflow-hidden">
       {/* 1. HERO SECTION */}
-      <section className="relative pt-10 sm:pt-16 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-[1680px] mx-auto">
-        <div className="text-center max-w-3xl mx-auto space-y-6">
+      <section className="relative pt-8 sm:pt-14 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-[1680px] mx-auto">
+        {/* BACKGROUND GRAPHIC SVGS & AMBIENT GLOW */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+          {/* Subtle Ambient Radial Gradients */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-gradient-to-b from-brand-primary/12 via-teal-400/8 to-transparent rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/4 -left-20 w-[320px] h-[320px] bg-brand-primary/8 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/3 -right-20 w-[320px] h-[320px] bg-teal-300/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Precision Tech Grid SVG Pattern */}
+          <svg className="absolute inset-0 w-full h-full opacity-[0.28]" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="hero-tech-grid" width="38" height="38" patternUnits="userSpaceOnUse">
+                <path d="M 38 0 L 0 0 0 38" fill="none" stroke="currentColor" strokeWidth="1" className="text-brand-border" />
+                <circle cx="38" cy="38" r="1.2" className="text-brand-primary" fill="currentColor" opacity="0.5" />
+              </pattern>
+              <radialGradient id="hero-grid-fade" cx="50%" cy="38%" r="62%">
+                <stop offset="0%" stopColor="white" stopOpacity="1" />
+                <stop offset="65%" stopColor="white" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="white" stopOpacity="0" />
+              </radialGradient>
+              <mask id="hero-mask-element">
+                <rect width="100%" height="100%" fill="url(#hero-grid-fade)" />
+              </mask>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hero-tech-grid)" mask="url(#hero-mask-element)" />
+          </svg>
+        </div>
+
+        {/* LEFT FLOATING GRAPHIC CARD (PulseAI ATS Engine) */}
+        <motion.div
+          initial={{ opacity: 0, x: -35 }}
+          animate={{ opacity: 1, x: 0, y: [0, -8, 0] }}
+          transition={{
+            opacity: { duration: 0.6, delay: 0.3 },
+            x: { duration: 0.6, delay: 0.3 },
+            y: { repeat: Infinity, duration: 4.5, ease: 'easeInOut' },
+          }}
+          className="hidden xl:flex absolute left-4 2xl:left-14 top-24 items-center gap-3.5 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-brand-border/90 shadow-card hover:shadow-card-hover transition-all z-10 max-w-[240px] select-none pointer-events-none"
+        >
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-primary to-teal-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <Sparkles className="w-5 h-5 animate-pulse" />
+          </div>
+          <div className="text-left">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-brand-navy">PulseAI Match</span>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+            </div>
+            <div className="text-[11px] text-brand-muted mt-0.5">98.4% ATS Compatibility</div>
+            <div className="w-full bg-gray-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+              <div className="bg-brand-primary h-full rounded-full w-[94%]" />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* RIGHT FLOATING GRAPHIC CARD (Verified Companies) */}
+        <motion.div
+          initial={{ opacity: 0, x: 35 }}
+          animate={{ opacity: 1, x: 0, y: [0, 8, 0] }}
+          transition={{
+            opacity: { duration: 0.6, delay: 0.4 },
+            x: { duration: 0.6, delay: 0.4 },
+            y: { repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 0.5 },
+          }}
+          className="hidden xl:flex absolute right-4 2xl:right-14 top-28 items-center gap-3.5 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-brand-border/90 shadow-card hover:shadow-card-hover transition-all z-10 max-w-[240px] select-none pointer-events-none"
+        >
+          <div className="w-10 h-10 rounded-xl bg-brand-primary-light text-brand-primary flex items-center justify-center shrink-0 border border-brand-primary/20">
+            <ShieldCheck className="w-5 h-5" />
+          </div>
+          <div className="text-left">
+            <div className="text-xs font-bold text-brand-navy">Verified Employers</div>
+            <div className="text-[11px] text-brand-muted mt-0.5">500+ Active Tech Roles</div>
+            <div className="flex items-center gap-1 mt-1 text-[10px] font-bold text-brand-primary">
+              <CheckCircle2 className="w-3 h-3" /> Direct Referral Mode
+            </div>
+          </div>
+        </motion.div>
+
+        {/* CENTRAL HERO CONTENT */}
+        <div className="text-center max-w-3xl mx-auto space-y-5 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary-light border border-brand-primary/20 text-brand-navy text-xs font-bold"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary-light/80 backdrop-blur-sm border border-brand-primary/25 text-brand-navy text-xs font-bold shadow-2xs hover:border-brand-primary/50 transition-all"
           >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+            </span>
             <Sparkles className="w-3.5 h-3.5 text-brand-primary" />
-            <span>Campus Plus Recruitment Platform 2.0</span>
+            <span>CampusPulse AI Platform 2.0</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-navy tracking-tight leading-[1.15]"
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-brand-navy tracking-tight leading-[1.15]"
           >
             Smart Job Search. <br className="hidden sm:inline" />
-            <span className="text-brand-primary">Smarter Resumes.</span> Better Opportunities.
+            <span className="bg-gradient-to-r from-brand-primary via-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              Smarter Resumes.
+            </span>{' '}
+            Better Opportunities.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto leading-relaxed"
+            className="text-sm sm:text-base lg:text-lg text-brand-muted max-w-2xl mx-auto leading-relaxed"
           >
             Connect directly with verified tech enterprises, optimize your resume using frontier PulseAI, and land high-impact software engineering roles.
           </motion.p>
 
-          {/* LARGE HERO SEARCH INTERFACE */}
+          {/* SLEEK & COMPACT HERO SEARCH INTERFACE */}
           <motion.form
             onSubmit={handleHeroSearch}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl shadow-card-hover border border-brand-border flex flex-col md:flex-row items-center gap-3 text-left max-w-4xl mx-auto mt-8"
+            className="bg-white/95 backdrop-blur-md p-1.5 sm:p-2 rounded-2xl shadow-card hover:shadow-card-hover border border-brand-border/90 transition-all flex flex-col md:flex-row items-center gap-1.5 sm:gap-2 text-left max-w-3xl mx-auto mt-6 focus-within:border-brand-primary/60 focus-within:ring-2 focus-within:ring-brand-primary/10"
           >
-            <div className="flex-1 w-full flex items-center gap-3 px-3 py-2 border-b md:border-b-0 md:border-r border-brand-border">
-              <Search className="w-5 h-5 text-brand-primary flex-shrink-0" />
+            {/* Keyword Field */}
+            <div className="flex-1 w-full flex items-center gap-2.5 px-3 py-1.5 sm:py-2 border-b md:border-b-0 md:border-r border-brand-border/70 group">
+              <Search className="w-4 h-4 text-brand-primary group-focus-within:scale-110 transition-transform shrink-0" />
               <input
                 type="text"
-                placeholder="Job title, keyword, or skill (e.g. React, Node.js)"
+                placeholder="Job title, keyword, or skill (e.g. React, Python)"
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
-                className="w-full text-sm text-brand-text placeholder-gray-400 bg-transparent outline-none"
+                className="w-full text-xs sm:text-sm text-brand-text placeholder-gray-400 bg-transparent outline-none"
               />
+              {searchKeyword && (
+                <button
+                  type="button"
+                  onClick={() => setSearchKeyword('')}
+                  className="text-gray-400 hover:text-gray-600 text-xs px-1"
+                >
+                  ✕
+                </button>
+              )}
             </div>
 
-            <div className="flex-1 w-full flex items-center gap-3 px-3 py-2">
-              <MapPin className="w-5 h-5 text-brand-muted flex-shrink-0" />
+            {/* Location Field */}
+            <div className="flex-1 w-full flex items-center gap-2.5 px-3 py-1.5 sm:py-2 group">
+              <MapPin className="w-4 h-4 text-brand-muted group-focus-within:text-brand-primary transition-colors shrink-0" />
               <input
                 type="text"
                 placeholder="City or location (e.g. Bengaluru, Remote)"
                 value={searchLocation}
                 onChange={(e) => setSearchLocation(e.target.value)}
-                className="w-full text-sm text-brand-text placeholder-gray-400 bg-transparent outline-none"
+                className="w-full text-xs sm:text-sm text-brand-text placeholder-gray-400 bg-transparent outline-none"
               />
+              {searchLocation && (
+                <button
+                  type="button"
+                  onClick={() => setSearchLocation('')}
+                  className="text-gray-400 hover:text-gray-600 text-xs px-1"
+                >
+                  ✕
+                </button>
+              )}
             </div>
 
-            <Button type="submit" variant="primary" size="lg" icon={Search} className="w-full md:w-auto px-8">
-              Find Jobs
-            </Button>
+            {/* Submit Button - Sleek & Compact */}
+            <button
+              type="submit"
+              className="w-full md:w-auto px-5 py-2 sm:py-2.5 bg-brand-primary hover:bg-brand-primary-hover active:scale-[0.98] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs hover:shadow transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+            >
+              <Search className="w-4 h-4" />
+              <span>Find Jobs</span>
+            </button>
           </motion.form>
 
+          {/* RESPONSIVE TRUST HIGHLIGHTS */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 max-w-xl mx-auto pt-1">
+            <div className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/75 backdrop-blur-xs border border-brand-border/60 text-[11px] sm:text-xs font-semibold text-brand-navy shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-brand-primary shrink-0" />
+              <span>AI ATS Diagnostics</span>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/75 backdrop-blur-xs border border-brand-border/60 text-[11px] sm:text-xs font-semibold text-brand-navy shadow-2xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-brand-primary shrink-0" />
+              <span>100% Verified Jobs</span>
+            </div>
+            <div className="col-span-2 sm:col-span-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/75 backdrop-blur-xs border border-brand-border/60 text-[11px] sm:text-xs font-semibold text-brand-navy shadow-2xs">
+              <Zap className="w-3.5 h-3.5 text-brand-primary shrink-0" />
+              <span>Direct Applications</span>
+            </div>
+          </div>
+
           {/* POPULAR SEARCH TAGS */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-brand-muted">
-            <span className="font-semibold text-brand-navy">Trending Searches:</span>
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1 text-xs text-brand-muted">
+            <span className="font-semibold text-brand-navy text-[11px] sm:text-xs flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-brand-primary" /> Trending:
+            </span>
             {['React Developer', 'Full Stack MERN', 'Node.js Backend', 'Internship 2024', 'Remote Jobs'].map((tag) => (
               <button
                 key={tag}
@@ -155,7 +285,7 @@ export const HomePage = () => {
                   setSearchKeyword(tag);
                   navigate(`/jobs?search=${encodeURIComponent(tag)}`);
                 }}
-                className="px-2.5 py-1 rounded-lg bg-white border border-brand-border text-brand-text hover:border-brand-primary hover:text-brand-primary transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded-lg bg-white/80 hover:bg-white border border-brand-border text-[11px] sm:text-xs font-medium text-brand-text hover:border-brand-primary hover:text-brand-primary transition-all cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
               >
                 {tag}
               </button>
@@ -164,16 +294,23 @@ export const HomePage = () => {
         </div>
 
         {/* TRUSTED COMPANIES BANNER */}
-        <div className="mt-14 pt-8 border-t border-brand-border/70 text-center">
-          <p className="text-xs uppercase tracking-widest font-bold text-brand-muted mb-6">
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-brand-border/70 text-center relative z-10">
+          <p className="text-[11px] sm:text-xs uppercase tracking-widest font-bold text-brand-muted mb-5 flex items-center justify-center gap-2">
+            <Award className="w-3.5 h-3.5 text-brand-primary" />
             Trusted by hiring engineering teams across India & Global Tech
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75">
+          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-10 opacity-85">
             {partnerLogos.map((name, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm font-extrabold text-brand-navy tracking-tight">
-                <Building2 className="w-4 h-4 text-brand-primary" />
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-brand-navy tracking-tight px-3 py-1.5 rounded-xl hover:bg-white/80 transition-all cursor-default"
+              >
+                <div className="w-6 h-6 rounded-lg bg-brand-primary-light flex items-center justify-center text-brand-primary">
+                  <Building2 className="w-3.5 h-3.5" />
+                </div>
                 {name}
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -279,7 +416,7 @@ export const HomePage = () => {
                 Turn your resume into an interview magnet with AI
               </h2>
               <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                Campus Plus integrates PulseAI to parse your PDF, detect ATS compatibility bottlenecks, score your quantifiable accomplishments, and provide role-targeted skill matches.
+                CampusPulse AI integrates PulseAI to parse your PDF, detect ATS compatibility bottlenecks, score your quantifiable accomplishments, and provide role-targeted skill matches.
               </p>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
@@ -356,7 +493,7 @@ export const HomePage = () => {
             Seamless 3-Step Process
           </Badge>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
-            How Campus Plus Works
+            How CampusPulse AI Works
           </h2>
           <p className="text-sm text-brand-muted mt-2">
             Accelerate your career journey from initial resume scan to interview offer letter
@@ -404,7 +541,7 @@ export const HomePage = () => {
             Ready to find your next software engineering opportunity?
           </h2>
           <p className="text-sm sm:text-base text-emerald-100 max-w-xl mx-auto leading-relaxed">
-            Join thousands of developers and top recruiters building their future with Campus Plus.
+            Join thousands of developers and top recruiters building their future with CampusPulse AI.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link to="/register">
