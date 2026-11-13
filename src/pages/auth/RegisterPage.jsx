@@ -23,8 +23,8 @@ export const RegisterPage = () => {
     email: '',
     password: '',
     phone: '',
-    headline: 'Software Engineer',
-    location: 'Bengaluru, India',
+    headline: 'MBA Graduate | Business & Marketing Specialist',
+    location: 'Delhi NCR, India',
   });
 
   // Company fields
@@ -35,9 +35,9 @@ export const RegisterPage = () => {
     phone: '',
     companyName: '',
     website: '',
-    industry: 'Technology & Software',
+    industry: 'Management & Business Services',
     companySize: '50-200 employees',
-    headquarters: 'Bengaluru, India',
+    headquarters: 'Delhi NCR, India',
   });
 
   const handleCandidateSubmit = async (e) => {
@@ -49,7 +49,7 @@ export const RegisterPage = () => {
     setIsLoading(false);
 
     if (res.success) {
-      addToast('Candidate account created! Welcome to Campus Plus.', 'success');
+      addToast('Student account created! Welcome to IILM University Career Portal.', 'success');
       navigate('/candidate/dashboard');
     } else {
       setErrorMessage(res.message);
@@ -88,7 +88,7 @@ export const RegisterPage = () => {
             <Logo variant="image" size="lg" className="h-12" />
           </div>
           <h1 className="text-2xl font-extrabold text-brand-navy">Create Your Account</h1>
-          <p className="text-xs text-brand-muted">Choose your role to get started with Campus Plus</p>
+          <p className="text-xs text-brand-muted">Choose your role to get started with IILM University Career Portal</p>
         </div>
 
         {/* Role Toggle Tabs */}
@@ -102,7 +102,7 @@ export const RegisterPage = () => {
                 : 'text-brand-muted hover:text-brand-navy'
             }`}
           >
-            <User className="w-4 h-4 text-brand-primary" /> Candidate / Job Seeker
+            <User className="w-4 h-4 text-brand-primary" /> Student / Candidate
           </button>
           <button
             type="button"
@@ -113,7 +113,7 @@ export const RegisterPage = () => {
                 : 'text-brand-muted hover:text-brand-navy'
             }`}
           >
-            <Building2 className="w-4 h-4 text-brand-primary" /> Employer / Recruiter
+            <Building2 className="w-4 h-4 text-brand-primary" /> Corporate Partner / Recruiter
           </button>
         </div>
 
@@ -140,7 +140,7 @@ export const RegisterPage = () => {
                 type="email"
                 required
                 icon={Mail}
-                placeholder="abhishek@example.com"
+                placeholder="abhishek@iilm.edu"
                 value={candData.email}
                 onChange={(e) => setCandData({ ...candData, email: e.target.value })}
               />
@@ -168,21 +168,21 @@ export const RegisterPage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
                 label="Professional Headline"
-                placeholder="Full Stack Engineer | React, Node.js"
+                placeholder="MBA Candidate | HR & Strategic Management"
                 value={candData.headline}
                 onChange={(e) => setCandData({ ...candData, headline: e.target.value })}
               />
               <Input
                 label="City / Preferred Location"
                 icon={MapPin}
-                placeholder="Bengaluru, India"
+                placeholder="Delhi NCR, India"
                 value={candData.location}
                 onChange={(e) => setCandData({ ...candData, location: e.target.value })}
               />
             </div>
 
             <Button type="submit" variant="primary" size="lg" isLoading={isLoading} className="w-full mt-2">
-              Create Candidate Account
+              Create Student Account
             </Button>
           </form>
         ) : (

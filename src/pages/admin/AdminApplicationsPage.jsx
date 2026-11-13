@@ -35,11 +35,11 @@ export const AdminApplicationsPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-4">
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-primary-light text-brand-primary mb-1">
-            <Send className="w-3 h-3" /> Platform Pipeline Audit
+            <Send className="w-3 h-3" /> University Placement Pipeline
           </div>
-          <h1 className="text-2xl font-extrabold text-brand-navy">Candidate Applications</h1>
+          <h1 className="text-2xl font-extrabold text-brand-navy">Student Applications & Placements</h1>
           <p className="text-xs text-brand-muted mt-1">
-            Audit candidate submissions, employer routing, and AI resume match signals across organizations.
+            Audit student applications, corporate partner routing, and career match signals across organizations.
           </p>
         </div>
         <Button variant="outline" size="sm" onClick={loadApplications} isLoading={isLoading} className="text-xs self-start sm:self-auto">
@@ -60,12 +60,12 @@ export const AdminApplicationsPage = () => {
           <div className="space-y-1">
             <h3 className="text-lg font-bold text-brand-navy">No Applications Recorded Yet</h3>
             <p className="text-xs text-brand-muted max-w-md mx-auto">
-              Candidate submissions submitted across employer job postings will appear here in real-time with full telemetry and status tracking.
+              Student applications submitted across partner postings will appear here in real-time with full telemetry and status tracking.
             </p>
           </div>
           <Link to="/admin/jobs">
             <Button variant="primary" size="sm" className="mt-2">
-              Inspect Active Jobs
+              Inspect Active Opportunities
             </Button>
           </Link>
         </div>

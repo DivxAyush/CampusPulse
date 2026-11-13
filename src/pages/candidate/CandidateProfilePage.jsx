@@ -101,9 +101,9 @@ export const CandidateProfilePage = () => {
           <Badge variant="primary" size="sm" className="mb-2">
             Profile Settings
           </Badge>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Candidate Profile</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Student Profile</h1>
           <p className="text-xs sm:text-sm text-brand-muted mt-1">
-            Keep your skills, experience, and education updated for accurate AI job matching.
+            Keep your management competencies, internships, and education updated for corporate placement matching.
           </p>
         </div>
         <Button type="submit" variant="primary" size="md" isLoading={isSaving} icon={Save}>
@@ -135,7 +135,7 @@ export const CandidateProfilePage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label="Professional Headline"
-            placeholder="e.g. Full Stack Engineer | React & Node.js"
+            placeholder="e.g. MBA Candidate | HR & Strategic Management"
             value={formData.headline}
             onChange={(e) => setFormData({ ...formData, headline: e.target.value })}
           />

@@ -34,13 +34,13 @@ export const RecommendedJobsPage = () => {
       {/* Header */}
       <div className="border-b border-brand-border pb-6">
         <Badge variant="primary" size="sm" className="mb-2">
-          PulseAI-Matched Openings
+          AI Placement Matching
         </Badge>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
-          Recommended Jobs For You
+          Recommended Opportunities For You
         </h1>
         <p className="text-xs sm:text-sm text-brand-muted mt-1">
-          These openings are calculated by PulseAI based on your primary skills, verified experience, and profile preferences.
+          These openings are calculated by Career AI based on your primary domain skills, verified internships, and placement preferences.
         </p>
       </div>
 
@@ -54,7 +54,7 @@ export const RecommendedJobsPage = () => {
         <EmptyState
           icon={Sparkles}
           title="No recommendations found yet"
-          description="Update your candidate profile skills and experience to receive personalized job suggestions."
+          description="Update your student profile skills and specialization to receive personalized placement suggestions."
         />
       ) : (
         <div className="space-y-5">

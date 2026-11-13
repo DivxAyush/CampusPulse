@@ -72,13 +72,13 @@ export const UniversityDashboardPage = () => {
           <div className="space-y-1.5 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>TPO Intelligence Hub • Powered by PulseAI TPO Agent</span>
+              <span>IILM University TPO Intelligence Hub • Career & Placement Portal</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B251E] tracking-tight">
               University Placement & Cohort Employability Dashboard
             </h1>
             <p className="text-xs sm:text-sm text-gray-500 font-medium">
-              Apex School of Management & Commerce • Batch of 2025–2026 (Marketing, Finance & HR Cohorts)
+              IILM University • Faculty of Management Studies & Placement Cell (MBA, HR, Marketing & Analytics Cohorts)
             </p>
           </div>
 

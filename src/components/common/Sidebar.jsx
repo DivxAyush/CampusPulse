@@ -21,13 +21,13 @@ import {
 export const Sidebar = ({ role = 'candidate', onClose }) => {
   const candidateLinks = [
     { label: 'Dashboard', path: '/candidate/dashboard', icon: LayoutDashboard },
-    { label: 'My Profile', path: '/candidate/profile', icon: User },
+    { label: 'Student Profile', path: '/candidate/profile', icon: User },
     { label: 'My Resume', path: '/candidate/resumes', icon: FileText },
-    { label: 'PulseAI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles },
+    { label: 'Career AI Analyzer', path: '/candidate/ai-analyzer', icon: Sparkles },
     { label: 'Career Roadmap', path: '/candidate/career-roadmap', icon: Compass },
     { label: 'Mock Interview', path: '/candidate/mock-interview', icon: Calendar },
-    { label: 'Find Jobs', path: '/candidate/jobs', icon: Briefcase },
-    { label: 'Saved Jobs', path: '/candidate/saved', icon: Bookmark },
+    { label: 'Career Opportunities', path: '/candidate/jobs', icon: Briefcase },
+    { label: 'Saved Opportunities', path: '/candidate/saved', icon: Bookmark },
     { label: 'My Applications', path: '/candidate/applications', icon: Send },
     { label: 'Settings', path: '/candidate/settings', icon: Settings },
   ];
@@ -43,13 +43,13 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
   ];
 
   const adminLinks = [
-    { label: 'Overview', path: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'All Users', path: '/admin/users', icon: Users },
-    { label: 'Companies', path: '/admin/companies', icon: Building2 },
-    { label: 'Job Moderation', path: '/admin/jobs', icon: Briefcase },
-    { label: 'Applications', path: '/admin/applications', icon: Send },
+    { label: 'University Overview', path: '/admin/dashboard', icon: LayoutDashboard },
+    { label: 'Students & Users', path: '/admin/users', icon: Users },
+    { label: 'Corporate Partners', path: '/admin/companies', icon: Building2 },
+    { label: 'Opportunity Moderation', path: '/admin/jobs', icon: Briefcase },
+    { label: 'Student Applications', path: '/admin/applications', icon: Send },
     { label: 'Mock Interviews', path: '/admin/mock-interviews', icon: Calendar },
-    { label: 'System Reports', path: '/admin/reports', icon: BarChart3 },
+    { label: 'University Analytics', path: '/admin/reports', icon: BarChart3 },
   ];
 
   const links = role === 'company' ? companyLinks : role === 'admin' ? adminLinks : candidateLinks;
@@ -99,7 +99,7 @@ export const Sidebar = ({ role = 'candidate', onClose }) => {
 
       {/* Bottom info */}
       <div className="pt-3 border-t border-brand-border/60 text-[11px] text-brand-muted px-2 flex items-center justify-between">
-        <span className="font-medium">CampusPulse AI v1.0</span>
+        <span className="font-medium">IILM University Portal</span>
         <span className="flex items-center gap-1 text-emerald-600 font-semibold">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
         </span>

@@ -47,8 +47,8 @@ export const AdminUsersPage = () => {
   return (
     <div className="space-y-6 w-full">
       <div className="border-b border-brand-border pb-4">
-        <h1 className="text-2xl font-extrabold text-brand-navy">User Management</h1>
-        <p className="text-xs text-brand-muted mt-1">Review registered candidates and employer accounts.</p>
+        <h1 className="text-2xl font-extrabold text-brand-navy">Student & User Management</h1>
+        <p className="text-xs text-brand-muted mt-1">Manage registered students, candidates, and employer accounts.</p>
       </div>
 
       {isLoading ? (
@@ -143,8 +143,8 @@ export const AdminCompaniesPage = () => {
   return (
     <div className="space-y-6 w-full">
       <div className="border-b border-brand-border pb-4">
-        <h1 className="text-2xl font-extrabold text-brand-navy">Company Verification</h1>
-        <p className="text-xs text-brand-muted mt-1">Manage verified partner status badges.</p>
+        <h1 className="text-2xl font-extrabold text-brand-navy">Corporate Partner Verification</h1>
+        <p className="text-xs text-brand-muted mt-1">Manage verified IILM corporate recruitment partner status.</p>
       </div>
 
       {isLoading ? (
@@ -229,8 +229,8 @@ export const AdminJobsPage = () => {
   return (
     <div className="space-y-6 w-full">
       <div className="border-b border-brand-border pb-4">
-        <h1 className="text-2xl font-extrabold text-brand-navy">Job Moderation</h1>
-        <p className="text-xs text-brand-muted mt-1">Audit active openings across partner organizations.</p>
+        <h1 className="text-2xl font-extrabold text-brand-navy">Opportunity Moderation</h1>
+        <p className="text-xs text-brand-muted mt-1">Audit active placement openings across partner organizations.</p>
       </div>
 
       {isLoading ? (
@@ -293,8 +293,8 @@ export const AdminReportsPage = () => {
   return (
     <div className="space-y-6 w-full">
       <div className="border-b border-brand-border pb-4">
-        <h1 className="text-2xl font-extrabold text-brand-navy">System Reports & Health</h1>
-        <p className="text-xs text-brand-muted mt-1">Real-time platform infrastructure benchmarks.</p>
+        <h1 className="text-2xl font-extrabold text-brand-navy">University Analytics & Health</h1>
+        <p className="text-xs text-brand-muted mt-1">Real-time platform infrastructure & university placement telemetry.</p>
       </div>
 
       {isLoading ? (

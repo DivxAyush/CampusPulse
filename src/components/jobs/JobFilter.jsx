@@ -44,7 +44,7 @@ export const JobFilter = ({ filters, setFilters, onReset, totalJobs = 0 }) => {
           <Search className="w-4 h-4 absolute left-3 top-3 text-brand-muted" />
           <input
             type="text"
-            placeholder="e.g. React, Node.js, Frontend..."
+            placeholder="e.g. MBA, HR, Marketing, Finance..."
             value={filters.search || ''}
             onChange={(e) => handleChange('search', e.target.value)}
             className="w-full bg-brand-bg/60 border border-brand-border rounded-xl pl-9 pr-3 py-2 text-sm text-brand-text outline-none focus:border-brand-primary focus:bg-white transition-all"

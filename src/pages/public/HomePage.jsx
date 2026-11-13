@@ -58,21 +58,21 @@ export const HomePage = () => {
   };
 
   const categories = [
-    { title: 'Frontend Engineering', jobsCount: '140+ jobs', icon: Layers },
-    { title: 'Backend & Microservices', jobsCount: '185+ jobs', icon: Cpu },
-    { title: 'Full Stack Development', jobsCount: '210+ jobs', icon: Briefcase },
-    { title: 'AI & Machine Learning', jobsCount: '95+ jobs', icon: Sparkles },
-    { title: 'Cloud & DevOps', jobsCount: '110+ jobs', icon: Zap },
-    { title: 'Product & UI/UX Design', jobsCount: '80+ jobs', icon: Compass },
+    { title: 'MBA & Management', jobsCount: '140+ opportunities', icon: Briefcase },
+    { title: 'Human Resources (HR)', jobsCount: '185+ opportunities', icon: Users },
+    { title: 'Marketing & Brand Strategy', jobsCount: '210+ opportunities', icon: TrendingUp },
+    { title: 'Data Analytics & BI', jobsCount: '95+ opportunities', icon: Sparkles },
+    { title: 'Operations & Strategy', jobsCount: '110+ opportunities', icon: Layers },
+    { title: 'Entrepreneurship & Leadership', jobsCount: '80+ opportunities', icon: Compass },
   ];
 
   const partnerLogos = [
-    'Nexus Cloud',
-    'FinPulse Tech',
-    'Zephyr AI',
-    'Quantum Health',
-    'Elevate Digital',
-    'Vertex Dynamics',
+    'Deloitte',
+    'KPMG',
+    'McKinsey & Co.',
+    'EY India',
+    'Boston Consulting Group',
+    'Accenture Strategy',
   ];
 
   return (
@@ -120,7 +120,7 @@ export const HomePage = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
               </span>
               <Sparkles className="w-3.5 h-3.5 text-brand-primary" />
-              <span>CampusPulse AI Platform 2.0</span>
+              <span>IILM University Career Platform</span>
             </motion.div>
 
             <motion.h1
@@ -129,11 +129,11 @@ export const HomePage = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-brand-navy tracking-tight leading-[1.15]"
             >
-              Smart Job Search.{' '}
+              Smart Career Launch.{' '}
               <span className="bg-gradient-to-r from-brand-primary via-emerald-600 to-teal-500 bg-clip-text text-transparent">
-                Smarter Resumes.
+                Better Placements.
               </span>{' '}
-              Better Opportunities.
+              Real Outcomes.
             </motion.h1>
 
             <motion.p
@@ -142,7 +142,7 @@ export const HomePage = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-sm sm:text-base lg:text-lg text-brand-muted max-w-xl leading-relaxed"
             >
-              Connect directly with verified tech enterprises, optimize your resume using frontier PulseAI, and land high-impact software engineering roles.
+              Connect with IILM University's placement cell, leverage AI-powered career tools, and land roles in MBA, HR, Marketing & Business Analytics.
             </motion.p>
 
             {/* SLEEK & COMPACT HERO SEARCH BAR */}
@@ -158,7 +158,7 @@ export const HomePage = () => {
                 <Search className="w-4 h-4 text-brand-primary group-focus-within:scale-110 transition-transform shrink-0" />
                 <input
                   type="text"
-                  placeholder="Job title or skill (e.g. React, Python)"
+                  placeholder="Opportunity or skill (e.g. MBA, HR, Marketing, Analytics)"
                   value={searchKeyword}
                   onChange={(e) => setSearchKeyword(e.target.value)}
                   className="w-full text-xs sm:text-sm text-brand-text placeholder-gray-400 bg-transparent outline-none"
@@ -179,7 +179,7 @@ export const HomePage = () => {
                 <MapPin className="w-4 h-4 text-brand-muted group-focus-within:text-brand-primary transition-colors shrink-0" />
                 <input
                   type="text"
-                  placeholder="Location (e.g. Bengaluru, Remote)"
+                  placeholder="Location (e.g. Delhi NCR, Mumbai, Remote)"
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
                   className="w-full text-xs sm:text-sm text-brand-text placeholder-gray-400 bg-transparent outline-none"
@@ -210,7 +210,7 @@ export const HomePage = () => {
               <span className="font-semibold text-brand-navy text-[11px] sm:text-xs flex items-center gap-1">
                 <TrendingUp className="w-3 h-3 text-brand-primary" /> Trending:
               </span>
-              {['React Developer', 'Full Stack MERN', 'Node.js Backend', 'Internship 2024', 'Remote Jobs'].map((tag) => (
+              {['MBA Programs', 'HR Manager', 'Marketing Analyst', 'Business Analytics', 'Finance Roles'].map((tag) => (
                 <button
                   key={tag}
                   type="button"
@@ -282,7 +282,7 @@ export const HomePage = () => {
                       <span className="text-xs font-bold text-brand-navy">Arjun Mehta</span>
                       <ShieldCheck className="w-3.5 h-3.5 text-brand-primary" />
                     </div>
-                    <p className="text-[11px] text-brand-muted">Full Stack Engineer (React • Node)</p>
+                    <p className="text-[11px] text-brand-muted">MBA Associate (Marketing & Analytics)</p>
                   </div>
                 </div>
 
@@ -327,20 +327,20 @@ export const HomePage = () => {
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-bold text-brand-navy">Nexus Cloud AI</span>
+                        <span className="text-xs font-bold text-brand-navy">Deloitte Consulting</span>
                         <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-brand-primary-light text-brand-navy">Verified</span>
                       </div>
-                      <p className="text-xs font-semibold text-brand-text">Lead Full Stack Engineer</p>
+                      <p className="text-xs font-semibold text-brand-text">Senior Strategy & Analytics Consultant</p>
                     </div>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md shrink-0">
-                    ₹20L - ₹32L PA
+                    ₹18L - ₹28L PA
                   </span>
                 </div>
 
                 {/* Skill Match Tags */}
                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                  {['React.js', 'Next.js', 'Node.js', 'TypeScript'].map((skill) => (
+                  {['Business Analytics', 'Power BI', 'Market Research', 'Financial Modeling'].map((skill) => (
                     <span
                       key={skill}
                       className="px-2 py-0.5 rounded-md bg-brand-bg text-[10px] font-medium text-brand-text border border-brand-border/60"
@@ -356,7 +356,7 @@ export const HomePage = () => {
                 {/* 1-Click Fast-Track Apply */}
                 <div className="pt-2 flex items-center justify-between text-[11px] border-t border-brand-border/60">
                   <span className="text-brand-muted flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-brand-primary" /> Bengaluru • Remote
+                    <MapPin className="w-3 h-3 text-brand-primary" /> Gurugram • Delhi NCR
                   </span>
                   <Link
                     to="/jobs"
@@ -391,7 +391,7 @@ export const HomePage = () => {
         <div className="mt-12 sm:mt-16 pt-8 border-t border-brand-border/70 text-center relative z-10">
           <p className="text-[11px] sm:text-xs uppercase tracking-widest font-bold text-brand-muted mb-5 flex items-center justify-center gap-2">
             <Award className="w-3.5 h-3.5 text-brand-primary" />
-            Trusted by hiring engineering teams across India & Global Tech
+            Trusted by top corporate recruiters across Management, Consulting, Marketing & Analytics
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-10 opacity-85">
             {partnerLogos.map((name, i) => (
@@ -418,7 +418,7 @@ export const HomePage = () => {
               Explore by Specialization
             </Badge>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
-              Popular Engineering Categories
+              Popular Management & Business Domains
             </h2>
           </div>
           <Link to="/jobs" className="text-sm font-bold text-brand-primary hover:underline flex items-center gap-1">
@@ -461,7 +461,7 @@ export const HomePage = () => {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
               Featured Opportunities
             </h2>
-            <p className="text-sm text-brand-muted mt-1">High-impact positions curated for software developers</p>
+            <p className="text-sm text-brand-muted mt-1">High-impact positions curated for MBA, HR, Marketing & Analytics graduates</p>
           </div>
           <Link to="/jobs">
             <Button variant="outline" size="sm" icon={ArrowRight} iconPosition="right">
@@ -504,27 +504,27 @@ export const HomePage = () => {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-6">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-brand-primary/20 text-brand-primary border border-brand-primary/40">
-                <Sparkles className="w-3.5 h-3.5 text-brand-primary" /> PulseAI Resume Intelligence
+                <Sparkles className="w-3.5 h-3.5 text-brand-primary" /> Career AI Placement Intelligence
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-                Turn your resume into an interview magnet with AI
+                Turn your resume into an interview magnet with Career AI
               </h2>
               <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                CampusPulse AI integrates PulseAI to parse your PDF, detect ATS compatibility bottlenecks, score your quantifiable accomplishments, and provide role-targeted skill matches.
+                IILM University career portal integrates Career AI to parse your resume, score management domain competencies, identify business keyword matches, and ensure recruiter-ready formatting.
               </p>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                  <span className="text-xs sm:text-sm text-gray-200">Real-time ATS Quality Scoring</span>
+                  <span className="text-xs sm:text-sm text-gray-200">Real-time Corporate Fit Scoring</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                  <span className="text-xs sm:text-sm text-gray-200">ATS Keyword & Skill Extraction</span>
+                  <span className="text-xs sm:text-sm text-gray-200">Domain Competency & Keyword Extraction</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                  <span className="text-xs sm:text-sm text-gray-200">Role-Specific Match Diagnostics</span>
+                  <span className="text-xs sm:text-sm text-gray-200">Specialization-Targeted Diagnostics</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
@@ -555,7 +555,7 @@ export const HomePage = () => {
 
               <div className="space-y-3">
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-gray-300">
-                  <div className="font-bold text-white mb-1">ATS Compatibility Scan:</div>
+                  <div className="font-bold text-white mb-1">Corporate Readiness Scan:</div>
                   <div className="text-gray-300">Format: PDF | ATS Indexing: 96% Match | Readability: Clean</div>
                 </div>
 
@@ -564,16 +564,16 @@ export const HomePage = () => {
                     <Sparkles className="w-3.5 h-3.5" /> Extracted Core Competencies:
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-1">
-                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">React 18</span>
-                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">Node.js</span>
-                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">REST APIs</span>
-                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">MongoDB</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">Power BI</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">HR Analytics</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">Market Strategy</span>
+                    <span className="px-2 py-0.5 rounded bg-brand-primary/20 text-[11px] font-semibold text-white">Financial Modeling</span>
                   </div>
                 </div>
               </div>
 
               <div className="text-[11px] text-gray-400 text-center pt-2">
-                Candidates with scores over 85% receive 3x more recruiter callbacks.
+                Students with verified scores receive 3x more corporate interview shortlists.
               </div>
             </div>
           </div>
@@ -587,10 +587,10 @@ export const HomePage = () => {
             Seamless 3-Step Process
           </Badge>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
-            How CampusPulse AI Works
+            How IILM Career Platform Works
           </h2>
           <p className="text-sm text-brand-muted mt-2">
-            Accelerate your career journey from initial resume scan to interview offer letter
+            Accelerate your career journey from initial resume scan to corporate placement offer
           </p>
         </div>
 
@@ -601,7 +601,7 @@ export const HomePage = () => {
             </div>
             <h3 className="text-lg font-bold text-brand-navy">Build Profile & Upload Resume</h3>
             <p className="text-xs sm:text-sm text-brand-muted leading-relaxed">
-              Upload your PDF or DOCX resume. Our text parsing engine extracts education, skills, and projects in seconds.
+              Upload your PDF or DOCX resume. Our parsing engine extracts education, management skills, and internships in seconds.
             </p>
           </div>
 
@@ -609,9 +609,9 @@ export const HomePage = () => {
             <div className="w-14 h-14 rounded-2xl bg-brand-primary-light text-brand-primary flex items-center justify-center font-extrabold text-xl mx-auto">
               02
             </div>
-            <h3 className="text-lg font-bold text-brand-navy">Optimize with PulseAI</h3>
+            <h3 className="text-lg font-bold text-brand-navy">Optimize with Career AI</h3>
             <p className="text-xs sm:text-sm text-brand-muted leading-relaxed">
-              Inspect your ATS quality score, review technical skill alignment, and identify keyword matches.
+              Inspect your corporate readiness score, review business domain alignment, and identify keyword matches.
             </p>
           </div>
 
@@ -621,7 +621,7 @@ export const HomePage = () => {
             </div>
             <h3 className="text-lg font-bold text-brand-navy">1-Click Apply & Track</h3>
             <p className="text-xs sm:text-sm text-brand-muted leading-relaxed">
-              Apply directly to verified companies. Track real-time recruiter review, shortlisting, and video interview rounds.
+              Apply directly to verified corporate partners. Track recruiter reviews, shortlisting, and mock interview rounds.
             </p>
           </div>
         </div>
@@ -632,20 +632,20 @@ export const HomePage = () => {
         <section className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-brand-primary to-brand-primary-hover rounded-3xl p-8 sm:p-12 text-white text-center shadow-glow space-y-6">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-            Ready to find your next software engineering opportunity?
+            Ready to accelerate your management career?
           </h2>
           <p className="text-sm sm:text-base text-emerald-100 max-w-xl mx-auto leading-relaxed">
-            Join thousands of developers and top recruiters building their future with CampusPulse AI.
+            Join ambitious students and top corporate recruiters achieving placement excellence at IILM University.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link to="/register">
               <Button variant="secondary" size="lg" icon={ArrowRight} iconPosition="right">
-                Register as Candidate
+                Register as Student
               </Button>
             </Link>
             <Link to="/register">
               <Button variant="outline" size="lg" className="bg-white/10 border-white text-white hover:bg-white/20">
-                Register as Employer
+                Partner with IILM
               </Button>
             </Link>
           </div>

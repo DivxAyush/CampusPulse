@@ -58,7 +58,7 @@ export const CompanySettingsPage = () => {
             {
               key: 'newApplicantAlerts',
               title: 'Instant Applicant Notifications',
-              desc: 'Receive immediate email notifications whenever a developer submits an application.',
+              desc: 'Receive immediate email notifications whenever a candidate submits an application.',
             },
             {
               key: 'dailyDigest',

@@ -60,7 +60,7 @@ export const Navbar = () => {
                   : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
-              Find Jobs
+              Careers
             </Link>
             <Link
               to="/companies"
@@ -70,7 +70,7 @@ export const Navbar = () => {
                   : 'text-gray-600 hover:text-brand-primary hover:bg-gray-100/60'
               }`}
             >
-              Companies
+              Corporate Partners
             </Link>
             <Link
               to="/ai-agents"
@@ -178,7 +178,7 @@ export const Navbar = () => {
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-text hover:bg-brand-primary-light hover:text-brand-navy transition-colors font-medium"
                           >
                             <User className="w-4 h-4 text-brand-primary" />
-                            My Profile
+                            Student Profile
                           </Link>
                           <Link
                             to="/candidate/resumes"
@@ -194,7 +194,7 @@ export const Navbar = () => {
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-text hover:bg-brand-primary-light hover:text-brand-navy transition-colors font-medium"
                           >
                             <Sparkles className="w-4 h-4 text-brand-primary" />
-                            PulseAI Analyzer
+                            Career AI Analyzer
                           </Link>
                         </>
                       )}
@@ -227,7 +227,7 @@ export const Navbar = () => {
                           className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-text hover:bg-brand-primary-light hover:text-brand-navy transition-colors font-medium"
                         >
                           <ShieldCheck className="w-4 h-4 text-brand-primary" />
-                          Admin Console
+                          University Portal
                         </Link>
                       )}
 
@@ -294,14 +294,14 @@ export const Navbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
                 >
-                  Find Jobs
+                  Careers
                 </Link>
                 <Link
                   to="/companies"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block px-3 py-2.5 rounded-xl text-base font-semibold text-brand-text hover:bg-brand-primary-light"
                 >
-                  Companies
+                  Corporate Partners
                 </Link>
                 <Link
                   to="/ai-agents"

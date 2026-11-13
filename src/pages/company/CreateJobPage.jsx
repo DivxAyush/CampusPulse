@@ -24,8 +24,8 @@ export const CreateJobPage = () => {
     salaryMax: '1600000',
     jobType: 'full-time',
     workMode: 'hybrid',
-    location: 'Bengaluru, India',
-    education: "Bachelor's Degree in Computer Science or related engineering field",
+    location: 'Delhi NCR, India',
+    education: "MBA, Post Graduate Diploma in Management (PGDM), or Bachelor's in Business/Commerce",
     openings: 2,
     status: 'published', // immediate publish without mandatory admin approval
   });
@@ -111,7 +111,7 @@ export const CreateJobPage = () => {
         <Input
           label="Job Title"
           required
-          placeholder="e.g. Senior Frontend Engineer (React & TypeScript)"
+          placeholder="e.g. Strategic Management Associate (MBA / Marketing & Analytics)"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         />
@@ -202,7 +202,7 @@ export const CreateJobPage = () => {
           </label>
           <textarea
             rows={4}
-            placeholder={`Architect and maintain responsive web applications with React\nCollaborate with product designers to implement pixel-perfect user flows\nWrite automated unit and integration tests`}
+            placeholder={`Develop data-driven marketing strategies and track campaign ROI\nConduct market research and competitive benchmark analyses\nCollaborate cross-functionally with product, HR, and sales operations`}
             value={formData.responsibilities}
             onChange={(e) => setFormData({ ...formData, responsibilities: e.target.value })}
             className="w-full bg-white border border-brand-border rounded-xl p-3 text-sm text-brand-text outline-none focus:border-brand-primary"
@@ -215,7 +215,7 @@ export const CreateJobPage = () => {
           </label>
           <textarea
             rows={4}
-            placeholder={`2+ years of professional software engineering experience\nDeep proficiency in modern JavaScript, HTML5, and Tailwind CSS\nSolid foundation in data structures, algorithms, and REST APIs`}
+            placeholder={`MBA or Masters in Management, Marketing, HR, or Business Analytics\nProficiency in data analysis, Excel modeling, or Power BI\nStrong verbal communication and executive presentation skills`}
             value={formData.requirements}
             onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
             className="w-full bg-white border border-brand-border rounded-xl p-3 text-sm text-brand-text outline-none focus:border-brand-primary"
@@ -226,20 +226,20 @@ export const CreateJobPage = () => {
       {/* 3. Skills and AI Matching Criteria */}
       <div className="bg-white rounded-3xl border border-brand-border p-6 sm:p-8 shadow-subtle space-y-4">
         <h2 className="text-base font-bold text-brand-navy flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-brand-primary" /> Technical Skills & AI Matching Criteria
+          <Sparkles className="w-5 h-5 text-brand-primary" /> Core Competencies & AI Matching Criteria
         </h2>
 
         <Input
           label="Required Core Skills (Comma separated)"
-          placeholder="React.js, Node.js, JavaScript, Tailwind CSS, REST APIs"
+          placeholder="Strategic Management, Business Analytics, Market Research, Power BI, Excel"
           value={formData.requiredSkills}
           onChange={(e) => setFormData({ ...formData, requiredSkills: e.target.value })}
-          helperText="These skills form the primary matching criteria for our PulseAI candidate scoring"
+          helperText="These skills form the primary matching criteria for our candidate scoring"
         />
 
         <Input
           label="Preferred Bonus Skills (Comma separated)"
-          placeholder="TypeScript, Docker, GraphQL, Redis"
+          placeholder="HR Analytics, CRM Automation, Financial Modeling, Consumer Behavior"
           value={formData.preferredSkills}
           onChange={(e) => setFormData({ ...formData, preferredSkills: e.target.value })}
         />

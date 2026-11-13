@@ -28,7 +28,7 @@ export const createTicket = async (req, res, next) => {
       subject,
       message,
       status: 'open',
-      assignedTo: 'Campus Plus Support Tier 1',
+      assignedTo: 'IILM Placement & Support Desk',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       resolutionNotes: 'Ticket acknowledged and assigned to support specialist queue. Expected turnaround: under 2 hours.',
@@ -83,14 +83,14 @@ export const listFaqs = async (req, res, next) => {
       {
         id: 'faq_02',
         category: 'candidates',
-        question: 'Is Campus Plus completely free for students and job seekers?',
-        answer: 'Yes! All job applications, AI resume scoring, interactive bullet suggestions, and application tracking are 100% free with no subscription or hidden charges.',
+        question: 'Is IILM University Career Platform free for students?',
+        answer: 'Yes! All placement applications, AI resume scoring, domain skill benchmarking, and mock interview enrollments are 100% accessible to all enrolled students with no subscription charges.',
       },
       {
         id: 'faq_03',
         category: 'candidates',
         question: 'Can I upload and manage multiple resume variants?',
-        answer: 'Yes. You can upload up to 5 targeted resumes tailored for distinct specializations (e.g., Frontend React vs Backend Node.js vs Full Stack) and choose which version to attach per job application.',
+        answer: 'Yes. You can upload up to 5 targeted resumes tailored for distinct specializations (e.g., Strategic Management vs HR Analytics vs Brand Marketing vs Business Analytics) and choose which version to attach per opportunity application.',
       },
       {
         id: 'faq_04',

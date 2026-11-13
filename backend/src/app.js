@@ -49,8 +49,8 @@ app.use('/api', apiRoutes);
 // Root route
 app.get('/', (req, res) => {
   res.json({
-    name: 'Campus Plus API',
-    tagline: 'Smart Job Search. Smarter Resumes. Better Opportunities.',
+    name: 'IILM University Platform API',
+    tagline: 'Empowering Management, HR, Marketing & Business Analytics Placements.',
     version: '1.0.0',
     documentation: '/api/v1/health',
     keepAliveEndpoint: '/health',

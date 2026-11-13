@@ -67,13 +67,13 @@ export const CandidateDashboardPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-brand-border shadow-subtle">
         <div className="space-y-1">
           <Badge variant="primary" size="sm" className="mb-1">
-            Candidate Hub
+            Student Hub
           </Badge>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
-            Welcome back, {user?.fullName?.split(' ')[0] || 'Candidate'}!
+            Welcome back, {user?.fullName?.split(' ')[0] || 'Student'}!
           </h1>
           <p className="text-xs sm:text-sm text-brand-muted">
-            Track your job applications, check your PulseAI ATS score, and discover matching opportunities.
+            Track your placement applications, check your career readiness score, and discover matching corporate opportunities.
           </p>
         </div>
 
@@ -85,7 +85,7 @@ export const CandidateDashboardPage = () => {
           </Link>
           <Link to="/candidate/ai-analyzer">
             <Button variant="primary" size="md" icon={Sparkles}>
-              PulseAI Resume Scan
+              Career AI Resume Scan
             </Button>
           </Link>
           <Link to="/candidate/mock-interview">
@@ -121,14 +121,14 @@ export const CandidateDashboardPage = () => {
       {/* Stat Cards Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <StatCard
-          title="Active Applications"
+          title="Active Placement Applications"
           value={dashboardData?.applicationsCount ?? 0}
           subtitle={dashboardData?.applicationsCount > 0 ? "Submitted across partner firms" : "No active applications"}
           icon={Send}
           trend={dashboardData?.applicationsCount > 0 ? `${dashboardData.applicationsCount} active` : undefined}
         />
         <StatCard
-          title="PulseAI Resume Score"
+          title="Career Readiness Score"
           value={dashboardData?.latestAnalysis?.overallScore ? `${dashboardData.latestAnalysis.overallScore}/100` : 'Not Scanned'}
           subtitle={dashboardData?.latestAnalysis ? "Benchmark: 80+ is interview-ready" : "Upload resume to scan"}
           icon={Sparkles}
@@ -141,7 +141,7 @@ export const CandidateDashboardPage = () => {
           icon={FileText}
         />
         <StatCard
-          title="Matching Positions"
+          title="Matching Opportunities"
           value={dashboardData?.recommendedJobs?.length ?? 0}
           subtitle={dashboardData?.recommendedJobs?.length > 0 ? "Recommended for your profile" : "Explore open positions"}
           icon={Building2}
@@ -153,16 +153,16 @@ export const CandidateDashboardPage = () => {
       <div className="bg-brand-navy rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-card">
         <div className="space-y-2">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-brand-primary/20 text-brand-primary border border-brand-primary/30">
-            <Sparkles className="w-3.5 h-3.5" /> PulseAI Diagnostic Recommendation
+            <Sparkles className="w-3.5 h-3.5" /> Career AI Diagnostic Recommendation
           </div>
-          <h3 className="text-xl font-bold text-white">Elevate your Resume with PulseAI ATS Scorer</h3>
+          <h3 className="text-xl font-bold text-white">Elevate your Profile with Career AI Scorer</h3>
           <p className="text-xs sm:text-sm text-gray-300 max-w-xl leading-relaxed">
-            Scan your resume against technical job requirements to detect bottlenecks, score quantifiable accomplishments, and get instant recruiter match feedback.
+            Scan your resume against management and business job requirements to detect skill gaps, quantify impact, and get instant recruiter match feedback.
           </p>
         </div>
         <Link to="/candidate/ai-analyzer" className="flex-shrink-0">
           <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right">
-            Run ATS Scan
+            Run Profile Scan
           </Button>
         </Link>
       </div>
@@ -173,9 +173,9 @@ export const CandidateDashboardPage = () => {
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-brand-primary/20 text-brand-primary border border-brand-primary/30">
             <Calendar className="w-3.5 h-3.5" /> 1-on-1 Mentorship & Mock Rounds
           </div>
-          <h3 className="text-xl font-bold text-white">Crack Top Tech Roles with a Mock Interview</h3>
+          <h3 className="text-xl font-bold text-white">Ace Your Placement Interviews with a Mock Session</h3>
           <p className="text-xs sm:text-sm text-gray-300 max-w-xl leading-relaxed">
-            Practice live coding, DSA problem solving, and system design with verified senior engineers. Enroll with 1 click to get your session scheduled by the admin team.
+            Practice business case studies, behavioral STAR rounds, and domain frameworks with verified placement mentors. Enroll with 1 click to get your session scheduled by the university team.
           </p>
         </div>
         <Link to="/candidate/mock-interview" className="flex-shrink-0">
@@ -188,7 +188,7 @@ export const CandidateDashboardPage = () => {
       {/* Recent Applications Table */}
       <div className="bg-white rounded-3xl border border-brand-border p-6 shadow-subtle space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-brand-navy">Recent Job Applications</h2>
+          <h2 className="text-lg font-bold text-brand-navy">Recent Placement Applications</h2>
           <Link to="/candidate/applications" className="text-xs font-bold text-brand-primary hover:underline flex items-center gap-1">
             View All Applications <ChevronRight className="w-4 h-4" />
           </Link>

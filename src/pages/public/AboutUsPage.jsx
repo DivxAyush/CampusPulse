@@ -11,22 +11,22 @@ export const AboutUsPage = () => {
   const values = [
     {
       title: 'AI Transparency & Precision',
-      description: 'We believe candidate intelligence should be explainable. Our PulseAI scoring analyzes genuine achievements without fabricating false work history.',
+      description: 'We believe student evaluation should be explainable. Our Career AI scoring analyzes genuine academic and internship achievements without fabricating false data.',
       icon: Sparkles,
     },
     {
-      title: 'Direct Recruiter Connections',
-      description: 'Cutting out unneeded intermediaries. Candidates connect directly with engineering leads and hiring managers across vetted tech companies.',
+      title: 'Direct Corporate Connections',
+      description: 'Cutting out intermediaries. Students connect directly with corporate recruiters and talent leaders across vetted enterprises in Management, Consulting, Marketing, and Analytics.',
       icon: Users,
     },
     {
       title: 'Continuous Career Elevation',
-      description: 'Providing candidates with actionable ATS diagnostics and role-matching skill roadmaps.',
+      description: 'Providing students with actionable resume diagnostics, mock interview feedback, and specialization-aligned skill roadmaps.',
       icon: Award,
     },
     {
       title: 'Privacy & Data Integrity',
-      description: 'Enterprise-grade security standards with Cloudinary file isolation, role-based authorization, and protected contact information.',
+      description: 'Enterprise-grade security standards with Cloudinary file isolation, role-based authorization, and protected student contact information.',
       icon: ShieldCheck,
     },
   ];
@@ -36,13 +36,13 @@ export const AboutUsPage = () => {
       {/* Hero Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4">
         <Badge variant="primary" size="sm">
-          About Campus Plus
+          About IILM Career Platform
         </Badge>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-brand-navy tracking-tight leading-tight">
-          Architecting the future of software recruitment
+          Empowering Next-Generation Business & Management Leaders
         </h1>
         <p className="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto leading-relaxed">
-          Campus Plus bridges the gap between ambitious developers and premier technology enterprises through verified job matching and PulseAI resume optimization.
+          IILM University bridges the gap between ambitious students and premier corporate enterprises through verified placement matching, mock interviews, and career readiness optimization.
         </p>
       </section>
 
@@ -51,19 +51,19 @@ export const AboutUsPage = () => {
         <div className="bg-brand-navy rounded-3xl p-8 sm:p-12 text-white grid grid-cols-2 md:grid-cols-4 gap-8 text-center shadow-card">
           <div>
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-primary">12,500+</div>
-            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Candidates Placed</div>
+            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Students Placed</div>
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-primary">850+</div>
-            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Partner Companies</div>
+            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Corporate Partners</div>
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-primary">94.8%</div>
-            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Interview Match Rate</div>
+            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Placement Match Rate</div>
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-primary">3.2x</div>
-            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Faster Time to Hire</div>
+            <div className="text-xs text-gray-300 mt-1 uppercase font-semibold">Faster Campus Placements</div>
           </div>
         </div>
       </section>
@@ -76,7 +76,7 @@ export const AboutUsPage = () => {
           </div>
           <h2 className="text-xl font-bold text-brand-navy">Our Mission</h2>
           <p className="text-sm text-brand-text leading-relaxed">
-            To eliminate hiring friction by empowering candidates with intelligent, real-time resume diagnostics and providing recruiters with high-signal candidate matching.
+            To eliminate placement friction by empowering students with intelligent, real-time resume diagnostics and providing recruiters with high-caliber management talent.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ export const AboutUsPage = () => {
           </div>
           <h2 className="text-xl font-bold text-brand-navy">Our Vision</h2>
           <p className="text-sm text-brand-text leading-relaxed">
-            To be the most trusted recruitment ecosystem where talent discovery is driven strictly by demonstrable skills, engineering rigor, and continuous learning.
+            To be the premier university placement ecosystem where career advancement is driven strictly by demonstrable business acumen, leadership rigor, and ethical practice.
           </p>
         </div>
       </section>
@@ -120,19 +120,19 @@ export const AboutUsPage = () => {
       {!isAuthenticated && (
         <section className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <div className="bg-brand-primary-light/60 border border-brand-primary/20 rounded-3xl p-8 sm:p-12 space-y-4">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy">Join Campus Plus Today</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-navy">Join IILM University Placement Network</h2>
             <p className="text-sm text-brand-muted max-w-md mx-auto">
-              Whether you are looking for your next engineering role or hiring world-class technical talent, we are here to support your journey.
+              Whether you are an ambitious student preparing for campus placements or a corporate partner hiring top management talent, we are here to support your journey.
             </p>
             <div className="flex justify-center gap-3 pt-2">
               <Link to="/register">
                 <Button variant="primary" size="md">
-                  Create Free Account
+                  Create Student Account
                 </Button>
               </Link>
               <Link to="/jobs">
                 <Button variant="outline" size="md">
-                  Browse Open Roles
+                  Browse Opportunities
                 </Button>
               </Link>
             </div>

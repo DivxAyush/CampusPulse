@@ -28,8 +28,8 @@ export const CandidateMockInterviewPage = () => {
   const [isCancelling, setIsCancelling] = useState(false);
 
   // Form State
-  const [targetRole, setTargetRole] = useState('Full Stack Software Engineer');
-  const [techStack, setTechStack] = useState('React, Node.js, JavaScript, MongoDB');
+  const [targetRole, setTargetRole] = useState('MBA Management Trainee / Analyst');
+  const [techStack, setTechStack] = useState('Business Analytics, Strategic Management, Marketing Strategy, HR Analytics');
   const [preferredSlot, setPreferredSlot] = useState('Weekend Morning (10:00 AM - 01:00 PM)');
   const [notes, setNotes] = useState('');
 
@@ -110,20 +110,20 @@ export const CandidateMockInterviewPage = () => {
       <div className="bg-gradient-to-r from-brand-navy via-brand-navy-light to-brand-primary p-6 sm:p-8 rounded-3xl text-white shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-emerald-300 border border-white/20">
-            <Sparkles className="w-3.5 h-3.5" /> PulseAI Career Readiness
+            <Sparkles className="w-3.5 h-3.5" /> IILM Career Placement Readiness
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            1-on-1 Technical Mock Interviews
+            1-on-1 Placement Mock Interviews
           </h1>
           <p className="text-xs sm:text-sm text-gray-200 leading-relaxed">
-            Practice real coding rounds, system architecture, and behavioral questions with verified senior engineers before your real job interviews.
+            Practice real case study rounds, domain frameworks, and behavioral questions with verified corporate mentors before your placement interviews.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
           <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-2xl border border-white/20 text-center">
             <div className="text-xs text-gray-300">Target Role Match</div>
-            <div className="text-base font-extrabold text-white mt-0.5">Top Tech Firms</div>
+            <div className="text-base font-extrabold text-white mt-0.5">Top Corporate Firms</div>
           </div>
         </div>
       </div>
@@ -175,7 +175,7 @@ export const CandidateMockInterviewPage = () => {
             </div>
 
             <div className="bg-brand-bg p-4 rounded-2xl border border-brand-border/60">
-              <span className="text-[11px] font-semibold text-brand-muted">Tech Focus Areas</span>
+              <span className="text-[11px] font-semibold text-brand-muted">Domain Focus Areas</span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {(activeEnrollment.techStack || []).map((tech, i) => (
                   <span key={i} className="px-2 py-0.5 rounded bg-white text-[10px] font-semibold text-brand-navy border border-brand-border/60">
@@ -188,7 +188,7 @@ export const CandidateMockInterviewPage = () => {
             <div className="bg-brand-bg p-4 rounded-2xl border border-brand-border/60">
               <span className="text-[11px] font-semibold text-brand-muted">Assigned Interviewer</span>
               <p className="text-xs font-bold text-brand-navy mt-1">
-                {activeEnrollment.interviewerName || 'CampusPulse Senior Interviewer'}
+                {activeEnrollment.interviewerName || 'IILM Placement Mentor'}
               </p>
             </div>
           </div>
@@ -249,7 +249,7 @@ export const CandidateMockInterviewPage = () => {
           <div className="border-b border-brand-border pb-4">
             <h2 className="text-xl font-bold text-brand-navy">Enroll for a 1-on-1 Mock Interview</h2>
             <p className="text-xs text-brand-muted mt-1">
-              Fill in your target position and preferred time slot. Our admin team will arrange a tailored technical mock session.
+              Fill in your target position and preferred time slot. Our placement mentors will arrange a tailored domain mock session.
             </p>
           </div>
 
@@ -257,12 +257,12 @@ export const CandidateMockInterviewPage = () => {
             {/* Target Role */}
             <div>
               <label className="block text-xs font-bold text-brand-navy mb-1.5">
-                Target Job Role / Title <span className="text-brand-primary">*</span>
+                Target Role / Specialization <span className="text-brand-primary">*</span>
               </label>
               <input
                 type="text"
                 required
-                placeholder="e.g. Frontend Developer, Full Stack Engineer, Backend Specialist"
+                placeholder="e.g. MBA Management Trainee, HR Talent Specialist, Marketing Strategist, Business Analyst"
                 value={targetRole}
                 onChange={(e) => setTargetRole(e.target.value)}
                 className="w-full text-xs p-3 rounded-xl bg-brand-bg border border-brand-border outline-none focus:border-brand-primary focus:bg-white transition-all text-brand-navy font-semibold"
@@ -272,12 +272,12 @@ export const CandidateMockInterviewPage = () => {
             {/* Tech Stack */}
             <div>
               <label className="block text-xs font-bold text-brand-navy mb-1.5">
-                Primary Technologies & Skills (comma-separated) <span className="text-brand-primary">*</span>
+                Core Domain Competencies & Skills (comma-separated) <span className="text-brand-primary">*</span>
               </label>
               <input
                 type="text"
                 required
-                placeholder="e.g. React, Node.js, JavaScript, Python, MongoDB, Docker"
+                placeholder="e.g. Strategic Management, HR Analytics, Brand Strategy, Financial Modeling, Power BI, Excel"
                 value={techStack}
                 onChange={(e) => setTechStack(e.target.value)}
                 className="w-full text-xs p-3 rounded-xl bg-brand-bg border border-brand-border outline-none focus:border-brand-primary focus:bg-white transition-all text-brand-navy"
@@ -308,7 +308,7 @@ export const CandidateMockInterviewPage = () => {
               </label>
               <textarea
                 rows={3}
-                placeholder="e.g. Want to focus on React system design, live coding DSA, or behavioral STAR interview questions..."
+                placeholder="e.g. Want to focus on case study analysis, HR behavioral questions, brand positioning frameworks, or marketing metrics..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 className="w-full text-xs p-3 rounded-xl bg-brand-bg border border-brand-border outline-none focus:border-brand-primary focus:bg-white transition-all text-brand-text resize-none"
@@ -336,11 +336,11 @@ export const CandidateMockInterviewPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="bg-white p-5 rounded-2xl border border-brand-border shadow-subtle space-y-2">
           <div className="w-10 h-10 rounded-xl bg-brand-primary-light text-brand-primary flex items-center justify-center font-bold">
-            <Code className="w-5 h-5" />
+            <Layers className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-bold text-brand-navy">Live Technical Coding</h3>
+          <h3 className="text-sm font-bold text-brand-navy">Case Studies & Domain Frameworks</h3>
           <p className="text-xs text-brand-muted leading-relaxed">
-            Practice hands-on coding rounds with live code-pair exercises mirroring FAANG and premier startup hiring bars.
+            Practice hands-on business cases, marketing frameworks, and analytics modeling mirroring premier corporate hiring bars.
           </p>
         </div>
 
@@ -350,7 +350,7 @@ export const CandidateMockInterviewPage = () => {
           </div>
           <h3 className="text-sm font-bold text-brand-navy">Detailed Feedback Score</h3>
           <p className="text-xs text-brand-muted leading-relaxed">
-            Get actionable feedback on problem-solving clarity, edge cases, time/space complexity, and communication.
+            Get actionable feedback on strategic problem-solving clarity, analytical precision, executive presence, and business communication.
           </p>
         </div>
 

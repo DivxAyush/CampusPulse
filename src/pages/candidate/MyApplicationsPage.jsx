@@ -50,9 +50,9 @@ export const MyApplicationsPage = () => {
         <Badge variant="primary" size="sm" className="mb-2">
           Tracking Center
         </Badge>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">My Job Applications</h1>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">My Applications & Placements</h1>
         <p className="text-xs sm:text-sm text-brand-muted mt-1">
-          Monitor real-time recruiter status updates, interview schedules, and candidate feedback.
+          Monitor real-time placement status updates, interview schedules, and recruiter feedback.
         </p>
       </div>
 
@@ -65,8 +65,8 @@ export const MyApplicationsPage = () => {
       ) : applications.length === 0 ? (
         <EmptyState
           icon={Send}
-          title="No job applications submitted yet"
-          description="Browse open roles in the Job Directory and apply to start tracking your interviews here."
+          title="No placement applications submitted yet"
+          description="Browse open roles in the Career Directory and apply to start tracking your interviews here."
         />
       ) : (
         <div className="space-y-6">

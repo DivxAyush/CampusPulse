@@ -155,7 +155,7 @@ export const CompanyDashboardPage = () => {
                       </td>
 
                       <td className="py-3.5 text-xs font-semibold text-brand-navy">
-                        {job.title || 'Senior Software Engineer'}
+                        {job.title || 'Management Trainee / Analyst'}
                       </td>
 
                       <td className="py-3.5">
@@ -186,7 +186,7 @@ export const CompanyDashboardPage = () => {
           </div>
         ) : (
           <div className="p-8 text-center text-xs text-brand-muted border border-dashed border-brand-border rounded-2xl">
-            No applicants received yet. Promote your listings to attract developers!
+            No applicants received yet. Promote your listings to attract top management talent!
           </div>
         )}
       </div>

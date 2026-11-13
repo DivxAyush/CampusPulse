@@ -79,11 +79,11 @@ export const FindJobsPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
         <div>
           <Badge variant="primary" size="sm" className="mb-2">
-            CampusPulse AI Directory
+            IILM University
           </Badge>
-          <h1 className="text-3xl font-extrabold text-brand-navy tracking-tight">Explore Job Openings</h1>
+          <h1 className="text-3xl font-extrabold text-brand-navy tracking-tight">Explore Career Opportunities</h1>
           <p className="text-sm text-brand-muted mt-1">
-            Discover verified tech roles across top startups and enterprises. Apply with 1 click.
+            Discover verified placement opportunities from top corporate partners. Apply with 1 click.
           </p>
         </div>
 
@@ -127,8 +127,8 @@ export const FindJobsPage = () => {
           ) : jobs.length === 0 ? (
             <EmptyState
               icon={Briefcase}
-              title="No jobs found matching your criteria"
-              description="Try adjusting your keyword, location, or experience filters to discover more open positions."
+              title="No opportunities found matching your criteria"
+              description="Try adjusting your keyword, location, or specialization filters to discover more open placement positions."
               actionText="Reset All Filters"
               onAction={handleResetFilters}
             />

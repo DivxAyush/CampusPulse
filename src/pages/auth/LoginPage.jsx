@@ -55,29 +55,58 @@ export const LoginPage = () => {
           <div className="flex justify-center mb-1">
             <Logo variant="image" size="lg" className="h-10" />
           </div>
-          <h1 className="text-xl font-bold text-brand-navy">Sign In to Your Workspace</h1>
-          <p className="text-xs text-brand-muted">Select your portal role to continue</p>
+          {role === 'admin' ? (
+            <div className="space-y-1">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                🎓 IILM University Official Portal
+              </span>
+              <h1 className="text-xl font-bold text-brand-navy">IILM University Login</h1>
+              <p className="text-xs text-brand-muted">Faculty, placement officers & university administration</p>
+            </div>
+          ) : role === 'company' ? (
+            <div className="space-y-1">
+              <h1 className="text-xl font-bold text-brand-navy">Corporate Partner Sign In</h1>
+              <p className="text-xs text-brand-muted">Verified recruiters & corporate hiring managers</p>
+            </div>
+          ) : (
+            <div className="space-y-1">
+              <h1 className="text-xl font-bold text-brand-navy">Student Portal Sign In</h1>
+              <p className="text-xs text-brand-muted">MBA, HR, Marketing & Analytics placement access</p>
+            </div>
+          )}
         </div>
 
-        {/* Role Selector Tabs (Candidate & Employer) */}
-        <div className="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-brand-bg border border-brand-border text-xs font-semibold">
+        {/* Role Selector Tabs (Student, IILM University, Corporate Partner) */}
+        <div className="grid grid-cols-3 gap-1 p-1 rounded-2xl bg-brand-bg border border-brand-border text-xs font-semibold">
           <button
             type="button"
             onClick={() => { setRole('candidate'); setErrorMessage(''); }}
-            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`py-2 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-center ${
               role === 'candidate' ? 'bg-white text-brand-navy font-bold shadow-subtle' : 'text-brand-muted hover:text-brand-navy'
             }`}
           >
-            <Briefcase className="w-3.5 h-3.5 text-brand-primary" /> Candidate
+            <Briefcase className="w-3.5 h-3.5 text-brand-primary shrink-0" />
+            <span className="truncate">Student</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => { setRole('admin'); setErrorMessage(''); }}
+            className={`py-2 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-center ${
+              role === 'admin' ? 'bg-white text-emerald-800 font-extrabold shadow-subtle border border-emerald-200/80' : 'text-brand-muted hover:text-brand-navy'
+            }`}
+          >
+            <span className="text-emerald-600 font-bold">🎓</span>
+            <span className="truncate">IILM Portal</span>
           </button>
           <button
             type="button"
             onClick={() => { setRole('company'); setErrorMessage(''); }}
-            className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`py-2 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-center ${
               role === 'company' ? 'bg-white text-brand-navy font-bold shadow-subtle' : 'text-brand-muted hover:text-brand-navy'
             }`}
           >
-            <Building2 className="w-3.5 h-3.5 text-brand-primary" /> Employer
+            <Building2 className="w-3.5 h-3.5 text-brand-primary shrink-0" />
+            <span className="truncate">Employer</span>
           </button>
         </div>
 
@@ -98,9 +127,9 @@ export const LoginPage = () => {
         {/* Login Form */}
         <form onSubmit={handleLogin} className="space-y-3 pt-1">
           <Input
-            label="Email Address"
+            label={role === 'admin' ? 'University Official Email' : role === 'company' ? 'Work Email Address' : 'Student Email Address'}
             type="email"
-            placeholder="Enter your registered email"
+            placeholder={role === 'admin' ? 'admin@iilm.edu' : role === 'company' ? 'recruiter@company.com' : 'student@iilm.edu or registered email'}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             icon={Mail}
@@ -127,7 +156,7 @@ export const LoginPage = () => {
           </div>
 
           <Button type="submit" variant="primary" size="md" isLoading={isLoading} className="w-full mt-2" icon={ArrowRight} iconPosition="right">
-            Sign In to {role.charAt(0).toUpperCase() + role.slice(1)} Portal
+            {role === 'admin' ? 'Sign In to IILM University Portal' : role === 'company' ? 'Sign In as Corporate Partner' : 'Sign In to Student Portal'}
           </Button>
         </form>
 

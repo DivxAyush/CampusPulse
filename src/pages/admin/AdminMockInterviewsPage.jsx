@@ -80,7 +80,7 @@ export const AdminMockInterviewsPage = () => {
       status: enrollment.status || 'pending',
       scheduledAt: dateStr,
       meetingLink: enrollment.meetingLink || 'https://meet.google.com/new',
-      interviewerName: enrollment.interviewerName || 'CampusPulse Senior Interviewer',
+      interviewerName: enrollment.interviewerName || 'IILM Placement Mentor',
       notes: enrollment.notes || '',
     });
     setIsModalOpen(true);
@@ -143,13 +143,13 @@ export const AdminMockInterviewsPage = () => {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-primary-light text-brand-navy border border-brand-primary/20">
             <Sparkles className="w-3.5 h-3.5 text-brand-primary" />
-            <span>CampusPulse AI • Interview Service</span>
+            <span>IILM University • Placement Preparation</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">
             Mock Interview Enrollments
           </h1>
           <p className="text-xs sm:text-sm text-brand-muted">
-            Manage candidates who enrolled for 1-on-1 technical mock interviews, schedule Google Meet/Zoom calls, and update progress.
+            Manage students who enrolled for 1-on-1 mock interviews, schedule mentor sessions, and track interview readiness.
           </p>
         </div>
 

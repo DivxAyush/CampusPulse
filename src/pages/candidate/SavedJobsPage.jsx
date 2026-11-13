@@ -35,7 +35,7 @@ export const SavedJobsPage = () => {
         <Badge variant="primary" size="sm" className="mb-2">
           Bookmarks
         </Badge>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Saved Jobs</h1>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Saved Opportunities</h1>
         <p className="text-xs sm:text-sm text-brand-muted mt-1">
           Opportunities bookmarked for future review and application.
         </p>
@@ -50,8 +50,8 @@ export const SavedJobsPage = () => {
       ) : savedJobs.length === 0 ? (
         <EmptyState
           icon={Bookmark}
-          title="No saved jobs yet"
-          description="Click the bookmark icon on any job card across the portal to save opportunities to your list."
+          title="No saved opportunities yet"
+          description="Click the bookmark icon on any opportunity card across the portal to save positions to your list."
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

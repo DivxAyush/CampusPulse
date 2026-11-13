@@ -54,7 +54,7 @@ export const AiResumeAnalyzerPage = () => {
   const SCAN_STAGES = [
     { title: 'Extracting Binary Document Vector', desc: 'Parsing PDF/DOCX structure into plain text tokens...' },
     { title: 'Connecting to PulseAI Neural Engine', desc: 'Running natural language semantic inspection & reasoning...' },
-    { title: 'Extracting Location, Experience & Skills', desc: 'Taxonomy matching across 150+ tech industry competencies...' },
+    { title: 'Extracting Location, Experience & Skills', desc: 'Taxonomy matching across 250+ management, HR, marketing & analytics competencies...' },
     { title: 'Computing ATS Benchmarks & Matching Opportunities', desc: 'Ranking verified openings by skill synergy and match %...' },
   ];
 
@@ -158,7 +158,7 @@ export const AiResumeAnalyzerPage = () => {
     try {
       const res = await aiAPI.analyzeResume({
         resumeId: resumeIdToUse || primaryResume?._id,
-        targetRole: 'Software Engineer',
+        targetRole: 'Management Trainee / Business Analyst',
       });
       if (res.success) {
         setAnalysis(res.analysis);

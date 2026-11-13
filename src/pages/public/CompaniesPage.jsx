@@ -34,18 +34,18 @@ export const CompaniesPage = () => {
     }
   };
 
-  const industries = ['All', 'Enterprise Cloud & DevOps', 'Fintech & Digital Banking', 'Artificial Intelligence & ML', 'Healthcare Technology'];
+  const industries = ['All', 'Management Consulting & Strategy', 'Banking, Financial Services & Insurance', 'FMCG, Retail & Brand Marketing', 'Human Resources & Talent Solutions', 'Data Analytics & Business Intelligence'];
 
   return (
     <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
       {/* Header */}
       <div className="max-w-2xl space-y-2">
         <Badge variant="primary" size="sm">
-          Employer Directory
+          Corporate Partner Directory
         </Badge>
-        <h1 className="text-3xl font-extrabold text-brand-navy tracking-tight">Verified Hiring Companies</h1>
+        <h1 className="text-3xl font-extrabold text-brand-navy tracking-tight">Corporate Recruitment Partners</h1>
         <p className="text-sm text-brand-muted leading-relaxed">
-          Explore premier organizations actively hiring engineers, product leaders, and developers through Campus Plus.
+          Explore premier organizations actively recruiting MBA, HR, Marketing, and Business Analytics talent from IILM University.
         </p>
       </div>
 
